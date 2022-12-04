@@ -27,5 +27,4 @@ def rozw(rozw,warunki):
     # 0-100 rośnei winogrono
     # ponad to zbiory
     #doimplementować jak wzime sie sieje to umiera
-
-
+    # do wizualizacji koszty i zyski/miesiac
