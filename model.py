@@ -22,9 +22,12 @@ gatheringCost=2#per winogrono
 transportCost=3#tak samo jak butla liczone
 #dojrzewarka ewentualnie
 
-def rozw(rozw,warunki):
+def rozw(rozw: np.ndarray,numberOfYears:int):
     growrate = np.ndarray(shape=(numberOfFields), dtype=float)
+
     # 0-100 rośnei winogrono
     # ponad to zbiory
     #doimplementować jak wzime sie sieje to umiera
     # do wizualizacji koszty i zyski/miesiac
+
+
