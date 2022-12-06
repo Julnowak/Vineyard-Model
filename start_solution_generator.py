@@ -14,9 +14,9 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
     """
 
     fields_num = len(max_fields_capacity)
-    solution = np.zeros((fields_num, number_of_years))
+    solution = np.zeros((fields_num, number_of_years * 12))
 
-    for y in range(number_of_years):
+    for y in range(solution.shape[1]):
         flaga = True
         while flaga:
             for fnr in range(fields_num):
@@ -31,54 +31,84 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
 
 # Test
 m = 600
-l = [800, 600, 800]    # Ograniczenia górne
-h = [100, 100, 100]     # Ograniczenia dolne
+l = [800, 600, 800]  # Ograniczenia górne
+h = [100, 100, 100]  # Ograniczenia dolne
 yrs = 12
 
-A = generate_solution(m, l, h, yrs)
-print(A)
+# A = generate_solution(m, l, h, yrs)
+# print(A)
 
 
-def ocena(sol: np.ndarray, planting_cost: np.ndarray, soil_quality: np.ndarray, Isfertilized,fertilizer_bonus,
+def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray, Isfertilized, soil_type,
+          fertilizer_bonus,
           fertilizer_cost, harvest_cost, bottling_cost, plants_per_bottle,
-          transport_cost, bottle_price, grape_types):
+          transport_cost, bottle_price, grape_types, max_fields_capacity: int, month_grow: np.ndarray):
     """
-    :param sol:
-    :param planting_cost:
-    :param soil_quality:
+
+    :param sol:number_of_years * 12 x fields_num x types
+    :param planting_costs: grape_types
+    :param gather_number: grape_types x 12 x soil_types
     :param Isfertilized:
+    :param soil_type: fieldsNum
     :param fertilizer_bonus:
     :param fertilizer_cost:
     :param harvest_cost:
     :param bottling_cost:
     :param plants_per_bottle:
     :param transport_cost:
-    :param selling_gain:
+    :param bottle_price: grape_types x 12
     :param grape_types:
+    :param max_fields_capacity:
+    :param month_grow: grape_types x 12 x soil_types
     :return:
     """
 
     # Sam przelicznik funkcji celu
-    years = sol.shape[1]
-    fields = sol.shape[0]
-    solution = 0
+    months = sol.shape[0]
+    fields = sol.shape[1]
 
-    for y in range(years):
+    field_grow = np.zeros(shape=(fields, max_fields_capacity))
+    grape_type = np.ones(shape=(fields, max_fields_capacity), dtype=int)*-1
+    solution = 0
+    cost = []
+    gains = []
+    for y in range(months):
+        month_cost = 0
+        month = y % 12
+        gatherings = np.zeros((grape_types))
         for f in range(fields):
             for t in range(grape_types):
-                # Rośliny
-                plants_nr = sol[f][y]*(soil_quality[f][t] + Isfertilized * fertilizer_bonus)
-                plants_cost = planting_cost + fertilizer_cost + harvest_cost  ## planting_cost - forma
+                beg = (np.where(grape_type[f]==-1))[0][0]
+                end=beg + sol[y][f][t]
+                grape_type[f, beg:end] = t
 
-                # Butelki
-                bottles = plants_nr//plants_per_bottle
-                bottle_cost = bottles * bottling_cost + bottles * transport_cost
+                month_cost = month_cost + planting_costs[t] * sol[y][f][t] + fertilizer_cost
+            for p in range(max_fields_capacity):
+                if grape_type[f][p] != -1:
+                    if field_grow[f][p] < 100:
+                        # growth of wines
+                        field_grow[f][p] = field_grow[f][p] + \
+                                           month_grow[grape_type[f][p]][month][soil_type[f]] \
+                                           * Isfertilized * fertilizer_bonus
+                        month_cost = month_cost + fertilizer_cost
 
-                cost = plants_cost + bottle_cost
-                gain = bottles * bottle_price
+                    else:
+                        # gathering
+                        gatherings[grape_type[f][p]] = gatherings[grape_type[f][p]] + \
+                                                       gather_number[grape_type[f][p]][month][soil_type[f]] \
+                                                       * Isfertilized * fertilizer_bonus
+                        month_cost = month_cost + fertilizer_cost
+        # butelkowanie i sprzedaz
+        harvest_costs = harvest_cost * sum(gatherings)
+        bottles = gatherings / plants_per_bottle
+        cost_of_postprocessing = np.sum(bottles) * (bottling_cost + transport_cost)
+        month_cost = month_cost + cost_of_postprocessing + harvest_costs
+        cost.append(month_cost)
+        gain = bottles.dot(bottle_price[:,month])
+        gains.append(gain)
 
-                solution = gain - cost
-    return solution
+    return gains,cost
 
 
-print(ocena(A, 100.00, np.array([[0.90]*A.shape[1],[0.6]*A.shape[1],[0.8]*A.shape[1]]), 1, 0.5, 10, 5, 5, 1, 5, 40, 4))
+# print(ocena(A, 100.00, np.array([[0.90] * A.shape[1], [0.6] * A.shape[1], [0.8] * A.shape[1]]), 1, 0.5, 10, 5, 5, 1, 5,
+#             40, 4, 300))
