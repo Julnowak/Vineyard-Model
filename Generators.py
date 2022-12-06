@@ -151,7 +151,11 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
         gatherings = np.zeros((grape_types))
         for f in range(fields):
             for t in range(grape_types):
-                beg = (np.where(grape_type[f] == -1))[0][0]
+                beg = (np.where(grape_type[f] == -1))
+                if not beg == []:
+                    beg = [0][0]
+                if not beg == []:
+                    beg = [0][0]
                 end = beg + sol[y][f][t]
                 if end > mfields_capacity[f]:
                     end = mfields_capacity[f]
