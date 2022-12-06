@@ -92,8 +92,6 @@ def soil_quality_generator(field_nr: int, ch_types: Dict):
     return soil_quality
 
 
-
-
 # Test
 # m = 1000
 # l = [2000, 1000, 2000]  # Ograniczenia górne
@@ -104,9 +102,10 @@ def soil_quality_generator(field_nr: int, ch_types: Dict):
 # print(A)
 
 
-def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray, Isfertilized, soil_type,fertilizer_bonus,
-          fertilizer_cost, harvest_cost, bottling_cost, plants_per_bottle,  transport_cost,
-          bottle_price, mfields_capacity: List, month_grow: np.ndarray,pruning:bool=True,usuwanie:bool=False):
+def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray, Isfertilized, soil_type,
+          fertilizer_bonus,
+          fertilizer_cost, harvest_cost, bottling_cost, plants_per_bottle, transport_cost,
+          bottle_price, mfields_capacity: List, month_grow: np.ndarray, pruning: bool = True, usuwanie: bool = False):
     """
 
     :param sol:number_of_years * 12 x fields_num x types
@@ -159,7 +158,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
                 end = beg + sol[y][f][t]
                 if end > mfields_capacity[f]:
                     end = mfields_capacity[f]
-                if month not in [0, 1,  11]:
+                if month not in [0, 1, 11]:
                     grape_type[f, beg:end] = t
 
                 month_cost = month_cost + planting_costs[t] * sol[y][f][t] + fertilizer_cost
@@ -170,7 +169,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
                     if field_grow[f][p] < 1:
                         # growth of wines
                         field_grow[f][p] = field_grow[f][p] + month_grow[month] * \
-                                           (soil_type[f][grape_type[f][p]]+Isfertilized * fertilizer_bonus)
+                                           (soil_type[f][grape_type[f][p]] + Isfertilized * fertilizer_bonus)
 
                         if field_grow[f][p] > 1:
                             field_grow[f][p] = 1
@@ -178,13 +177,13 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
                     else:
                         # gathering
                         gatherings[grape_type[f][p]] = gatherings[grape_type[f][p]] + \
-                                                       gather_number[month]*(soil_type[f][grape_type[f][p]] * Isfertilized * fertilizer_bonus)
+                                                       gather_number[month] * (soil_type[f][grape_type[f][
+                            p]] * Isfertilized * fertilizer_bonus)
 
                         month_cost = month_cost + fertilizer_cost
                         if usuwanie:
                             field_grow[f][p] = 0
                             grape_type[f][p] = -1
-
 
         # butelkowanie i sprzedaz
         harvest_costs = harvest_cost * sum(gatherings)
