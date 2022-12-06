@@ -37,12 +37,11 @@ print(A)
 
 field_nr = 3
 
-all_types = {1: 'Barbera', 2: 'Chardonnay', 3: 'Nebbiolo', 4: 'Arneis',
-         5: 'Dolcetto', 6: 'Cortese', 7: 'Grignolino', 8: 'Erbaluce'}
 
 
 
-ch_types = {1: 'Barbera', 2: 'Chardonnay', 3: 'Nebbiolo'}
+
+
 
 # Losowana jakość gleby
 np.set_printoptions(precision=2)

@@ -1,6 +1,7 @@
 import random
 import numpy as np
 from typing import Union, List, Dict
+import matplotlib.pyplot as plt
 
 # Generator rozwiązania początkowego
 def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[List, Dict],
@@ -27,15 +28,65 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
             continue
         else:
             flaga = True
-            typ = [random.randint(0, number_of_grapetypes - 1) for i in range(4)]
+            typ = [random.randint(0, number_of_grapetypes - 1) for _ in range(4)]
             while flaga:
                 for fnr in range(fields_num):
                     gen = random.randint(min_fields_capacity[fnr], max_fields_capacity[fnr])
                     solution[m, fnr, typ[fnr]] = gen
                 if np.sum(solution[m, :, :]) <= max_magazine_capacity:
                     flaga = False
-    return solution
+    return np.array(solution, dtype=int)
 
+
+def vine_price_generator(ch_types:Dict, num_of_years: int):
+    months = num_of_years * 12
+    bottle_prices = np.ones((len(ch_types), months))
+    c = 0
+    for _, v in ch_types.items():
+        if v == 'Barbera':
+            bottle_prices[c, :] = np.random.uniform(low=30.01, high=45.12, size=(1, months))
+        elif v == 'Chardonnay':
+            bottle_prices[c, :] = np.random.uniform(low=30.01, high=45.12, size=(1, months))
+        elif v == 'Nebbiolo':
+            bottle_prices[c, :] = np.random.uniform(low=83.01, high=89.65, size=(1, months))
+        elif v == 'Arneis':
+            bottle_prices[c, :] = np.random.uniform(low=66.01, high=71.12, size=(1, months))
+        elif v == 'Dolcetto':
+            bottle_prices[c, :] = np.random.uniform(low=58.50, high=63.50, size=(1, months))
+        elif v == 'Cortese':
+            bottle_prices[c, :] = np.random.uniform(low=60.11, high=65.57, size=(1, months))
+        elif v == 'Grignolino':
+            bottle_prices[c, :] = np.random.uniform(low=50.00, high=55.19, size=(1, months))
+        elif v == 'Erbaluce':
+            bottle_prices[c, :] = np.random.uniform(low=132.00, high=137.00, size=(1, months))
+        else:
+            raise Exception(f'There is no grape type: "{v}"')
+
+        plt.plot(range(1, months+1), bottle_prices[c], label=v,  linestyle='--', marker='o')
+        c += 1
+
+    month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    np.set_printoptions(precision=2)
+
+    plt.title(f"Zmiana ceny wina na przestrzeni {months} miesięcy")
+    plt.legend()
+    plt.xlabel('Miesiąc')
+    plt.ylabel('Aktualna cena wina')
+    plt.grid()
+    plt.xticks(range(1, months+1), month)
+    plt.show()
+    return bottle_prices
+
+
+def soil_quality_generator(field_nr: int, ch_types:Dict):
+    """
+    :param field_nr: number of all available fields
+    :param ch_types: Types of grapes that have been chosen by user
+    :return: a matrix of soil quality for each field, depending on grape type in % [0.00]
+    """
+    np.set_printoptions(precision=2)
+    soil_quality = np.random.uniform(low=0.7, high=0.95, size=(field_nr, len(ch_types)))
+    return soil_quality
 
 # Test
 #m = 1000
@@ -95,7 +146,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
         for f in range(fields):
             for t in range(grape_types):
                 beg = (np.where(grape_type[f]==-1))[0][0]
-                end=beg + sol[y][f][t]
+                end = beg + sol[y][f][t]
                 if month not in winter+planting_breaks:
                     grape_type[f, beg:end] = t
 
