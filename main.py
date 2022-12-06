@@ -9,9 +9,18 @@ num_of_fields = 3
 soil_types = 3
 
 sol = np.zeros((num_of_years * 12, num_of_fields, types_of_grapes),dtype=int)
-sol[0, 0, 0] = 100
-sol[0, 1, 1] = 100
-sol[0, 2, 1] = 100
+sol[5, 0, 0] = 100
+sol[5, 1, 1] = 100
+sol[5, 2, 1] = 100
+sol[6, 0, 0] = 100
+sol[6, 1, 1] = 100
+sol[6, 2, 1] = 100
+sol[7, 0, 0] = 50
+sol[7, 1, 1] = 50
+sol[7, 2, 1] = 50
+sol[8, 0, 0] = 49
+sol[8, 1, 1] = 49
+sol[8, 2, 1] = 49
 plant_cost = np.asarray([2.2, 4.5, 8])
 
 gathernum = np.ones((types_of_grapes, 12, soil_types))

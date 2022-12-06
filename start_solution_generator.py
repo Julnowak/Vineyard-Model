@@ -80,7 +80,8 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
             for t in range(grape_types):
                 beg = (np.where(grape_type[f]==-1))[0][0]
                 end=beg + sol[y][f][t]
-                grape_type[f, beg:end] = t
+                if month not in [0,1,2,3,12,11,10]:
+                    grape_type[f, beg:end] = t
 
                 month_cost = month_cost + planting_costs[t] * sol[y][f][t] + fertilizer_cost
             for p in range(max_fields_capacity):
@@ -90,6 +91,8 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
                         field_grow[f][p] = field_grow[f][p] + \
                                            month_grow[grape_type[f][p]][month][soil_type[f]] \
                                            * Isfertilized * fertilizer_bonus
+                        if field_grow[f][p]>100:
+                            field_grow[f][p]=100
                         month_cost = month_cost + fertilizer_cost
 
                     else:
