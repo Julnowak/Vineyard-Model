@@ -3,11 +3,11 @@ import numpy as np
 from typing import Union, List, Dict
 import matplotlib.pyplot as plt
 
+
 # Generator rozwiązania początkowego
 def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[List, Dict],
                       min_fields_capacity: Union[List, Dict], number_of_years: int,
                       number_of_grapetypes: int) -> np.ndarray:
-
     if max_magazine_capacity < sum(min_fields_capacity):
         raise Exception('Magazine capacity too low!')
 
@@ -19,8 +19,8 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
 
     # Winter months
     for i in range(number_of_years):
-        winter += [0+12*i, 1+12*i, 11+12*i]
-        planting_breaks += [3+12*i, 4+12*i, 5+12*i, 7+12*i, 8+12*i, 9+12*i]
+        winter += [0 + 12 * i, 1 + 12 * i, 11 + 12 * i]
+        planting_breaks += [3 + 12 * i, 4 + 12 * i, 5 + 12 * i, 7 + 12 * i, 8 + 12 * i, 9 + 12 * i]
     # print(winter)
 
     for m in range(solution.shape[0]):
@@ -38,7 +38,7 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
     return np.array(solution, dtype=int)
 
 
-def vine_price_generator(ch_types:Dict, num_of_years: int):
+def vine_price_generator(ch_types: Dict, num_of_years: int):
     months = num_of_years * 12
     bottle_prices = np.ones((len(ch_types), months))
     c = 0
@@ -62,7 +62,7 @@ def vine_price_generator(ch_types:Dict, num_of_years: int):
         else:
             raise Exception(f'There is no grape type: "{v}"')
 
-        plt.plot(range(1, months+1), bottle_prices[c], label=v,  linestyle='--', marker='o')
+        plt.plot(range(1, months + 1), bottle_prices[c], label=v, linestyle='--', marker='o')
         c += 1
 
     month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -73,7 +73,7 @@ def vine_price_generator(ch_types:Dict, num_of_years: int):
     plt.xlabel('Miesiąc')
     plt.ylabel('Aktualna cena wina')
     plt.grid()
-    plt.xticks(range(1, months+1), month)
+    plt.xticks(range(1, months + 1), month)
     plt.show()
     return bottle_prices
 
@@ -88,27 +88,28 @@ def soil_quality_generator(field_nr: int, ch_types: Dict):
     soil_quality = np.random.uniform(low=0.7, high=0.95, size=(field_nr, len(ch_types)))
     return soil_quality
 
-# Test
-#m = 1000
-#l = [2000, 1000, 2000]  # Ograniczenia górne
-#h = [300, 100, 100]  # Ograniczenia dolne
-#yrs = 1
 
-#A = generate_solution(m, l, h, yrs, 4)
-#print(A)
+# Test
+# m = 1000
+# l = [2000, 1000, 2000]  # Ograniczenia górne
+# h = [300, 100, 100]  # Ograniczenia dolne
+# yrs = 1
+
+# A = generate_solution(m, l, h, yrs, 4)
+# print(A)
 
 
 def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray, Isfertilized, soil_type,
           fertilizer_bonus,
           fertilizer_cost, harvest_cost, bottling_cost, plants_per_bottle,
-          transport_cost, bottle_price, grape_types, max_fields_capacity: int, month_grow: np.ndarray):
+          transport_cost, bottle_price, mfields_capacity: List, month_grow: np.ndarray):
     """
 
     :param sol:number_of_years * 12 x fields_num x types
     :param planting_costs: grape_types
-    :param gather_number: grape_types x 12 x soil_types
+    :param gather_number: grape_types x 12
     :param Isfertilized:
-    :param soil_type: fieldsNum
+    :param soil_type: fieldsNum - Nie soil_type tylko mnoznik jakościowy typu np. 0.7 przemnażany przez oczekiwaną ilośc plonów
     :param fertilizer_bonus:
     :param fertilizer_cost:
     :param harvest_cost:
@@ -118,7 +119,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
     :param bottle_price: grape_types x 12
     :param grape_types:
     :param max_fields_capacity:
-    :param month_grow: grape_types x 12 x soil_types
+    :param month_grow: grape_types x 12
     :return:
     """
 
@@ -126,17 +127,18 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
     planting_breaks = []
 
     # Winter months
-    for i in range(sol.shape[0]//12):
-        winter += [0+12*i, 1+12*i, 11+12*i]
-        planting_breaks += [3+12*i, 4+12*i, 5+12*i, 7+12*i, 8+12*i, 9+12*i]
+    # for i in range(sol.shape[0]//12):
+    # winter += [0+12*i, 1+12*i, 11+12*i]
+    # planting_breaks += [3+12*i, 4+12*i, 5+12*i, 7+12*i, 8+12*i, 9+12*i]
 
     # Sam przelicznik funkcji celu
     months = sol.shape[0]
     fields = sol.shape[1]
+    grape_types = sol.shape[2]
 
+    max_fields_capacity = max(mfields_capacity)  # Do naprawy
     field_grow = np.zeros(shape=(fields, max_fields_capacity))
-    grape_type = np.ones(shape=(fields, max_fields_capacity), dtype=int)*-1
-    solution = 0
+    grape_type = np.ones(shape=(fields, max_fields_capacity), dtype=int) * -1
     cost = []
     gains = []
     for y in range(months):
@@ -145,9 +147,9 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
         gatherings = np.zeros((grape_types))
         for f in range(fields):
             for t in range(grape_types):
-                beg = (np.where(grape_type[f]==-1))[0][0]
+                beg = (np.where(grape_type[f] == -1))[0][0]
                 end = beg + sol[y][f][t]
-                if month not in winter+planting_breaks:
+                if month not in [0, 1, 2, 10, 11, 12]:
                     grape_type[f, beg:end] = t
 
                 month_cost = month_cost + planting_costs[t] * sol[y][f][t] + fertilizer_cost
@@ -158,8 +160,8 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
                         field_grow[f][p] = field_grow[f][p] + \
                                            month_grow[grape_type[f][p]][month][soil_type[f]] \
                                            * Isfertilized * fertilizer_bonus
-                        if field_grow[f][p]>100:
-                            field_grow[f][p]=100
+                        if field_grow[f][p] > 100:
+                            field_grow[f][p] = 100
                         month_cost = month_cost + fertilizer_cost
 
                     else:
@@ -175,11 +177,10 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
         cost_of_postprocessing = np.sum(bottles) * (bottling_cost + transport_cost)
         month_cost = month_cost + cost_of_postprocessing + harvest_costs
         cost.append(month_cost)
-        gain = bottles.dot(bottle_price[:,month])
+        gain = bottles.dot(bottle_price[:, month])
         gains.append(gain)
 
-    return gains,cost
-
+    return gains, cost
 
 # print(ocena(A, 100.00, np.array([[0.90] * A.shape[1], [0.6] * A.shape[1], [0.8] * A.shape[1]]), 1, 0.5, 10, 5, 5, 1, 5,
 #             40, 4, 300))

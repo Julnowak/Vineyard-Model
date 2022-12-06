@@ -27,6 +27,7 @@ sol[8, 0, 0] = 49
 sol[8, 1, 1] = 49
 sol[8, 2, 1] = 49
 #print((sol))
+
 m = 600
 l = [800, 800, 800]  # Ograniczenia górne
 h = [100, 100, 100]  # Ograniczenia dolne
