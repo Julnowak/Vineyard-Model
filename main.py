@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from start_solution_generator import *
 
 # example data and visualisation
-num_of_years = 5
+num_of_years = 1
 types_of_grapes = 3
 num_of_fields = 3
 soil_types = 3
@@ -21,6 +21,14 @@ sol[7, 2, 1] = 50
 sol[8, 0, 0] = 49
 sol[8, 1, 1] = 49
 sol[8, 2, 1] = 49
+#print((sol))
+m = 600
+l = [800, 600, 800]  # Ograniczenia górne
+h = [100, 100, 100]  # Ograniczenia dolne
+
+
+sol = generate_solution(m, l, h, num_of_years, types_of_grapes)
+#print(sol)
 plant_cost = np.asarray([2.2, 4.5, 8])
 
 gathernum = np.ones((types_of_grapes, 12, soil_types))
@@ -46,11 +54,11 @@ print(sum(gain)-sum(loss))
 plt.plot(gain)
 plt.plot(loss)
 plt.title("wykres zysku i strat")
-plt.legend(["zysk","strata"])
+plt.legend(["zysk", "strata"])
 plt.show()
 
 for i in range(3):
     plt.plot(bottle_prices[i])
 plt.title("cena butelek wina")
 plt.show()
-import datavisualisation
+# import datavisualisation
