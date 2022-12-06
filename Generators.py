@@ -28,7 +28,7 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
             continue
         else:
             flaga = True
-            typ = [random.randint(0, number_of_grapetypes - 1) for _ in range(4)]
+            typ = [random.randint(0, number_of_grapetypes - 1) for _ in range(fields_num)]
             while flaga:
                 for fnr in range(fields_num):
                     gen = random.randint(min_fields_capacity[fnr], max_fields_capacity[fnr])
@@ -78,7 +78,7 @@ def vine_price_generator(ch_types:Dict, num_of_years: int):
     return bottle_prices
 
 
-def soil_quality_generator(field_nr: int, ch_types:Dict):
+def soil_quality_generator(field_nr: int, ch_types: Dict):
     """
     :param field_nr: number of all available fields
     :param ch_types: Types of grapes that have been chosen by user
