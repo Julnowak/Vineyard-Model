@@ -2,41 +2,54 @@ import random
 import numpy as np
 from typing import Union, List, Dict
 
-
+# Generator rozwiązania początkowego
 def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[List, Dict],
-                      min_fields_capacity: Union[List, Dict], number_of_years: int) -> np.ndarray:
-    """
-    :param max_magazine_capacity:
-    :param max_fields_capacity:
-    :param min_fields_capacity:
-    :param number_of_years:
-    :return:
-    """
+                      min_fields_capacity: Union[List, Dict], number_of_years: int,
+                      number_of_vinetypes: int) -> np.ndarray:
+
+    if max_magazine_capacity < sum(min_fields_capacity):
+        raise Exception('Magazine capacity too low!')
 
     fields_num = len(max_fields_capacity)
-    solution = np.zeros((fields_num, number_of_years * 12))
+    solution = np.zeros((fields_num, number_of_years * 12, number_of_vinetypes))
 
-    for y in range(solution.shape[1]):
-        flaga = True
-        while flaga:
-            for fnr in range(fields_num):
-                gen = random.randint(min_fields_capacity[fnr], max_fields_capacity[fnr])
-                solution[fnr][y] = gen
+    winter = []
+    planting_breaks = []
 
-            if np.sum(solution[:, y]) <= max_magazine_capacity:
-                flaga = False
+    # Winter months
+    for i in range(number_of_years):
+        winter += [0+12*i, 1+12*i, 11+12*i]
+        planting_breaks += [3+12*i, 4+12*i, 5+12*i, 7+12*i, 8+12*i, 9+12*i]
+    # print(winter)
 
+    for m in range(solution.shape[1]):
+        if m in winter or m in planting_breaks:
+            continue
+        else:
+            flaga = True
+
+            typ = [random.randint(0, number_of_vinetypes - 1) for i in range(4)]
+
+            while flaga:
+
+                for fnr in range(fields_num):
+
+                    gen = random.randint(min_fields_capacity[fnr], max_fields_capacity[fnr])
+                    solution[fnr][m][typ[fnr]] = gen
+
+                if np.sum(solution[:, m, :]) <= max_magazine_capacity:
+                    flaga = False
     return solution
 
 
 # Test
-m = 600
-l = [800, 600, 800]  # Ograniczenia górne
-h = [100, 100, 100]  # Ograniczenia dolne
-yrs = 12
+m = 1000
+l = [2000, 1000, 2000]  # Ograniczenia górne
+h = [300, 100, 100]  # Ograniczenia dolne
+yrs = 1
 
-# A = generate_solution(m, l, h, yrs)
-# print(A)
+A = generate_solution(m, l, h, yrs, 4)
+print(A)
 
 
 def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray, Isfertilized, soil_type,
@@ -101,6 +114,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
                                                        gather_number[grape_type[f][p]][month][soil_type[f]] \
                                                        * Isfertilized * fertilizer_bonus
                         month_cost = month_cost + fertilizer_cost
+
         # butelkowanie i sprzedaz
         harvest_costs = harvest_cost * sum(gatherings)
         bottles = gatherings / plants_per_bottle
