@@ -65,15 +65,18 @@ def vine_price_generator(ch_types: Dict, num_of_years: int):
         plt.plot(range(1, months + 1), bottle_prices[c], label=v, linestyle='--', marker='o')
         c += 1
 
-    month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     np.set_printoptions(precision=2)
-
     plt.title(f"Zmiana ceny wina na przestrzeni {months} miesięcy")
     plt.legend()
-    plt.xlabel('Miesiąc')
+
     plt.ylabel('Aktualna cena wina')
     plt.grid()
-    plt.xticks(range(1, months + 1), month)
+    if months == 12:
+        month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        plt.xticks(range(1, months + 1), month)
+        plt.xlabel('Miesiąc')
+    else:
+        plt.xlabel('Nr.miesiąca')
     plt.show()
     return bottle_prices
 

@@ -8,7 +8,7 @@ all_types = {1: 'Barbera', 2: 'Chardonnay', 3: 'Nebbiolo', 4: 'Arneis',
 # ch_types = {1: 'Barbera', 2: 'Chardonnay', 3: 'Nebbiolo'}
 
 # example data and visualisation
-num_of_years = 1
+num_of_years = 2
 types_of_grapes = 3
 num_of_fields = 3
 soil_types = 3
@@ -46,7 +46,7 @@ for i in range(types_of_grapes):
         gathernum[i, :, j] = [0, 0, 0, 1, 3, 7, 16, 17, 12, 2, 0, 0]
         gathernum[i, :, j] = gathernum[i, :, j] * coeff1[i] * coeff2[j]
 
-bottle_prices = vine_price_generator({1: 'Barbera', 2: 'Chardonnay', 3: 'Nebbiolo'},1)
+bottle_prices = vine_price_generator({1: 'Barbera', 2: 'Chardonnay', 3: 'Nebbiolo'}, num_of_years)
 
 gain, loss = ocena(sol, plant_cost, gathernum, 1, [0, 1, 2], 1.2, 1, 0.5, 2, 3, 1,
              bottle_prices, types_of_grapes, 800, (gathernum+3)*3)
