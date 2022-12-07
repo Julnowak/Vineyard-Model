@@ -39,9 +39,12 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
 
 
 def vine_price_generator(ch_types: Dict, num_of_years: int):
+    colors = ['darkorchid','slateblue','darkgoldenrod',
+              'orangered','crimson','teal','steelblue','firebrick']
     months = num_of_years * 12
     bottle_prices = np.ones((len(ch_types), months))
     c = 0
+    fig, ax = plt.subplots(len(ch_types), 1)
     for _, v in ch_types.items():
         if v == 'Barbera':
             bottle_prices[c, :] = np.random.uniform(low=30.01, high=45.12, size=(1, months))
@@ -62,23 +65,50 @@ def vine_price_generator(ch_types: Dict, num_of_years: int):
         else:
             raise Exception(f'There is no grape type: "{v}"')
 
-        plt.plot(range(1, months + 1), bottle_prices[c], label=v, linestyle='--', marker='o')
+        np.set_printoptions(precision=2)
+        if num_of_years <= 2:
+           ax[c].plot(range(1, months + 1), bottle_prices[c], label=v, linestyle='--', marker='o', c=colors[c])
+        else:
+            ax[c].plot(range(1, months + 1), bottle_prices[c], label=v, c=colors[c])
+        ax[c].grid()
+        ax[c].legend(loc='best')
         c += 1
 
-    np.set_printoptions(precision=2)
-    plt.title(f"Zmiana ceny wina na przestrzeni {months} miesięcy")
-    plt.legend()
+    fig.suptitle(f"Zmiana ceny wina na przestrzeni {months} miesięcy")
+    fig.supylabel('Aktualna cena wina')
 
-    plt.ylabel('Aktualna cena wina')
-    plt.grid()
     if months == 12:
         month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
         plt.xticks(range(1, months + 1), month)
-        plt.xlabel('Miesiąc')
+        fig.supxlabel('Miesiąc')
     else:
-        plt.xlabel('Nr.miesiąca')
+        fig.supxlabel('Nr.miesiąca')
     plt.show()
     return bottle_prices
+
+def plant_price_generator(ch_types: Dict):
+    planting_prices = np.ones((len(ch_types), 1))
+    c = 0
+    for _, v in ch_types.items():
+        if v == 'Barbera':
+            planting_prices[c, :] = np.random.uniform(low=1.00, high=1.50)
+        elif v == 'Chardonnay':
+            planting_prices[c, :] = np.random.uniform(low=1.04, high=1.50)
+        elif v == 'Nebbiolo':
+            planting_prices[c, :] = np.random.uniform(low=2.50, high=2.99)
+        elif v == 'Arneis':
+            planting_prices[c, :] = np.random.uniform(low=1.50, high=2.20)
+        elif v == 'Dolcetto':
+            planting_prices[c, :] = np.random.uniform(low=2.00, high=2.50)
+        elif v == 'Cortese':
+            planting_prices[c, :] = np.random.uniform(low=3.00, high=4.00)
+        elif v == 'Grignolino':
+            planting_prices[c, :] = np.random.uniform(low=1.70, high=2.70)
+        elif v == 'Erbaluce':
+            planting_prices[c, :] = np.random.uniform(low=4.00, high=6.00)
+        else:
+            raise Exception(f'There is no grape type: "{v}"')
+
 
 
 def soil_quality_generator(field_nr: int, ch_types: Dict):
