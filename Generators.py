@@ -3,6 +3,7 @@ import numpy as np
 from typing import Union, List, Dict
 import matplotlib.pyplot as plt
 
+np.set_printoptions(precision=4)
 
 # Generator rozwiązania początkowego
 def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[List, Dict],
@@ -91,21 +92,21 @@ def plant_price_generator(ch_types: Dict):
     c = 0
     for _, v in ch_types.items():
         if v == 'Barbera':
-            planting_prices[c, :] = np.random.uniform(low=1.00, high=1.50)
+            planting_prices[c, :] = np.random.uniform(low=5.00, high=8.50)
         elif v == 'Chardonnay':
-            planting_prices[c, :] = np.random.uniform(low=1.04, high=1.50)
+            planting_prices[c, :] = np.random.uniform(low=5.04, high=8.50)
         elif v == 'Nebbiolo':
-            planting_prices[c, :] = np.random.uniform(low=2.50, high=2.99)
+            planting_prices[c, :] = np.random.uniform(low=9.50, high=12.99)
         elif v == 'Arneis':
-            planting_prices[c, :] = np.random.uniform(low=1.50, high=2.20)
+            planting_prices[c, :] = np.random.uniform(low=4.50, high=6.20)
         elif v == 'Dolcetto':
-            planting_prices[c, :] = np.random.uniform(low=2.00, high=2.50)
+            planting_prices[c, :] = np.random.uniform(low=7.00, high=8.50)
         elif v == 'Cortese':
-            planting_prices[c, :] = np.random.uniform(low=3.00, high=4.00)
+            planting_prices[c, :] = np.random.uniform(low=6.00, high=7.00)
         elif v == 'Grignolino':
-            planting_prices[c, :] = np.random.uniform(low=1.70, high=2.70)
+            planting_prices[c, :] = np.random.uniform(low=5.70, high=6.70)
         elif v == 'Erbaluce':
-            planting_prices[c, :] = np.random.uniform(low=4.00, high=6.00)
+            planting_prices[c, :] = np.random.uniform(low=13.20, high=13.70)
         else:
             raise Exception(f'There is no grape type: "{v}"')
 

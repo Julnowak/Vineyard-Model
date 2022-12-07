@@ -2,7 +2,10 @@ import numpy as np
 from Command_files import *
 from Generators import *
 
+np.set_printoptions(precision=4)
+
 # Types of vine, user choice
+# TODO - wybór przez użytkownika, interfejs??? tkinker?
 all_types = {1: 'Barbera', 2: 'Chardonnay', 3: 'Nebbiolo', 4: 'Arneis',
              5: 'Dolcetto', 6: 'Cortese', 7: 'Grignolino', 8: 'Erbaluce'}
 
@@ -41,8 +44,8 @@ gather_number = np.ones(shape=(12)) * 6
 vineprice = vine_price_generator(ch_types, num_of_years)
 planting_cost = plant_price_generator(ch_types)
 
-month_grow = np.random.uniform(low=0.05, high=0.4, size=(12))
-grow = np.ones(shape=(12)) * 0.34
+month_grow = np.random.uniform(low=0.34, high=0.34, size=(12))
+grow = np.ones(shape=(12)) * 0.5
 capacity = [800, 800, 800]
 
 # coeff1 = [1, 1, 0.5]
@@ -57,8 +60,8 @@ capacity = [800, 800, 800]
 # gain, loss = ocena(sol, plant_cost, gathernum, 1, [0, 1, 2], 1.2, 1, 0.5, 2, 3, 1,
 #              bottle_prices, types_of_grapes, [300,400,300], (gathernum+3)*3)
 
-gain, loss = ocena(sol, plant_cost, gather_number, 1, soil_quality_generator(3, ch_types), 0.05, 0.5, 1, 2, 1, 3,
-                   vineprice, capacity, month_grow, 3)
+gain, loss = ocena(sol, plant_cost, gather_number, 1, soil_quality_generator(3, ch_types), 0.05, 2, 3, 4, 1, 3,
+                   vineprice, capacity, month_grow, 10, True, False)
 
 # WYKRESY
 # print(k)

@@ -11,7 +11,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
 
     :param sol:number_of_years * 12 x fields_num x types
     :param planting_costs: grape_types
-    :param gather_number:  12
+    :param gather_number: 12
     :param Isfertilized:
     :param soil_type: fieldsNum - Nie soil_type tylko mnoznik jakościowy typu np. 0.7 przemnażany przez oczekiwaną ilośc plonów
     :param fertilizer_bonus:
@@ -98,8 +98,14 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
 
     return gains, cost
 
-
-def IsOK(field, mini: int, maxi: int):
+# TODO - ograniczniki, kara za obniżenie
+def IsOK(field: int, mini: int, maxi: int):
+    """
+    :param field: number of the field
+    :param mini: minimal value of field capacity; can be lower in some cases
+    :param maxi: maximal value of field capacity; can't be be increased
+    :return:
+    """
     ans = False
     if mini <= field <= maxi:
         ans = True
