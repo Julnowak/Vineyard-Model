@@ -89,7 +89,9 @@ for i in range(len(gain)):
     w.append(gain[i] - loss[i])
 
 plt.plot(w)
-plt.title("wykres sumarycznego zysku")
-
+plt.title("Wykres sumarycznego zysku")
+plt.ylabel('Wartość przychodu miesięcznego')
+plt.xlabel('Nr miesiąca')
+plt.grid()
 plt.show()
 # import datavisualisation
