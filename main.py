@@ -1,3 +1,5 @@
+import numpy as np
+from Command_files import *
 from Generators import *
 
 # Types of vine, user choice
@@ -34,7 +36,6 @@ h = [100, 100, 100]  # Ograniczenia dolne
 sol = generate_solution(m, l, h, num_of_years, types_of_grapes)
 print(sol)
 
-# TODO generator
 plant_cost = np.asarray([2.2, 4.5, 8])
 gather_number = np.ones(shape=(12)) * 6
 vineprice = vine_price_generator(ch_types, num_of_years)
@@ -57,7 +58,7 @@ capacity = [800, 800, 800]
 #              bottle_prices, types_of_grapes, [300,400,300], (gathernum+3)*3)
 
 gain, loss = ocena(sol, plant_cost, gather_number, 1, soil_quality_generator(3, ch_types), 0.05, 0.5, 1, 2, 1, 3,
-                   vineprice, capacity, month_grow)
+                   vineprice, capacity, month_grow, 3)
 
 # WYKRESY
 # print(k)
@@ -66,7 +67,7 @@ print(" ")
 
 # Łącznie - wartość funkcji celu
 print(sum(gain) - sum(loss))
-
+print(gain)
 # Wykresy ogólne
 plt.plot(gain)
 plt.plot(loss)
@@ -75,12 +76,15 @@ plt.grid()
 plt.legend(["zysk", "strata"])
 plt.show()
 
+# TODO
+## Zmnienić na Bar ploty
+
 # Bar ploty
 plt.bar(1, sum(gain))
 plt.bar(2, sum(loss))
 plt.title("Porównanie zysków i strat")
 plt.grid(axis='y')
-plt.xticks([1,2],['Zyski','Straty'])
+plt.xticks([1, 2],['Zyski','Straty'])
 plt.xlabel('Ilość pieniędzy w zł')
 plt.show()
 
