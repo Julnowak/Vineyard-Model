@@ -147,25 +147,35 @@ def generateSolutionFromNumber(num,solution):
     buff=num//2
 
     posx=buff%solution.shape[0]
-    buff=buff//solution.shape[1]
+    buff=buff//solution.shape[0]
     posy = buff % solution.shape[1]
-    buff = buff // solution.shape[2]
+    buff = buff // solution.shape[1]
     posz = buff
     res=solution.copy()
     if plusmin == 0:
         res[posx][posy][posz]=res[posx][posy][posz]+1
     else:
         res[posx][posy][posz] = res[posx][posy][posz] - 1
-    return res
+
+    if np.sum((res[posx, :, posz] != 0)) <= 1:
+        return res
+    # invaild solution we return basic solution
+    return solution.copy()
 
 #idk if it works
 def generateAllsolutions(sol):
     res={}
     for i in range(2*sol.shape[0]*sol.shape[1]*sol.shape[2]):
-        res[i]=generateSolutionFromNumber(i,sol)
+        buff = generateSolutionFromNumber(i, sol)
+        if (buff==sol).all():
+            res[i]=buff
     return res
-#test  for basicv solution
-# sol = np.zeros((2, 3, 4),dtype=int)
-# for i in range(2*3*4*2):
-#     res=generateSolutionFromNumber(i,sol)
-
+# test  for basicv solution
+# sol = np.ones((12*5, 5, 5),dtype=int)
+# import time
+#
+# # get the start time
+# st = time.time()
+# generateAllsolutions(sol)
+# end=time.time()
+# print(end-st)
