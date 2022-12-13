@@ -38,12 +38,11 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
     gains = []
     cost = []
 
-    uk = store_needs
     remains = [0] * len(store_needs)
 
     for m in range(months):
 
-        store_needs_actual = [200, 100, 100]
+        store_needs_actual = store_needs.copy()
         print('------')
         print(store_needs_actual)
         print('------')
@@ -88,7 +87,6 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
 
                 month_cost += plant_cost + ha_cost + bottrans_cost + bottles_remained * magazine_cost
                 # Koszty i zyski dla danego pola i danego typu
-
 
                 month_gain += bottle_gain
 
