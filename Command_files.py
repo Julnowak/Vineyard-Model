@@ -55,7 +55,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
                     plant_cost = 0
 
                 # Ilość zbioru z pola
-                if m % 12 in [0,1,11]:
+                if m % 12 in [0, 1, 11]:
                     gathering = 0
                 else:
                     gathering = sol[m][f][t] * (soil_quality[f][t] + Isfertilized * fertilizer_bonus)
@@ -84,6 +84,11 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
                 bottle_gain = bottles_selled * bottle_price[t][m]
 
                 month_cost += plant_cost + ha_cost + bottrans_cost + bottles_remained * magazine_cost
+
+                # Funkcja kary
+                if m%12 in [0,1,11] and sol[m][f][t] != 0:
+                    month_cost += 10000
+
                 # Koszty i zyski dla danego pola i danego typu
 
                 month_gain += bottle_gain

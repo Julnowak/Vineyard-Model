@@ -57,19 +57,18 @@ gain, loss = ocena(sol, plant_cost, gather_number,
 #sol_present_yourself(gain, loss, sol,ch_types)
 
 epsilon = 0.01
-max_iter = 1
+max_iter = 100
 ik = sol.shape
-sol = np.zeros(ik)
-def tabu_search(beg_sol, tabu_length=10):
+
+
+def tabu_search(beg_sol, tabu_length=50):
     # zmien
     gain, loss = ocena(beg_sol, plant_cost, gather_number,
                        1, soil_quality_generator(3, ch_types),
                        0.05, 2, 3, 4, 1, 3,
                        vineprice, capacity, month_grow, 2,
-                       [200, 100, 100], True, False)
+                       None, True, False)
     sol_present_yourself(gain,loss,beg_sol,ch_types)
-    maxi = 0
-    n_rem = 0
     TL = []
     solution = beg_sol
     stop_iter = False
@@ -83,7 +82,7 @@ def tabu_search(beg_sol, tabu_length=10):
         neigh = [k for k, _ in mapa.items()]
 
         n_rem = neigh[0]
-        maxi = 0
+        maxi = -np.inf
 
         for n in neigh:
 
@@ -101,11 +100,11 @@ def tabu_search(beg_sol, tabu_length=10):
 
         solution = mapa[n_rem]
         limsta.append(maxi)
-        # if len(TL) <= tabu_length:
-        #     TL.append(generateAntiNum(n_rem))
-        # else:
-        #     TL.pop(0)
-        #     TL.append(generateAntiNum(n_rem))
+        if len(TL) <= tabu_length:
+            TL.append(generateAntiNum(n_rem))
+        else:
+            TL.pop(0)
+            TL.append(generateAntiNum(n_rem))
 
         if counter > max_iter:
             stop_iter = True

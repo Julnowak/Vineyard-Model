@@ -119,7 +119,9 @@ def soil_quality_generator(field_nr: int, ch_types: Dict):
     :param ch_types: Types of grapes that have been chosen by user
     :return: a matrix of soil quality for each field, depending on grape type in % [0.00]
     """
+
     np.set_printoptions(precision=2)
+
     soil_quality = np.random.uniform(low=0.7, high=0.95, size=(field_nr, len(ch_types)))
     return soil_quality
 
@@ -156,9 +158,9 @@ def generateSolutionFromNumber(num,solution):
     res[posx, posy, :]=0
     if plusmin == 0:
 
-        res[posx][posy][posz]=val+1
+        res[posx][posy][posz]=val + 5
     else:
-        res[posx][posy][posz] =val - 1
+        res[posx][posy][posz] =val - 5
 
     if not (res<0).any():
         return res
