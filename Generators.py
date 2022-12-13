@@ -65,7 +65,7 @@ def vine_price_generator(ch_types: Dict, num_of_years: int):
         plt.plot(range(1, months + 1), bottle_prices[c], label=v, linestyle='--', marker='o')
         c += 1
 
-    month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    # month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec","Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     np.set_printoptions(precision=2)
 
     plt.title(f"Zmiana ceny wina na przestrzeni {months} miesięcy")
@@ -73,7 +73,7 @@ def vine_price_generator(ch_types: Dict, num_of_years: int):
     plt.xlabel('Miesiąc')
     plt.ylabel('Aktualna cena wina')
     plt.grid()
-    plt.xticks(range(1, months + 1), month)
+    # plt.xticks(range(1, months + 1), month)
     plt.show()
     return bottle_prices
 
@@ -148,7 +148,10 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
         gatherings = np.zeros((grape_types))
         for f in range(fields):
             for t in range(grape_types):
-                beg = (np.where(grape_type[f] == -1))[0][0]
+                beg=(np.where(grape_type[f] == -1))
+                if not beg == []:
+                    beg=[0][0]
+                # beg = (np.where(grape_type[f] == -1))[0][0]
                 end = beg + sol[y][f][t]
                 if end > mfields_capacity[f]:
                     end = mfields_capacity[f]
@@ -190,5 +193,34 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
 
     return gains, cost
 
-# print(ocena(A, 100.00, np.array([[0.90] * A.shape[1], [0.6] * A.shape[1], [0.8] * A.shape[1]]), 1, 0.5, 10, 5, 5, 1, 5,
-#             40, 4, 300))
+
+
+#ok so last bit tells us if its adding or subtracting so
+#oposite is jut makeing number odd or even
+def generateAntiNum(num):
+    if num %2 ==0:
+        return +num
+    else:
+        return num - 1
+
+#num should be in range from 0 to shape[0]*shape[1]*shape[2]*2
+def generateSolutionFromNumber(num,solution):
+    plusmin=num%2
+    buff=num//2
+
+    posx=buff%solution.shape[0]
+    buff=buff//solution.shape[1]
+    posy = buff % solution.shape[1]
+    buff = buff // solution.shape[2]
+    posz = buff
+    res=solution.copy();
+    if plusmin == 0:
+        res[posx][posy][posz]=res[posx][posy][posz]+1
+    else:
+        res[posx][posy][posz] = res[posx][posy][posz] - 1
+    return res
+
+#test  for basicv solution
+# sol = np.zeros((2, 3, 4),dtype=int)
+# for i in range(2*3*4*2):
+#     res=generateSolutionFromNumber(i,sol)
