@@ -46,7 +46,6 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
         month_cost = 0
         month_gain = 0
 
-
         for f in range(fields):
              for t in range(grape_types):
                  # Koszt obsiania danego pola danym typem winogron
@@ -56,7 +55,10 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
                     plant_cost = 0
 
                 # Ilość zbioru z pola
-                gathering = sol[m][f][t] * (soil_quality[f][t] + Isfertilized * fertilizer_bonus)
+                if m % 12 in [0,1,11]:
+                    gathering = 0
+                else:
+                    gathering = sol[m][f][t] * (soil_quality[f][t] + Isfertilized * fertilizer_bonus)
 
                 # Koszt zbiorów
                 ha_cost = sol[m][f][t] * harvest_cost

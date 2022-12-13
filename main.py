@@ -23,7 +23,7 @@ l = [800, 800, 800]  # Ograniczenia górne
 h = [100, 100, 100]  # Ograniczenia dolne
 
 sol = generate_solution(m, l, h, num_of_years, types_of_grapes)
-print(sol)
+#print(sol)
 
 plant_cost = np.asarray([2.2, 4.5, 8])
 gather_number = np.ones(shape=(12)) * 6
@@ -54,11 +54,12 @@ gain, loss = ocena(sol, plant_cost, gather_number,
 
 
 # Prezentacja wyników
-sol_present_yourself(gain, loss, sol,ch_types)
+#sol_present_yourself(gain, loss, sol,ch_types)
 
 epsilon = 0.01
-max_iter = 100
-
+max_iter = 1
+ik = sol.shape
+sol = np.zeros(ik)
 def tabu_search(beg_sol, tabu_length=10):
     # zmien
     gain, loss = ocena(beg_sol, plant_cost, gather_number,
@@ -81,6 +82,9 @@ def tabu_search(beg_sol, tabu_length=10):
         mapa = generateAllsolutions(solution)
         neigh = [k for k, _ in mapa.items()]
 
+        n_rem = neigh[0]
+        maxi = 0
+
         for n in neigh:
 
             gain,loss = ocena(mapa[n], plant_cost, gather_number,
@@ -88,19 +92,20 @@ def tabu_search(beg_sol, tabu_length=10):
                        0.05, 2, 3, 4, 1, 3,
                        vineprice, capacity, month_grow, 2,
                        [200, 100, 100], True, False)
-
+            print(sum(gain) - sum(loss))
             # + funkcja aspiracji
-            if sum(gain) - sum(loss) > maxi and generateAntiNum(n) not in TL:
+            if sum(gain) - sum(loss) > maxi and n not in TL:
                 maxi = sum(gain) - sum(loss)
                 n_rem = n
         #print(n_rem)
+
         solution = mapa[n_rem]
         limsta.append(maxi)
-        if len(TL) <= tabu_length:
-            TL.append(generateAntiNum(n_rem))
-        else:
-            TL.pop(0)
-            TL.append(generateAntiNum(n_rem))
+        # if len(TL) <= tabu_length:
+        #     TL.append(generateAntiNum(n_rem))
+        # else:
+        #     TL.pop(0)
+        #     TL.append(generateAntiNum(n_rem))
 
         if counter > max_iter:
             stop_iter = True
@@ -108,7 +113,13 @@ def tabu_search(beg_sol, tabu_length=10):
         counter += 1
 
     print(limsta)
-    sol_present_yourself(gain, loss, beg_sol, ch_types)
+
+    gain, loss = ocena(solution, plant_cost, gather_number,
+                       1, soil_quality_generator(3, ch_types),
+                       0.05, 2, 3, 4, 1, 3,
+                       vineprice, capacity, month_grow, 2,
+                       [200, 100, 100], True, False)
+    sol_present_yourself(gain, loss, solution, ch_types)
     return solution
 
 

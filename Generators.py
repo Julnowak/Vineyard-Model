@@ -170,7 +170,7 @@ def generateAllsolutions(sol):
     res={}
     for i in range(2*sol.shape[0]*sol.shape[1]*sol.shape[2]):
         buff = generateSolutionFromNumber(i, sol)
-        if (buff==sol).all():
+        if not (buff==sol).all():
             res[i]=buff
     return res
 # test  for basicv solution
