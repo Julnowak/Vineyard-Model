@@ -152,7 +152,7 @@ def generateSolutionFromNumber(num,solution):
     buff = buff // solution.shape[1]
     posz = buff
     res=solution.copy()
-    val=res[posx][posy][posz]
+    val=np.sum(res[posx,:,posz])
     res[posx, :, posz]=0
     if plusmin == 0:
 
