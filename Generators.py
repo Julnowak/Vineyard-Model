@@ -157,7 +157,7 @@ def generateSolutionFromNumber(num,solution):
     else:
         res[posx][posy][posz] = res[posx][posy][posz] - 1
 
-    if np.sum((res[posx, :, posz] != 0)) <= 1:
+    if np.sum((res[posx, :, posz] != 0)) <= 1 or  not (res==-1).any():
         return res
     # invaild solution we return basic solution
     return solution.copy()
