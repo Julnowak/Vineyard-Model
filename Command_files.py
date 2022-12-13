@@ -43,9 +43,6 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
     for m in range(months):
 
         store_needs_actual = store_needs.copy()
-        print('------')
-        print(store_needs_actual)
-        print('------')
         month_cost = 0
         month_gain = 0
 
@@ -68,7 +65,6 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
 
                 # Ilość butelek, które powstały
                 bottles = int(gathering // plants_per_bottle) + remains[t]
-                print(store_needs_actual[t], bottles)
                 if store_needs_actual[t] >= bottles:
                     store_needs_actual[t] = store_needs_actual[t] - bottles
                     bottles_selled = bottles
