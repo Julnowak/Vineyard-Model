@@ -3,6 +3,7 @@ import numpy as np
 from typing import Union, List, Dict
 import matplotlib.pyplot as plt
 
+np.set_printoptions(precision=4)
 
 # Generator rozwiązania początkowego
 def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[List, Dict],
@@ -39,9 +40,12 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
 
 
 def vine_price_generator(ch_types: Dict, num_of_years: int):
+    colors = ['darkorchid','slateblue','darkgoldenrod',
+              'orangered','crimson','teal','steelblue','firebrick']
     months = num_of_years * 12
     bottle_prices = np.ones((len(ch_types), months))
     c = 0
+    fig, ax = plt.subplots(len(ch_types), 1)
     for _, v in ch_types.items():
         if v == 'Barbera':
             bottle_prices[c, :] = np.random.uniform(low=30.01, high=45.12, size=(1, months))
@@ -62,20 +66,50 @@ def vine_price_generator(ch_types: Dict, num_of_years: int):
         else:
             raise Exception(f'There is no grape type: "{v}"')
 
-        plt.plot(range(1, months + 1), bottle_prices[c], label=v, linestyle='--', marker='o')
+        np.set_printoptions(precision=2)
+        if num_of_years <= 2:
+           ax[c].plot(range(1, months + 1), bottle_prices[c], label=v, linestyle='--', marker='o', c=colors[c])
+        else:
+            ax[c].plot(range(1, months + 1), bottle_prices[c], label=v, c=colors[c])
+        ax[c].grid()
+        ax[c].legend(loc='best')
         c += 1
 
-    # month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec","Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    np.set_printoptions(precision=2)
+    fig.suptitle(f"Zmiana ceny wina na przestrzeni {months} miesięcy")
+    fig.supylabel('Aktualna cena wina')
 
-    plt.title(f"Zmiana ceny wina na przestrzeni {months} miesięcy")
-    plt.legend()
-    plt.xlabel('Miesiąc')
-    plt.ylabel('Aktualna cena wina')
-    plt.grid()
-    # plt.xticks(range(1, months + 1), month)
+    if months == 12:
+        month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        plt.xticks(range(1, months + 1), month)
+        fig.supxlabel('Miesiąc')
+    else:
+        fig.supxlabel('Nr.miesiąca')
     plt.show()
     return bottle_prices
+
+def plant_price_generator(ch_types: Dict):
+    planting_prices = np.ones((len(ch_types), 1))
+    c = 0
+    for _, v in ch_types.items():
+        if v == 'Barbera':
+            planting_prices[c, :] = np.random.uniform(low=5.00, high=8.50)
+        elif v == 'Chardonnay':
+            planting_prices[c, :] = np.random.uniform(low=5.04, high=8.50)
+        elif v == 'Nebbiolo':
+            planting_prices[c, :] = np.random.uniform(low=9.50, high=12.99)
+        elif v == 'Arneis':
+            planting_prices[c, :] = np.random.uniform(low=4.50, high=6.20)
+        elif v == 'Dolcetto':
+            planting_prices[c, :] = np.random.uniform(low=7.00, high=8.50)
+        elif v == 'Cortese':
+            planting_prices[c, :] = np.random.uniform(low=6.00, high=7.00)
+        elif v == 'Grignolino':
+            planting_prices[c, :] = np.random.uniform(low=5.70, high=6.70)
+        elif v == 'Erbaluce':
+            planting_prices[c, :] = np.random.uniform(low=13.20, high=13.70)
+        else:
+            raise Exception(f'There is no grape type: "{v}"')
+
 
 
 def soil_quality_generator(field_nr: int, ch_types: Dict):
@@ -89,8 +123,6 @@ def soil_quality_generator(field_nr: int, ch_types: Dict):
     return soil_quality
 
 
-
-
 # Test
 # m = 1000
 # l = [2000, 1000, 2000]  # Ograniczenia górne
@@ -100,127 +132,3 @@ def soil_quality_generator(field_nr: int, ch_types: Dict):
 # A = generate_solution(m, l, h, yrs, 4)
 # print(A)
 
-
-def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray, Isfertilized, soil_type,fertilizer_bonus,
-          fertilizer_cost, harvest_cost, bottling_cost, plants_per_bottle,  transport_cost,
-          bottle_price, mfields_capacity: List, month_grow: np.ndarray,pruning:bool=True,usuwanie:bool=False):
-    """
-
-    :param sol:number_of_years * 12 x fields_num x types
-    :param planting_costs: grape_types
-    :param gather_number:  12
-    :param Isfertilized:
-    :param soil_type: fieldsNum - Nie soil_type tylko mnoznik jakościowy typu np. 0.7 przemnażany przez oczekiwaną ilośc plonów
-    :param fertilizer_bonus:
-    :param fertilizer_cost:
-    :param harvest_cost:
-    :param bottling_cost:
-    :param plants_per_bottle:
-    :param transport_cost:
-    :param bottle_price: grape_types x 12
-    :param grape_types:
-    :param max_fields_capacity:
-    :param month_grow: grape_types x 12
-    :return:
-    """
-
-    winter = []
-    planting_breaks = []
-
-    # Winter months
-    # for i in range(sol.shape[0]//12):
-    # winter += [0+12*i, 1+12*i, 11+12*i]
-    # planting_breaks += [3+12*i, 4+12*i, 5+12*i, 7+12*i, 8+12*i, 9+12*i]
-
-    # Sam przelicznik funkcji celu
-    months = sol.shape[0]
-    fields = sol.shape[1]
-    grape_types = sol.shape[2]
-
-    max_fields_capacity = max(mfields_capacity)  # Do naprawy
-    field_grow = np.zeros(shape=(fields, max_fields_capacity))
-    grape_type = np.ones(shape=(fields, max_fields_capacity), dtype=int) * -1
-    cost = []
-    gains = []
-    for y in range(months):
-        month_cost = 0
-        month = y % 12
-        gatherings = np.zeros((grape_types))
-        for f in range(fields):
-            for t in range(grape_types):
-                beg=(np.where(grape_type[f] == -1))
-                if not beg == []:
-                    beg=[0][0]
-                # beg = (np.where(grape_type[f] == -1))[0][0]
-                end = beg + sol[y][f][t]
-                if end > mfields_capacity[f]:
-                    end = mfields_capacity[f]
-                if month not in [0, 1,  11]:
-                    grape_type[f, beg:end] = t
-
-                month_cost = month_cost + planting_costs[t] * sol[y][f][t] + fertilizer_cost
-            for p in range(max_fields_capacity):
-                if pruning and month == 10:
-                    field_grow[f][p] = 0.7 * field_grow[f][p]
-                if grape_type[f][p] != -1:
-                    if field_grow[f][p] < 1:
-                        # growth of wines
-                        field_grow[f][p] = field_grow[f][p] + month_grow[month] * \
-                                           (soil_type[f][grape_type[f][p]]+Isfertilized * fertilizer_bonus)
-
-                        if field_grow[f][p] > 1:
-                            field_grow[f][p] = 1
-                        month_cost = month_cost + fertilizer_cost
-                    else:
-                        # gathering
-                        gatherings[grape_type[f][p]] = gatherings[grape_type[f][p]] + \
-                                                       gather_number[month]*(soil_type[f][grape_type[f][p]] * Isfertilized * fertilizer_bonus)
-
-                        month_cost = month_cost + fertilizer_cost
-                        if usuwanie:
-                            field_grow[f][p] = 0
-                            grape_type[f][p] = -1
-
-
-        # butelkowanie i sprzedaz
-        harvest_costs = harvest_cost * sum(gatherings)
-        bottles = gatherings / plants_per_bottle
-        cost_of_postprocessing = np.sum(bottles) * (bottling_cost + transport_cost)
-        month_cost = month_cost + cost_of_postprocessing + harvest_costs
-        cost.append(month_cost)
-        gain = bottles.dot(bottle_price[:, y])
-        gains.append(gain)
-
-    return gains, cost
-
-
-
-#ok so last bit tells us if its adding or subtracting so
-#oposite is jut makeing number odd or even
-def generateAntiNum(num):
-    if num %2 ==0:
-        return +num
-    else:
-        return num - 1
-
-#num should be in range from 0 to shape[0]*shape[1]*shape[2]*2
-def generateSolutionFromNumber(num,solution):
-    plusmin=num%2
-    buff=num//2
-
-    posx=buff%solution.shape[0]
-    buff=buff//solution.shape[1]
-    posy = buff % solution.shape[1]
-    buff = buff // solution.shape[2]
-    posz = buff
-    res=solution.copy();
-    if plusmin == 0:
-        res[posx][posy][posz]=res[posx][posy][posz]+1
-    else:
-        res[posx][posy][posz] = res[posx][posy][posz] - 1
-    return res
-
-#test  for basicv solution
-# sol = np.zeros((2, 3, 4),dtype=int)
-# for i in range(2*3*4*2):
-#     res=generateSolutionFromNumber(i,sol)

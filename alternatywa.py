@@ -36,15 +36,3 @@ print(A)
 
 
 field_nr = 3
-
-
-
-
-
-
-
-# Losowana jakość gleby
-np.set_printoptions(precision=2)
-soil_quality = np.random.uniform(low=0.7, high=0.95, size=(field_nr, len(ch_types)))
-print(soil_quality)
-
