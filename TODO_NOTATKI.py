@@ -4,6 +4,6 @@
 
 # TODO - trójpolówka
 
-# TODO - magazunowanie
+# TODO - magazynowanie
 
 # TODO - zapotrzebowanie sklepu

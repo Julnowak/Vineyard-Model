@@ -9,6 +9,7 @@ np.set_printoptions(precision=4)
 def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[List, Dict],
                       min_fields_capacity: Union[List, Dict], number_of_years: int,
                       number_of_grapetypes: int) -> np.ndarray:
+
     if max_magazine_capacity < sum(min_fields_capacity):
         raise Exception('Magazine capacity too low!')
 
@@ -150,7 +151,7 @@ def generateSolutionFromNumber(num,solution):
     posy = buff % solution.shape[1]
     buff = buff // solution.shape[2]
     posz = buff
-    res=solution.copy();
+    res=solution.copy()
     if plusmin == 0:
         res[posx][posy][posz]=res[posx][posy][posz]+1
     else:
@@ -167,3 +168,4 @@ def generateAllsolutions(sol):
 # sol = np.zeros((2, 3, 4),dtype=int)
 # for i in range(2*3*4*2):
 #     res=generateSolutionFromNumber(i,sol)
+

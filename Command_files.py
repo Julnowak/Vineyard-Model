@@ -2,12 +2,11 @@ import numpy as np
 from typing import Union, List, Dict
 
 
-def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray, Isfertilized, soil_quality,
-          fertilizer_bonus,
-          fertilizer_cost, harvest_cost, bottling_cost, plants_per_bottle, transport_cost,
-          bottle_price, mfields_capacity: List, month_grow: np.ndarray, magazine_cost, pruning: bool = True,
-          usuwanie: bool = False):
-
+def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray,
+          Isfertilized, soil_quality, fertilizer_bonus, fertilizer_cost,
+          harvest_cost, bottling_cost, plants_per_bottle, transport_cost,
+          bottle_price, mfields_capacity: List, month_grow: np.ndarray,
+          magazine_cost, store_needs=None, pruning: bool = True, usuwanie: bool = False):
 
     """
     :param sol:number_of_years * 12 x fields_num x types
@@ -28,6 +27,9 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
     :return:
     """
 
+    if store_needs is None:
+        store_needs = [np.inf] * sol.shape[2]
+
     # Sam przelicznik funkcji celu
     months = sol.shape[0]
     fields = sol.shape[1]
@@ -36,38 +38,65 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
     gains = []
     cost = []
 
+    uk = store_needs
+    remains = [0] * len(store_needs)
+
     for m in range(months):
+
+        store_needs_actual = [200, 100, 100]
+        print('------')
+        print(store_needs_actual)
+        print('------')
         month_cost = 0
         month_gain = 0
-        month = m % 12
-        if month not in [0, 1, 11]:
-            for f in range(fields):
-                 for t in range(grape_types):
-                     # Koszt obsiania danego pola danym typem winogron
+
+
+        for f in range(fields):
+             for t in range(grape_types):
+                 # Koszt obsiania danego pola danym typem winogron
+                if sol[m][f][t] != 0:
                     plant_cost = sol[m][f][t] * planting_costs[t] + Isfertilized * fertilizer_cost
+                else:
+                    plant_cost = 0
 
-                    # Ilość zbioru z pola
-                    gathering = sol[m][f][t] * (soil_quality[f][t] + Isfertilized * fertilizer_bonus)
+                # Ilość zbioru z pola
+                gathering = sol[m][f][t] * (soil_quality[f][t] + Isfertilized * fertilizer_bonus)
 
-                    # Koszt zbiorów
-                    ha_cost = sol[m][f][t] * harvest_cost
+                # Koszt zbiorów
+                ha_cost = sol[m][f][t] * harvest_cost
 
-                    # TODO - wykombinować co zrobić z resztą
+                # TODO - wykombinować co zrobić z resztą - imo wywalić, ale kara jakaś by się przydała
 
-                    # Ilość butelek, które powstały
-                    bottles = int(gathering // plants_per_bottle)
+                # Ilość butelek, które powstały
+                bottles = int(gathering // plants_per_bottle) + remains[t]
+                print(store_needs_actual[t], bottles)
+                if store_needs_actual[t] >= bottles:
+                    store_needs_actual[t] = store_needs_actual[t] - bottles
+                    bottles_selled = bottles
+                    bottles_remained = 0
 
-                    # butelkowanie i transport
-                    bottrans_cost = bottles * bottling_cost + transport_cost * bottles
-                    bottle_gain = bottles * bottle_price[t][m]
+                elif store_needs_actual[t] < bottles:
+                    bottles_remained = bottles - store_needs_actual[t]
+                    bottles_selled = bottles - bottles_remained
+                    store_needs_actual[t] = 0
 
-                    # Koszty i zyski dla danego pola i danego typu
 
-                    month_cost += plant_cost + ha_cost + bottrans_cost + bottles * magazine_cost
-                    month_gain += bottle_gain
+                # butelkowanie i transport
+                bottrans_cost = bottles_selled * bottling_cost + transport_cost * bottles_selled
+
+                bottle_gain = bottles_selled * bottle_price[t][m]
+
+                month_cost += plant_cost + ha_cost + bottrans_cost + bottles_remained * magazine_cost
+                # Koszty i zyski dla danego pola i danego typu
+
+
+                month_gain += bottle_gain
+
+                remains[t] = bottles_remained
+
 
         # Plus opłata utrzymania winnicy?
-        cost.append(month_cost + 1200.00)
+        cost.append(month_cost + 600.00)
         gains.append(month_gain)
 
     return gains, cost

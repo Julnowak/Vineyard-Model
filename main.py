@@ -1,6 +1,7 @@
 import numpy as np
 from Command_files import *
 from Generators import *
+from Wykresy import *
 
 np.set_printoptions(precision=4)
 
@@ -16,21 +17,6 @@ num_of_years = 1
 types_of_grapes = 3
 num_of_fields = 3
 soil_types = 3
-
-sol = np.zeros((num_of_years * 12, num_of_fields, types_of_grapes), dtype=int)
-sol[5, 0, 0] = 100
-sol[5, 1, 1] = 100
-sol[5, 2, 1] = 100
-sol[6, 0, 0] = 100
-sol[6, 1, 1] = 100
-sol[6, 2, 1] = 100
-sol[7, 0, 0] = 50
-sol[7, 1, 1] = 50
-sol[7, 2, 1] = 50
-sol[8, 0, 0] = 49
-sol[8, 1, 1] = 49
-sol[8, 2, 1] = 49
-# print((sol))
 
 m = 600
 l = [800, 800, 800]  # Ograniczenia górne
@@ -60,45 +46,15 @@ capacity = [800, 800, 800]
 # gain, loss = ocena(sol, plant_cost, gathernum, 1, [0, 1, 2], 1.2, 1, 0.5, 2, 3, 1,
 #              bottle_prices, types_of_grapes, [300,400,300], (gathernum+3)*3)
 
-gain, loss = ocena(sol, plant_cost, gather_number, 1, soil_quality_generator(3, ch_types), 0.05, 2, 3, 4, 1, 3,
-                   vineprice, capacity, month_grow, 10, True, False)
+gain, loss = ocena(sol, plant_cost, gather_number,
+                   1, soil_quality_generator(3, ch_types),
+                   0.05, 2, 3, 4, 1, 3,
+                   vineprice, capacity, month_grow, 2,
+                   [200, 100, 100], True, False)
 
-# WYKRESY
-# print(k)
-print(" ")
-# print(v)
 
-# Łącznie - wartość funkcji celu
-print(sum(gain) - sum(loss))
-print(gain)
-# Wykresy ogólne
-plt.plot(gain)
-plt.plot(loss)
-plt.title("Wykres zysku i strat")
-plt.grid()
-plt.legend(["zysk", "strata"])
-plt.show()
+# Prezentacja wyników
+sol_present_yourself(gain, loss, sol,ch_types)
 
-# TODO
-## Zmnienić na Bar ploty
 
-# Bar ploty
-plt.bar(1, sum(gain))
-plt.bar(2, sum(loss))
-plt.title("Porównanie zysków i strat")
-plt.grid(axis='y')
-plt.xticks([1, 2],['Zyski','Straty'])
-plt.xlabel('Ilość pieniędzy w zł')
-plt.show()
 
-w = []
-for i in range(len(gain)):
-    w.append(gain[i] - loss[i])
-
-plt.plot(w)
-plt.title("Wykres sumarycznego zysku")
-plt.ylabel('Wartość przychodu miesięcznego')
-plt.xlabel('Nr miesiąca')
-plt.grid()
-plt.show()
-# import datavisualisation
