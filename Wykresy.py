@@ -9,7 +9,7 @@ def main_plot(gain, loss):
     plt.legend(["zysk", "strata"])
     plt.show()
 
-
+# TODO - ogarnąć wykres
 def main_bar_plot(gain, loss, m):
     labels = [f'm{i+1}' for i in range(m)]
 
@@ -21,11 +21,11 @@ def main_bar_plot(gain, loss, m):
     ax.bar(x + width / 2, loss, width, label='Straty')
 
     # Add some text for labels, title and custom x-axis tick labels, etc.
-    ax.set_ylabel('Scores')
+    ax.set_ylabel('Ilość pieniędzy w zł')
     ax.set_title(f'Wykres zysków i strat dla {m} miesięcy')
     ax.set_xticks(x, labels)
     ax.legend()
-
+    ax.grid(axis='y')
     fig.tight_layout()
     plt.show()
 
