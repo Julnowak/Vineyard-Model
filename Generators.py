@@ -157,6 +157,12 @@ def generateSolutionFromNumber(num,solution):
         res[posx][posy][posz] = res[posx][posy][posz] - 1
     return res
 
+#idk if it works
+def generateAllsolutions(sol):
+    res={}
+    for i in range(2*sol.shape[0]*sol.shape[1]*sol.shape[2]):
+        res[i]=generateSolutionFromNumber(i,sol)
+    return res
 #test  for basicv solution
 # sol = np.zeros((2, 3, 4),dtype=int)
 # for i in range(2*3*4*2):
