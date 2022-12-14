@@ -57,7 +57,7 @@ gain, loss = ocena(sol, plant_cost, gather_number,
 sol_present_yourself(gain, loss, sol,ch_types)
 
 epsilon = 0.01
-max_iter = 100
+max_iter = 300
 ik = sol.shape
 
 
@@ -74,8 +74,8 @@ def tabu_search(beg_sol, tabu_length=10):
     solution = beg_sol
     past_sol = sum(gain) - sum(loss)
     # Najlepsze
-    bs_solution = solution
-    bs = past_sol
+    bs_solution = solution.copy()
+    bs = sum(gain) - sum(loss)
 
     stop_iter = False
     stop_eps = False
@@ -88,7 +88,7 @@ def tabu_search(beg_sol, tabu_length=10):
         mapa = generateAllsolutions(solution)
         neigh = [k for k, _ in mapa.items()]
 
-        n_rem = neigh[0]
+        n_rem = None
         maxi = -np.inf
 
         for n in neigh:
@@ -109,18 +109,17 @@ def tabu_search(beg_sol, tabu_length=10):
         limsta.append(maxi)
         if maxi >= bs:
             bs = maxi
-            bs_solution = mapa[n_rem]
+            bs_solution = mapa[n_rem].copy()
 
         if maxi >= past_sol:
-            solution = mapa[n_rem]
+            solution = mapa[n_rem].copy()
         else:
             if len(TL) <= tabu_length:
                 TL.append(generateAntiNum(n_rem))
             else:
                 TL.pop(0)
                 TL.append(generateAntiNum(n_rem))
-            solution = mapa[n_rem]
-
+            solution = mapa[n_rem].copy()
 
         if counter > max_iter:
             stop_iter = True
@@ -138,7 +137,7 @@ def tabu_search(beg_sol, tabu_length=10):
     plt.show()
 
     sol_present_yourself(gain, loss, solution, ch_types)
-    print('Najlepsze: ',bs, '\n')
+    print('\nNajlepsze: ',bs, '\n')
     gain, loss = ocena(bs_solution, plant_cost, gather_number,
                        1, soil_quality_generator(3, ch_types,bs_solution),
                        0.05, 2, 3, 4, 1, 3,
