@@ -156,7 +156,7 @@ def soil_quality_generator(field_nr: int, ch_types: Dict,sol,troj = False):
 #oposite is jut makeing number odd or even
 def generateAntiNum(num):
     if num %2 ==0:
-        return +num
+        return num+1
     else:
         return num - 1
 
