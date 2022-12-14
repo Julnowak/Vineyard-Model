@@ -47,14 +47,14 @@ capacity = [800, 800, 800]
 #              bottle_prices, types_of_grapes, [300,400,300], (gathernum+3)*3)
 
 gain, loss = ocena(sol, plant_cost, gather_number,
-                   1, soil_quality_generator(3, ch_types),
+                   1, soil_quality_generator(3, ch_types,sol),
                    0.05, 2, 3, 4, 1, 3,
                    vineprice, capacity, month_grow, 2,
                    [200, 100, 100], True, False)
 
 
 # Prezentacja wyników
-#sol_present_yourself(gain, loss, sol,ch_types)
+sol_present_yourself(gain, loss, sol,ch_types)
 
 epsilon = 0.01
 max_iter = 100
@@ -64,7 +64,7 @@ ik = sol.shape
 def tabu_search(beg_sol, tabu_length=50):
     # zmien
     gain, loss = ocena(beg_sol, plant_cost, gather_number,
-                       1, soil_quality_generator(3, ch_types),
+                       1, soil_quality_generator(3, ch_types,beg_sol),
                        0.05, 2, 3, 4, 1, 3,
                        vineprice, capacity, month_grow, 2,
                        None, True, False)
@@ -87,10 +87,10 @@ def tabu_search(beg_sol, tabu_length=50):
         for n in neigh:
 
             gain,loss = ocena(mapa[n], plant_cost, gather_number,
-                       1, soil_quality_generator(3, ch_types),
+                       1, soil_quality_generator(3, ch_types,mapa[n]),
                        0.05, 2, 3, 4, 1, 3,
                        vineprice, capacity, month_grow, 2,
-                       [200, 100, 100], True, False)
+                       None, True, False)
             print(sum(gain) - sum(loss))
             # + funkcja aspiracji
             if sum(gain) - sum(loss) > maxi and n not in TL:
@@ -114,15 +114,15 @@ def tabu_search(beg_sol, tabu_length=50):
     print(limsta)
 
     gain, loss = ocena(solution, plant_cost, gather_number,
-                       1, soil_quality_generator(3, ch_types),
+                       1, soil_quality_generator(3, ch_types,solution),
                        0.05, 2, 3, 4, 1, 3,
                        vineprice, capacity, month_grow, 2,
-                       [200, 100, 100], True, False)
+                       None, True, False)
     sol_present_yourself(gain, loss, solution, ch_types)
     return solution
 
 
-tabu_search(sol)
+#tabu_search(sol)
 
 
 

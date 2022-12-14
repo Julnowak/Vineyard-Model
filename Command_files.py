@@ -26,7 +26,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
     :param month_grow: grape_types x 12
     :return:
     """
-
+    magazine_capacity = 600
     if store_needs is None:
         store_needs = [np.inf] * sol.shape[2]
 
@@ -39,7 +39,8 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
     cost = []
 
     remains = [0] * len(store_needs)
-
+    bottles_selled = 0
+    bottles_remained =0
     for m in range(months):
 
         store_needs_actual = store_needs.copy()
@@ -48,8 +49,9 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
 
         for f in range(fields):
              for t in range(grape_types):
+
                  # Koszt obsiania danego pola danym typem winogron
-                if sol[m][f][t] != 0:
+                if sol[m][f][t] != 0 and m%12 not in [0,1,11]:
                     plant_cost = sol[m][f][t] * planting_costs[t] + Isfertilized * fertilizer_cost
                 else:
                     plant_cost = 0
@@ -58,11 +60,13 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
                 if m % 12 in [0, 1, 11]:
                     gathering = 0
                 else:
-                    gathering = sol[m][f][t] * (soil_quality[f][t] + Isfertilized * fertilizer_bonus)
+                    gathering = sol[m][f][t] * (soil_quality[m][f][t] + Isfertilized * fertilizer_bonus)
 
                 # Koszt zbiorów
-                ha_cost = sol[m][f][t] * harvest_cost
-
+                if sol[m][f][t] != 0 and m%12 not in [0, 1, 11]:
+                    ha_cost = sol[m][f][t] * harvest_cost
+                else:
+                    ha_cost = 0
                 # TODO - wykombinować co zrobić z resztą - imo wywalić, ale kara jakaś by się przydała
 
                 # Ilość butelek, które powstały
@@ -86,80 +90,31 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
                 month_cost += plant_cost + ha_cost + bottrans_cost + bottles_remained * magazine_cost
 
                 # Funkcja kary
-                if m%12 in [0,1,11] and sol[m][f][t] != 0:
+                if m % 12 in [0,1,11] and sol[m][f][t] != 0:
                     month_cost += 10000
 
+                if m % 12 in [3,4,5,7,8,9] and sol[m][f][t] != 0:
+                     month_cost += 10000
+
+                # Niezaspokojenie zapotrzebowania
+                # if sum(store_needs_actual) != 0:
+                #     month_cost += sum(store_needs_actual) * 1
                 # Koszty i zyski dla danego pola i danego typu
 
                 month_gain += bottle_gain
 
                 remains[t] = bottles_remained
 
+        if magazine_capacity < sum(remains):
+            remains[remains.index(max(remains))]= max(remains) - (sum(remains) - 600)
+            month_gain += (sum(remains) - 600)* 0.5 * bottle_price[remains.index(max(remains))][m]
 
         # Plus opłata utrzymania winnicy?
-        cost.append(month_cost + 600.00)
+        cost.append(month_cost + np.random.uniform(low=600.00, high=1200.00))
         gains.append(month_gain)
 
     return gains, cost
 
-
-    # # TODO
-    # max_fields_capacity = max(mfields_capacity)  # Do naprawy
-    # field_grow = np.zeros(shape=(fields, max_fields_capacity)) # Tylko do rośnięcia
-    # grape_type = np.ones(shape=(fields, max_fields_capacity), dtype=int) * -1
-    # cost = []
-    # gains = []
-    # for y in range(months):
-    #     month_cost = 0
-    #     month = y % 12
-    #     gatherings = np.zeros((grape_types))
-    #     for f in range(fields):
-    #         for t in range(grape_types):
-    #             beg = (np.where(grape_type[f] == -1))
-    #             if not beg == []:
-    #                 beg = [0][0]
-    #             if not beg == []:
-    #                 beg = [0][0]
-    #             end = beg + sol[y][f][t]
-    #             if end > mfields_capacity[f]:
-    #                 end = mfields_capacity[f]
-    #             if month not in [0, 1, 11]:
-    #                 grape_type[f, beg:end] = t
-    #
-    #             month_cost = month_cost + planting_costs[t] * sol[y][f][t] + fertilizer_cost
-    #         for p in range(max_fields_capacity):
-    #             if pruning and month == 10:
-    #                 field_grow[f][p] = 0.7 * field_grow[f][p]
-    #             if grape_type[f][p] != -1:
-    #                 if field_grow[f][p] < 1:
-    #                     # growth of wines
-    #                     field_grow[f][p] = field_grow[f][p] + month_grow[month] * \
-    #                                        (soil_type[f][grape_type[f][p]] + Isfertilized * fertilizer_bonus)
-    #
-    #                     if field_grow[f][p] > 1:
-    #                         field_grow[f][p] = 1
-    #                     month_cost = month_cost + fertilizer_cost
-    #                 else:
-    #                     # gathering
-    #                     gatherings[grape_type[f][p]] = gatherings[grape_type[f][p]] + \
-    #                                                    gather_number[month] * (soil_type[f][grape_type[f][
-    #                         p]] * Isfertilized * fertilizer_bonus)
-    #
-    #                     month_cost = month_cost + fertilizer_cost
-    #                     if usuwanie:
-    #                         field_grow[f][p] = 0
-    #                         grape_type[f][p] = -1
-    #
-    #     # butelkowanie i sprzedaz
-    #     harvest_costs = harvest_cost * sum(gatherings)
-    #     bottles = gatherings / plants_per_bottle
-    #     cost_of_postprocessing = np.sum(bottles) * (bottling_cost + magazine_cost + transport_cost)
-    #     month_cost = month_cost + cost_of_postprocessing + harvest_costs
-    #     cost.append(month_cost)
-    #     gain = bottles.dot(bottle_price[:, y])
-    #     gains.append(gain)
-    #
-    # return gains, cost
 
 # TODO - ograniczniki, kara za obniżenie
 def IsOK(field: int, mini: int, maxi: int):

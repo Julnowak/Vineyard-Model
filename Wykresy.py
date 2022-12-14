@@ -61,7 +61,7 @@ def sol_present_yourself(gain, loss, sol, ch_types):
                         print(f'\nW {m+1} miesiącu: ')
                         mi += 1
 
-                    print(f'    na polu {f+1} zasadzono {sol[m][f][t]} jednostek winogron typu {ch_types[t+1]}.')
+                    print(f'    na polu {f+1} zasadzono {int(sol[m][f][t])} jednostek winogron typu {ch_types[t+1]}.')
 
 
     main_plot(gain, loss)
