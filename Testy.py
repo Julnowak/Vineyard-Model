@@ -4,6 +4,15 @@ from Wykresy import *
 
 # Testy generatorów
 
+m = 1000
+l = [2000, 1000, 2000]  # Ograniczenia górne
+h = [300, 100, 100]  # Ograniczenia dolne
+yrs = 1
+
+A = generate_solution(m, l, h, yrs, 4)
+#print(A)
+
+
 plt.close('all')
 # Testy głównych funkcji
 
@@ -32,7 +41,7 @@ capacity = [800, 800, 800]
 
 # Dla zerowej
 ik = sol.shape
-print(ik)
+#print(ik)
 sol = np.zeros(ik)
 
 gain, loss = ocena(sol, plant_cost, gather_number,
@@ -41,7 +50,7 @@ gain, loss = ocena(sol, plant_cost, gather_number,
                    vineprice, capacity, month_grow, 2,
                    [200, 100, 100], True, False)
 
-sol_present_yourself(gain, loss, sol,ch_types)
+#sol_present_yourself(gain, loss, sol,ch_types)
 
 
 # Dla sadzenia w zimie
@@ -54,7 +63,7 @@ gain, loss = ocena(sol, plant_cost, gather_number,
                    vineprice, capacity, month_grow, 2,
                    [200, 100, 100], True, False)
 
-sol_present_yourself(gain, loss, sol,ch_types)
+#sol_present_yourself(gain, loss, sol,ch_types)
 
 # Dla sadzenia w dobrej porze
 ik = sol.shape
@@ -66,7 +75,7 @@ gain, loss = ocena(sol, plant_cost, gather_number,
                    vineprice, capacity, month_grow, 2,
                    [200, 100, 100], True, False)
 
-sol_present_yourself(gain, loss, sol,ch_types)
+#sol_present_yourself(gain, loss, sol,ch_types)
 
 # Testy wykresów
 

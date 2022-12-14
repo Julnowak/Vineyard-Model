@@ -53,7 +53,7 @@ def vine_price_generator(ch_types: Dict, num_of_years: int):
         elif v == 'Chardonnay':
             bottle_prices[c, :] = np.random.uniform(low=30.01, high=45.12, size=(1, months))
         elif v == 'Nebbiolo':
-            bottle_prices[c, :] = np.random.uniform(low=63.01, high=65.65, size=(1, months))
+            bottle_prices[c, :] = np.random.uniform(low=53.01, high=55.65, size=(1, months))
         elif v == 'Arneis':
             bottle_prices[c, :] = np.random.uniform(low=66.01, high=71.12, size=(1, months))
         elif v == 'Dolcetto':
@@ -151,16 +151,6 @@ def soil_quality_generator(field_nr: int, ch_types: Dict,sol,troj = False):
                 soil_quality[m, :, :] = sq
 
     return soil_quality
-
-
-# Test
-# m = 1000
-# l = [2000, 1000, 2000]  # Ograniczenia górne
-# h = [300, 100, 100]  # Ograniczenia dolne
-# yrs = 1
-
-# A = generate_solution(m, l, h, yrs, 4)
-# print(A)
 
 #ok so last bit tells us if its adding or subtracting so
 #oposite is jut makeing number odd or even
