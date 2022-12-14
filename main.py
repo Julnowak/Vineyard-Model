@@ -1,7 +1,10 @@
+import copy
+
 import numpy as np
 from Command_files import *
 from Generators import *
 from Wykresy import *
+from copy import deepcopy
 
 np.set_printoptions(precision=4)
 
@@ -57,7 +60,7 @@ gain, loss = ocena(sol, plant_cost, gather_number,
 sol_present_yourself(gain, loss, sol,ch_types)
 
 epsilon = 0.01
-max_iter = 300
+max_iter = 100
 ik = sol.shape
 
 
@@ -73,9 +76,16 @@ def tabu_search(beg_sol, tabu_length=10):
 
     solution = beg_sol
     past_sol = sum(gain) - sum(loss)
+
     # Najlepsze
     bs_solution = solution.copy()
     bs = sum(gain) - sum(loss)
+
+    gain_rem = 0
+    loss_rem = 0
+
+    gain_bs = 0
+    loss_bs = 0
 
     stop_iter = False
     stop_eps = False
@@ -103,18 +113,21 @@ def tabu_search(beg_sol, tabu_length=10):
             # + funkcja aspiracji
             if sum(gain) - sum(loss) > maxi and n not in TL:
                 maxi = sum(gain) - sum(loss)
+                gain_rem = gain
+                loss_rem = loss
                 n_rem = n
         #print(n_rem)
 
         limsta.append(maxi)
         if maxi >= bs:
             bs = maxi
-            bs_solution = mapa[n_rem].copy()
+            gain_bs = gain_rem
+            loss_bs = loss_rem
 
-        if maxi >= past_sol:
+        if maxi >= bs:
             solution = mapa[n_rem].copy()
         else:
-            if len(TL) <= tabu_length:
+            if len(TL) < tabu_length:
                 TL.append(generateAntiNum(n_rem))
             else:
                 TL.pop(0)
@@ -136,20 +149,11 @@ def tabu_search(beg_sol, tabu_length=10):
     plt.plot(limsta)
     plt.show()
 
-    sol_present_yourself(gain, loss, solution, ch_types)
-    print('\nNajlepsze: ',bs, '\n')
-    gain, loss = ocena(bs_solution, plant_cost, gather_number,
-                       1, soil_quality_generator(3, ch_types,bs_solution),
-                       0.05, 2, 3, 4, 1, 3,
-                       vineprice, capacity, month_grow, 2,
-                       [200, 100, 100], True, False)
-    sol_present_yourself(gain, loss, bs_solution, ch_types)
+    sol_present_yourself(gain_bs, loss_bs, bs_solution, ch_types)
 
-    return solution
+    return bs_solution
 
 
 tabu_search(sol)
-
-
 
 

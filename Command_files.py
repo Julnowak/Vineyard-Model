@@ -1,7 +1,7 @@
 import numpy as np
 from typing import Union, List, Dict
 
-
+# Funkcja celu - ocena jakości rozwiązania
 def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray,
           Isfertilized, soil_quality, fertilizer_bonus, fertilizer_cost,
           harvest_cost, bottling_cost, plants_per_bottle, transport_cost,
