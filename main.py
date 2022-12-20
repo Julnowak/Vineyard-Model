@@ -16,7 +16,7 @@ all_types = {1: 'Barbera', 2: 'Chardonnay', 3: 'Nebbiolo', 4: 'Arneis',
 ch_types = {1: 'Barbera', 2: 'Chardonnay', 3: 'Nebbiolo'}
 
 # example data and visualisation
-num_of_years = 1
+num_of_years = 2
 types_of_grapes = 3
 num_of_fields = 3
 soil_types = 3
@@ -50,7 +50,7 @@ capacity = [800, 800, 800]
 #              bottle_prices, types_of_grapes, [300,400,300], (gathernum+3)*3)
 
 gain, loss = ocena(sol, plant_cost, gather_number,
-                   1, soil_quality_generator(3, ch_types,sol),
+                   1, soil_quality_generator(3,num_of_years, ch_types, sol),
                    0.05, 2, 3, 4, 1, 3,
                    vineprice, capacity, month_grow, 2,
                    [200, 100, 100], True, False)
@@ -60,8 +60,8 @@ gain, loss = ocena(sol, plant_cost, gather_number,
 sol_present_yourself(gain, loss, sol,ch_types)
 
 epsilon = 0.01
-max_iter = 100
-yuk = soil_quality_generator(3, ch_types)
+max_iter = 50
+yuk = soil_quality_generator(3, num_of_years, ch_types)
 
 def tabu_search(beg_sol, tabu_length=10):
     # zmien
@@ -104,7 +104,7 @@ def tabu_search(beg_sol, tabu_length=10):
                        1,yuk ,
                        0.05, 2, 3, 4, 1, 3,
                        vineprice, capacity, month_grow, 2,
-                       [100,100,100], True, False)
+                       [100, 100, 100], True, False)
 
             # + funkcja aspiracji
             value=sum(gain) - sum(loss)
@@ -129,9 +129,6 @@ def tabu_search(beg_sol, tabu_length=10):
                 TL.append(generateAntiNum(n_rem))
             solution = mapa[n_rem].copy()
 
-        if counter > max_iter:
-            stop_iter = True
-
         if abs(past_sol - maxi) <= epsilon:
             stop_eps = True
 
@@ -139,6 +136,8 @@ def tabu_search(beg_sol, tabu_length=10):
 
         counter += 1
         print(counter)
+        if counter >= max_iter:
+            stop_iter = True
 
     print(limsta)
 

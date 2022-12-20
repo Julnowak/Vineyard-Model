@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 def main_plot(gain, loss):
     plt.plot(gain)
     plt.plot(loss)
@@ -9,7 +10,6 @@ def main_plot(gain, loss):
     plt.legend(["zysk", "strata"])
     plt.show()
 
-# TODO - ogarnąć wykres
 def main_bar_plot(gain, loss, m):
     labels = [f'm{i+1}' for i in range(m)]
 
@@ -21,9 +21,12 @@ def main_bar_plot(gain, loss, m):
     ax.bar(x + width / 2, loss, width, label='Straty')
 
     # Add some text for labels, title and custom x-axis tick labels, etc.
-    ax.set_ylabel('Ilość pieniędzy w zł')
+    if m == 12:
+        ax.set_xticks(x, labels)
+    else:
+        ax.set_xlabel('Numer miesiąca')
     ax.set_title(f'Wykres zysków i strat dla {m} miesięcy')
-    ax.set_xticks(x, labels)
+    ax.set_ylabel('Ilość pieniędzy w zł')
     ax.legend()
     ax.grid(axis='y')
     fig.tight_layout()
