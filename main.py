@@ -61,16 +61,15 @@ sol_present_yourself(gain, loss, sol,ch_types)
 
 epsilon = 0.01
 max_iter = 100
-ik = sol.shape
-
+yuk = soil_quality_generator(3, ch_types)
 
 def tabu_search(beg_sol, tabu_length=10):
     # zmien
     gain, loss = ocena(beg_sol, plant_cost, gather_number,
-                       1, soil_quality_generator(3, ch_types,beg_sol),
+                       1, yuk,
                        0.05, 2, 3, 4, 1, 3,
                        vineprice, capacity, month_grow, 2,
-                       [200, 100, 100], True, False)
+                       [100,100,100], True, False)
     #sol_present_yourself(gain,loss,beg_sol,ch_types)
     TL = []
 
@@ -104,12 +103,11 @@ def tabu_search(beg_sol, tabu_length=10):
         for n in neigh:
 
             gain, loss = ocena(mapa[n], plant_cost, gather_number,
-                       1, soil_quality_generator(3, ch_types, mapa[n]),
+                       1,yuk ,
                        0.05, 2, 3, 4, 1, 3,
                        vineprice, capacity, month_grow, 2,
-                       [200, 100, 100], True, False)
-            #print(sum(gain) - sum(loss))
-            #to_plot.append(sum(gain) - sum(loss))
+                       [100,100,100], True, False)
+
             # + funkcja aspiracji
             if sum(gain) - sum(loss) > maxi and n not in TL:
                 maxi = sum(gain) - sum(loss)
@@ -146,7 +144,9 @@ def tabu_search(beg_sol, tabu_length=10):
         print(counter)
 
     print(limsta)
+
     plt.plot(limsta)
+    plt.title('Wykres wartości funkcji celu')
     plt.show()
 
     sol_present_yourself(gain_bs, loss_bs, bs_solution, ch_types)

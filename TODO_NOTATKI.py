@@ -8,7 +8,13 @@
 
 # TODO - zapotrzebowanie sklepu - (większośc)
 
-# # TODO
+# TODO lista długoterminowa - częstotliwość wystąpień zmian
+# TODO - ogarnąć tabu list
+
+# TODO - funkcja !!!
+
+# TODO ograniczenia
+
 # max_fields_capacity = max(mfields_capacity)  # Do naprawy
 # field_grow = np.zeros(shape=(fields, max_fields_capacity)) # Tylko do rośnięcia
 # grape_type = np.ones(shape=(fields, max_fields_capacity), dtype=int) * -1

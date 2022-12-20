@@ -34,6 +34,7 @@ plant_cost = np.asarray([2.2, 4.5, 8])
 gather_number = np.ones(shape=(12)) * 6
 vineprice = vine_price_generator(ch_types, num_of_years)
 planting_cost = plant_price_generator(ch_types)
+yuk = soil_quality_generator(3, ch_types)
 
 month_grow = np.random.uniform(low=0.34, high=0.34, size=(12))
 grow = np.ones(shape=(12)) * 0.5
@@ -45,7 +46,7 @@ ik = sol.shape
 sol = np.zeros(ik)
 
 gain, loss = ocena(sol, plant_cost, gather_number,
-                   1, soil_quality_generator(3, ch_types,sol),
+                   1, yuk,
                    0.05, 2, 3, 4, 1, 3,
                    vineprice, capacity, month_grow, 2,
                    [200, 100, 100], True, False)
@@ -58,7 +59,7 @@ ik = sol.shape
 sol = np.zeros(ik)
 sol[1,1,1] = 1
 gain, loss = ocena(sol, plant_cost, gather_number,
-                   1, soil_quality_generator(3, ch_types,sol),
+                   1, yuk,
                    0.05, 2, 3, 4, 1, 3,
                    vineprice, capacity, month_grow, 2,
                    [200, 100, 100], True, False)
@@ -70,7 +71,7 @@ ik = sol.shape
 sol = np.zeros(ik)
 sol[2,1,2] = 200
 gain, loss = ocena(sol, plant_cost, gather_number,
-                   1, soil_quality_generator(3, ch_types,sol),
+                   1, yuk,
                    0.05, 2, 3, 4, 1, 3,
                    vineprice, capacity, month_grow, 2,
                    [200, 100, 100], True, False)

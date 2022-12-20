@@ -90,11 +90,11 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray, gather_number: np.ndarray
                 month_cost += plant_cost + ha_cost + bottrans_cost + bottles_remained * magazine_cost
 
                 # Funkcja kary
-                if m % 12 in [0,1,11] and sol[m][f][t] != 0:
-                    month_cost += 10000
-
-                if m % 12 in [3,4,5,7,8,9] and sol[m][f][t] != 0:
-                     month_cost += 10000
+                # if m % 12 in [0,1,11] and sol[m][f][t] != 0:
+                #     month_cost += 0
+                #
+                # if m % 12 in [3,4,5,7,8,9] and sol[m][f][t] != 0:
+                #      month_cost += 0
 
                 # Niezaspokojenie zapotrzebowania
                 # if sum(store_needs_actual) != 0:

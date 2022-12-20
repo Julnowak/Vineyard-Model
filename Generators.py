@@ -93,27 +93,27 @@ def plant_price_generator(ch_types: Dict):
     c = 0
     for _, v in ch_types.items():
         if v == 'Barbera':
-            planting_prices[c, :] = np.random.uniform(low=10.00, high=13.50)
+            planting_prices[c, :] = np.random.uniform(low=10.00, high=15.50)
         elif v == 'Chardonnay':
-            planting_prices[c, :] = np.random.uniform(low=10.04, high=13.50)
+            planting_prices[c, :] = np.random.uniform(low=10.04, high=15.50)
         elif v == 'Nebbiolo':
-            planting_prices[c, :] = np.random.uniform(low=12.50, high=18.99)
+            planting_prices[c, :] = np.random.uniform(low=17.64, high=18.38)
         elif v == 'Arneis':
-            planting_prices[c, :] = np.random.uniform(low=11.50, high=14.20)
+            planting_prices[c, :] = np.random.uniform(low=22.50, high=23.67)
         elif v == 'Dolcetto':
-            planting_prices[c, :] = np.random.uniform(low=12.00, high=18.50)
+            planting_prices[c, :] = np.random.uniform(low=19.48, high=19.90)
         elif v == 'Cortese':
-            planting_prices[c, :] = np.random.uniform(low=16.00, high=17.00)
+            planting_prices[c, :] = np.random.uniform(low=20.00, high=22.00)
         elif v == 'Grignolino':
-            planting_prices[c, :] = np.random.uniform(low=15.70, high=16.70)
+            planting_prices[c, :] = np.random.uniform(low=16.50, high=18.20)
         elif v == 'Erbaluce':
-            planting_prices[c, :] = np.random.uniform(low=33.20, high=43.70)
+            planting_prices[c, :] = np.random.uniform(low=43.56, high=47.70)
         else:
             raise Exception(f'There is no grape type: "{v}"')
 
 
 
-def soil_quality_generator(field_nr: int, ch_types: Dict,sol,troj = False):
+def soil_quality_generator(field_nr: int, ch_types: Dict,sol = None,troj = False):
     """
     :param field_nr: number of all available fields
     :param ch_types: Types of grapes that have been chosen by user
@@ -123,9 +123,7 @@ def soil_quality_generator(field_nr: int, ch_types: Dict,sol,troj = False):
     # Trzeba to pozmieniać, zoptymalizować TODO
 
     np.set_printoptions(precision=2)
-    months = sol.shape[0]
-    fields = sol.shape[1]
-    grape_types = sol.shape[2]
+    months = 12
     if not troj:
          soil_quality = np.zeros((months, field_nr, len(ch_types)))
          sq = np.random.uniform(low=0.7, high=0.95, size=(field_nr, len(ch_types)))
@@ -136,19 +134,19 @@ def soil_quality_generator(field_nr: int, ch_types: Dict,sol,troj = False):
                  soil_quality[m, :, :] = sq * 0.7
              else:
                 soil_quality[m, :, :] = sq
-    else:
-        # Trójpolówka
-        soil_quality = np.zeros((months, field_nr, len(ch_types)))
-        sq = np.random.uniform(low=0.7, high=0.95, size=(field_nr, len(ch_types)))
-
-        # TODO Dodać
-        for m in range(months):
-            if m % 12 in [0, 1, 11]:
-                soil_quality[m, :, :] = sq * 0.3
-            elif m % 12 in [3, 4, 5, 7, 8, 9]:
-                soil_quality[m, :, :] = sq * 0.7
-            else:
-                soil_quality[m, :, :] = sq
+    # else:
+    #     # Trójpolówka
+    #     soil_quality = np.zeros((months, field_nr, len(ch_types)))
+    #     sq = np.random.uniform(low=0.7, high=0.95, size=(field_nr, len(ch_types)))
+    #
+    #     # TODO Dodać
+    #     for m in range(months):
+    #         if m % 12 in [0, 1, 11]:
+    #             soil_quality[m, :, :] = sq * 0.3
+    #         elif m % 12 in [3, 4, 5, 7, 8, 9]:
+    #             soil_quality[m, :, :] = sq * 0.7
+    #         else:
+    #             soil_quality[m, :, :] = sq
 
     return soil_quality
 
@@ -175,9 +173,9 @@ def generateSolutionFromNumber(num,solution):
     res[posx, posy, :]=0
     if plusmin == 0:
 
-        res[posx][posy][posz]=val + 5
+        res[posx][posy][posz]=val + 20
     else:
-        res[posx][posy][posz] =val - 5
+        res[posx][posy][posz] =val - 20
 
     if not (res<0).any():
         return res
