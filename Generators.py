@@ -160,7 +160,7 @@ def generateAntiNum(num):
 
 #num should be in range from 0 to shape[0]*shape[1]*shape[2]*2
 #num defines direction of solution but value can be random
-def generateSolutionFromNumber(num,solution,randomFlag=True):
+def generateSolutionFromNumber(num,solution,gorne,randomFlag=True):
     plusmin=num%2
     buff=num//2
 
@@ -183,17 +183,18 @@ def generateSolutionFromNumber(num,solution,randomFlag=True):
 
     if (res<0).any():
         return solution.copy()
-    if (res>500).any():#hardlimit 500 zasian na pole
-        return solution.copy()
+    for i in range(len(gorne)):
+        if (res[:,i,:]>gorne[i]).any():#hardlimit 500 zasian na pole
+            return solution.copy()
     # invaild solution we return basic solution
 
     return res
 
 #idk if it works
-def generateAllsolutions(sol):
+def generateAllsolutions(sol,gorne=[800,800,800]):
     res={}
     for i in range(2*sol.shape[0]*sol.shape[1]*sol.shape[2]):
-        buff = generateSolutionFromNumber(i, sol)
+        buff = generateSolutionFromNumber(i, sol,gorne)
         if not (buff==sol).all():
             res[i]=buff
     return res
