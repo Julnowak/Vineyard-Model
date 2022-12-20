@@ -73,6 +73,9 @@ def tabu_search(beg_sol, tabu_length=10):
     #sol_present_yourself(gain,loss,beg_sol,ch_types)
     TL = []
     avgMemory=np.zeros((2*sol.shape[0]*sol.shape[1]*sol.shape[2]))#pamiec srednioteminowa zlicza rozwiazania dane
+    streak=0
+    streaknum=-1
+
 
     solution = beg_sol
     past_sol = sum(gain) - sum(loss)
@@ -108,18 +111,30 @@ def tabu_search(beg_sol, tabu_length=10):
 
             # + funkcja aspiracji
             value=sum(gain) - sum(loss)
-            if n not in TL and value > maxi:
-                maxi = sum(gain) - sum(loss)
+            if n not in TL and value-avgMemory[n]*2  > maxi:
+                maxi = sum(gain) - sum(loss)-avgMemory[n]*2#no jak było wybierane to mniej
+                maxval=sum(gain) - sum(loss)
                 gain_rem = gain
                 loss_rem = loss
                 n_rem = n
         #print(n_rem)
 
 
-        limsta.append(maxi)
+        limsta.append(maxval)
+
+        avgMemory[n_rem]=avgMemory[n_rem]+1
+        if n_rem==streaknum:
+            streak=streak+1
+        else:
+            streaknum=n_rem
+            streak=1
+        if streak>99999:
+            # wybralismy 9999 to smao rozw zróbmy coś dzikiego
+            pass
+        limsta.append(value)
 
 
-        if maxi >= bs:
+        if maxval >= bs:
             solution = mapa[n_rem].copy()
         else:
             if len(TL) < tabu_length:
@@ -129,10 +144,14 @@ def tabu_search(beg_sol, tabu_length=10):
                 TL.append(generateAntiNum(n_rem))
             solution = mapa[n_rem].copy()
 
-        if abs(past_sol - maxi) <= epsilon:
+
+        if counter > max_iter:
+            stop_iter = True
+
+        if abs(past_sol - maxval) <= epsilon:
             stop_eps = True
 
-        past_sol = maxi
+        past_sol = maxval
 
         counter += 1
         print(counter)
