@@ -69,7 +69,7 @@ def tabu_search(beg_sol, tabu_length=10):
                        1, yuk,
                        0.05, 2, 3, 4, 1, 3,
                        vineprice, capacity, month_grow, 2,
-                       [100,100,100], True, False)
+                       [100, 100, 100], True, False)
     #sol_present_yourself(gain,loss,beg_sol,ch_types)
     TL = []
 
@@ -82,9 +82,6 @@ def tabu_search(beg_sol, tabu_length=10):
 
     gain_rem = 0
     loss_rem = 0
-
-    gain_bs = 0
-    loss_bs = 0
 
     stop_iter = False
     stop_eps = False
@@ -117,10 +114,6 @@ def tabu_search(beg_sol, tabu_length=10):
         #print(n_rem)
 
         limsta.append(maxi)
-        if maxi >= bs:
-            bs = maxi
-            gain_bs = gain_rem
-            loss_bs = loss_rem
 
         if maxi >= bs:
             solution = mapa[n_rem].copy()
@@ -149,7 +142,7 @@ def tabu_search(beg_sol, tabu_length=10):
     plt.title('Wykres wartości funkcji celu')
     plt.show()
 
-    sol_present_yourself(gain_bs, loss_bs, bs_solution, ch_types)
+    sol_present_yourself(gain_rem, loss_rem, bs_solution, ch_types)
 
     return bs_solution
 
