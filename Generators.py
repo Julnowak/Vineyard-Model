@@ -113,7 +113,7 @@ def plant_price_generator(ch_types: Dict):
 
 
 
-def soil_quality_generator(field_nr: int, ch_types: Dict,sol = None,troj = False):
+def soil_quality_generator(field_nr: int,years:int, ch_types: Dict,sol = None,troj = False):
     """
     :param field_nr: number of all available fields
     :param ch_types: Types of grapes that have been chosen by user
@@ -123,7 +123,7 @@ def soil_quality_generator(field_nr: int, ch_types: Dict,sol = None,troj = False
     # Trzeba to pozmieniać, zoptymalizować TODO
 
     np.set_printoptions(precision=2)
-    months = 12
+    months = 12*years
     if not troj:
          soil_quality = np.zeros((months, field_nr, len(ch_types)))
          sq = np.random.uniform(low=0.7, high=0.95, size=(field_nr, len(ch_types)))
