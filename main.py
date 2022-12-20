@@ -72,6 +72,7 @@ def tabu_search(beg_sol, tabu_length=10):
                        [100, 100, 100], True, False)
     #sol_present_yourself(gain,loss,beg_sol,ch_types)
     TL = []
+    avgMemory=np.zeros((2*sol.shape[0]*sol.shape[1]*sol.shape[2]))#pamiec srednioteminowa zlicza rozwiazania dane
 
     solution = beg_sol
     past_sol = sum(gain) - sum(loss)
@@ -106,14 +107,17 @@ def tabu_search(beg_sol, tabu_length=10):
                        [100,100,100], True, False)
 
             # + funkcja aspiracji
-            if sum(gain) - sum(loss) > maxi and n not in TL:
+            value=sum(gain) - sum(loss)
+            if n not in TL and value > maxi:
                 maxi = sum(gain) - sum(loss)
                 gain_rem = gain
                 loss_rem = loss
                 n_rem = n
         #print(n_rem)
 
+
         limsta.append(maxi)
+
 
         if maxi >= bs:
             solution = mapa[n_rem].copy()
