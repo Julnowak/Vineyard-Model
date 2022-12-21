@@ -71,3 +71,21 @@
 #     gains.append(gain)
 #
 # return gains, cost
+
+
+
+# month_grow = np.random.uniform(low=0.34, high=0.34, size=(12))
+# grow = np.ones(shape=(12)) * 0.5
+# capacity = [800, 800, 800]
+
+# coeff1 = [1, 1, 0.5]
+# coeff2 = [2, 1, 0.5]
+# for i in range(types_of_grapes):
+#     for j in range(soil_types):
+#         gathernum[i, :, j] = [0, 0, 0, 1, 3, 7, 16, 17, 12, 2, 0, 0]
+#         gathernum[i, :, j] = gathernum[i, :, j] * coeff1[i] * coeff2[j]
+
+# bottle_prices = vine_price_generator({1: 'Barbera', 2: 'Chardonnay', 3: 'Nebbiolo'}, num_of_years)
+
+# gain, loss = ocena(sol, plant_cost, gathernum, 1, [0, 1, 2], 1.2, 1, 0.5, 2, 3, 1,
+#              bottle_prices, types_of_grapes, [300,400,300], (gathernum+3)*3)

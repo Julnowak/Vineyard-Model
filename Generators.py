@@ -93,7 +93,7 @@ def plant_price_generator(ch_types: Dict):
     c = 0
     for _, v in ch_types.items():
         if v == 'Barbera':
-            planting_prices[c, :] = np.random.uniform(low=10.00, high=15.50)
+            planting_prices[c,:] = np.random.uniform(low=10.00, high=15.50)
         elif v == 'Chardonnay':
             planting_prices[c, :] = np.random.uniform(low=10.04, high=15.50)
         elif v == 'Nebbiolo':
@@ -110,17 +110,22 @@ def plant_price_generator(ch_types: Dict):
             planting_prices[c, :] = np.random.uniform(low=43.56, high=47.70)
         else:
             raise Exception(f'There is no grape type: "{v}"')
+        c += 1
+    return planting_prices.reshape((len(ch_types)))
 
 
-
-def soil_quality_generator(field_nr: int,years:int, ch_types: Dict,sol = None,troj = False):
+def soil_quality_generator(field_nr: int,years:int, ch_types: Dict, troj = False):
     """
     :param field_nr: number of all available fields
     :param ch_types: Types of grapes that have been chosen by user
     :return: a matrix of soil quality for each field, depending on grape type in % [0.00]
     """
 
-    # Trzeba to pozmieniać, zoptymalizować TODO
+    mapk = dict()
+    count = 0
+    for k in ch_types.keys():
+        mapk[k] = count
+        count +=1
 
     np.set_printoptions(precision=2)
     months = 12*years
@@ -134,21 +139,79 @@ def soil_quality_generator(field_nr: int,years:int, ch_types: Dict,sol = None,tr
                  soil_quality[m, :, :] = sq * 0.7
              else:
                 soil_quality[m, :, :] = sq
-    # else:
-    #     # Trójpolówka
-    #     soil_quality = np.zeros((months, field_nr, len(ch_types)))
-    #     sq = np.random.uniform(low=0.7, high=0.95, size=(field_nr, len(ch_types)))
-    #
-    #     # TODO Dodać
-    #     for m in range(months):
-    #         if m % 12 in [0, 1, 11]:
-    #             soil_quality[m, :, :] = sq * 0.3
-    #         elif m % 12 in [3, 4, 5, 7, 8, 9]:
-    #             soil_quality[m, :, :] = sq * 0.7
-    #         else:
-    #             soil_quality[m, :, :] = sq
+    else:
+        # Trójpolówka
+        # Jej działanie to dodawanie jakości dla gleby dla danej, losowej sekwencji
+        # Jakość dodawana jednakowa dla wszystkich pól
+        
+        trojka = []
+        soil_quality = np.zeros((months, field_nr, len(ch_types)))
+        rem = np.zeros((months, field_nr, len(ch_types)))
+        sq = np.random.uniform(low=0.7, high=0.95, size=(field_nr, len(ch_types)))
 
+        for t in ch_types.keys():
+            seq = []
+            seq.append(t)
+            k = t
+            for _ in range(2):
+                if len(ch_types)>2:
+                    while k in seq:
+                        k = random.choice(list(ch_types))
+                    seq.append(k)
+                else:
+                    k = random.choice(list(ch_types))
+                    seq.append(k)
+            trojka.append(seq)
+
+        trojka = random.choice(trojka)
+        print(trojka)
+        cop = trojka.copy()
+
+        for m in range(months):
+            if m!= 0:
+                if m%3 == 1:
+                    rem[m, :, mapk[cop[0]]] += 0.2
+                elif m%3 == 2:
+                    rem[m, :, mapk[cop[0]]] += 0.2
+                elif m%3 == 0:
+                    cop = trojka.copy()
+                    rem[m, :, mapk[cop[0]]] += 0.2
+                cop.pop(0)
+            else:
+                rem[m,:,:] = 0
+                cop.pop(0)
+
+            if m % 12 in [0, 1, 11]:
+                soil_quality[m, :, :] = sq * 0.3
+            elif m % 12 in [3, 4, 5, 7, 8, 9]:
+                soil_quality[m, :, :] = sq * 0.7
+            else:
+                soil_quality[m, :, :] = sq
+
+        soil_quality = np.add(rem, soil_quality)
+        print(soil_quality)
     return soil_quality
+
+ch_types = {1: 'Barbera',5: 'Dolcetto', 6: 'Cortese', 8: 'Erbaluce'}
+num_of_years = 2
+types_of_grapes = 3
+num_of_fields = 3
+soil_types = 3
+
+m = 600
+l = [800, 800, 800]  # Ograniczenia górne
+h = [100, 100, 100]  # Ograniczenia dolne
+
+sol = generate_solution(m, l, h, num_of_years, types_of_grapes)
+
+
+planting_cost = plant_price_generator(ch_types)
+
+epsilon = 0.01
+max_iter = 50
+IsFertilized = 1
+soil_quality = soil_quality_generator(3, num_of_years, ch_types, True)
+
 
 #ok so last bit tells us if its adding or subtracting so
 #oposite is jut makeing number odd or even
