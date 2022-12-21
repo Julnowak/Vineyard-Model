@@ -3,7 +3,6 @@ import numpy as np
 from typing import Union, List, Dict
 import matplotlib.pyplot as plt
 
-np.set_printoptions(precision=4)
 
 # Generator rozwiązania początkowego
 def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[List, Dict],
@@ -260,9 +259,10 @@ def generateAllsolutions(sol,gorne=[800,800,800]):
         if not (buff==sol).all():
             res[i]=buff
     return res
-# test  for basicv solution
-sol = np.zeros((2, 3, 4),dtype=int)
-sol[0,:,0]=1
+
+# # test  for basicv solution
+# sol = np.zeros((2, 3, 4),dtype=int)
+# sol[0,:,0]=1
 
 import time
 

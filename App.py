@@ -1,42 +1,18 @@
-from Generators import *
 from main import *
-from PyQt6.QtWidgets import QApplication, QMainWindow,QCheckBox,QLineEdit,QPushButton,QProgressBar,QSpinBox,QDoubleSpinBox
+from PyQt6.QtWidgets import *
+from PyQt6.QtCore import Qt
 from PyQt6 import uic
-
+import pyqtgraph as pg
 
 class UI(QMainWindow):
-    ch_types = {1: 'Barbera', 6: 'Cortese', 7: 'Grignolino'}
-    num_of_years = 2
-    types_of_grapes = len(ch_types)
-    num_of_fields = 3
-
-    m = 600
-    l = [800, 800, 800]  # Ograniczenia górne
-    h = [100, 100, 100]  # Ograniczenia dolne
-
-    sol = generate_solution(m, l, h, num_of_years, types_of_grapes)
-
-    planting_cost = plant_price_generator(ch_types)
-    epsilon = 0.01
-    max_iter = 50
-    IsFertilized = 1
-    soil_quality = soil_quality_generator(3, num_of_years, ch_types)
-    fertilizer_bonus = 0.05
-    fertilizer_cost = 2
-    harvest_cost = 3
-    bottling_cost = 4
-    plants_per_bottle = 1
-    transport_cost = 3
-    vineprice = vine_price_generator(ch_types, num_of_years)
-    magazine_cost = 2
-    magazine_capacity = 600
-    store_needs = [100, 100, 100]
 
     def __init__(self):
         super().__init__()
-
         # loading the ui file with uic module
         uic.loadUi("app.ui", self)
+
+        self.epsilon = 0.1
+        self.max_iter = 50
 
         self.ch1 = self.findChild(QCheckBox,"checkBox")
         self.ch1.toggled.connect(self.showDetails)
@@ -52,7 +28,9 @@ class UI(QMainWindow):
         self.v7 = self.findChild(QCheckBox, 'Grignolino')
         self.v8 = self.findChild(QCheckBox, 'Erbaluce')
         ##########
-        self.progress = self.findChild(QProgressBar, "progressBar")
+
+
+
 
         self.input = self.findChild(QDoubleSpinBox, "eps")
         self.input2 = self.findChild(QSpinBox, "iter")
@@ -69,6 +47,36 @@ class UI(QMainWindow):
         self.button2.clicked.connect(lambda: self.input.setValue(0.10))
         self.button2.clicked.connect(lambda: self.input2.setValue(50))
 
+
+        self.st = self.findChild(QStackedWidget, "stackedWidget")
+
+        self.b1 = self.findChild(QPushButton, "btn_page_1")
+        self.b1.clicked.connect(self.go_to_1)
+
+        self.b2 = self.findChild(QPushButton, "btn_page_2")
+        self.b2.clicked.connect(self.go_to_2)
+
+
+        # wykres
+        self.gv = self.findChild(QGraphicsView, 'graphWidget')
+        L = [1, 2, 3, 4, 5]
+        G = [22,33,44,55,2]
+
+        self.gv.addLegend()
+        self.plot(L, G, "Sensor1", 'r')
+        self.plot(G, L, "Sensor2", 'b')
+        self.gv.setTitle("Your Title Here", color="k", size="20pt")
+
+        styles = {'color': 'k', 'font-size': '16px'}
+        self.gv.setLabel('left', 'Temperature (°C)', **styles)
+        self.gv.setLabel('bottom', 'Hour (H)', **styles)
+
+        self.gv.showGrid(x=True, y=True)
+
+
+    def plot(self, x, y, plotname, color):
+        pen = pg.mkPen(color=color, width=2)
+        self.gv.plot(x, y, name=plotname, pen=pen, symbol='o', symbolSize=4, symbolBrush=(color))
 
         # self.button2.clicked.connect(self.input2.clear)
 
@@ -88,25 +96,56 @@ class UI(QMainWindow):
                 d[c] = t.text()
             c += 1
 
-        print(d)
         return d
 
     def get(self):
-        epsilon = self.input.text()
-        max_iter = self.input2.text()
-        print(epsilon, max_iter)
+        self.epsilon = float(self.input.text())
+        self.max_iter = int(self.input2.text())
 
-    def show_progress(self):
-        pass
+        print(self.epsilon, self.max_iter)
+
+    def go_to_1(self):
+        self.st.setCurrentIndex(0)
+
+    def go_to_2(self):
+        self.st.setCurrentIndex(1)
 
     def start_tabu(self):
-        tabu_search(self.sol, self.planting_cost,
-                self.IsFertilized, self.soil_quality,
-                self.fertilizer_bonus, self.fertilizer_cost,
-                self.harvest_cost, self.bottling_cost,
-                self.plants_per_bottle, self.transport_cost,self.ch_types,
-                self.vineprice, self.magazine_cost, self.magazine_capacity, self.store_needs
-                )
+        ch_types = {1: 'Barbera', 6: 'Cortese', 7: 'Grignolino'}
+
+        # example data and visualisation
+        num_of_years = 2
+        types_of_grapes = len(ch_types)
+
+        m = 600
+        l = [800, 800, 800]  # Ograniczenia górne
+        h = [100, 100, 100]  # Ograniczenia dolne
+
+        sol = generate_solution(m, l, h, num_of_years, types_of_grapes)
+
+        planting_cost = plant_price_generator(ch_types)
+
+        IsFertilized = 1
+        soil_quality = soil_quality_generator(3, num_of_years, ch_types)
+        fertilizer_bonus = 0.05
+        fertilizer_cost = 2
+        harvest_cost = 3
+        bottling_cost = 4
+        plants_per_bottle = 1
+        transport_cost = 3
+        vineprice = vine_price_generator(ch_types, num_of_years)
+        magazine_cost = 2
+        magazine_capacity = 600
+        store_needs = [100, 100, 100]
+
+        tabu_search(sol, planting_cost,
+                    IsFertilized, soil_quality,
+                    fertilizer_bonus, fertilizer_cost,
+                    harvest_cost, bottling_cost,
+                    plants_per_bottle, transport_cost,
+                    vineprice, magazine_cost, magazine_capacity, store_needs, ch_types,
+                    10, self.max_iter, self.epsilon)
+
 
 app = QApplication([])
 window = UI()
