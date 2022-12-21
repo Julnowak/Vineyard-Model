@@ -3,46 +3,52 @@ from Generators import *
 from Wykresy import *
 
 np.set_printoptions(precision=4)
+#
+# # Types of vine, user choice
+# # TODO - wybór przez użytkownika, interfejs??? tkinker?
+# all_types = {1: 'Barbera', 2: 'Chardonnay', 3: 'Nebbiolo', 4: 'Arneis',
+#              5: 'Dolcetto', 6: 'Cortese', 7: 'Grignolino', 8: 'Erbaluce'}
+#
+# ch_types = {1: 'Barbera', 6: 'Cortese', 7: 'Grignolino'}
+#
+# # example data and visualisation
+# num_of_years = 2
+# types_of_grapes = len(ch_types)
+# num_of_fields = 3
+#
+# m = 600
+# l = [800, 800, 800]  # Ograniczenia górne
+# h = [100, 100, 100]  # Ograniczenia dolne
+#
+# sol = generate_solution(m, l, h, num_of_years, types_of_grapes)
+#
+#
+# planting_cost = plant_price_generator(ch_types)
+#
+# # są globalne
+# # epsilon = 0.01
+# # max_iter = 50
+# IsFertilized = 1
+# soil_quality = soil_quality_generator(3, num_of_years, ch_types)
+# fertilizer_bonus = 0.05
+# fertilizer_cost = 2
+# harvest_cost = 3
+# bottling_cost = 4
+# plants_per_bottle = 1
+# transport_cost = 3
+# vineprice = vine_price_generator(ch_types, num_of_years)
+# magazine_cost = 2
+# magazine_capacity = 600
+# store_needs = [100, 100, 100]
 
-# Types of vine, user choice
-# TODO - wybór przez użytkownika, interfejs??? tkinker?
-all_types = {1: 'Barbera', 2: 'Chardonnay', 3: 'Nebbiolo', 4: 'Arneis',
-             5: 'Dolcetto', 6: 'Cortese', 7: 'Grignolino', 8: 'Erbaluce'}
+def tabu_search(beg_sol, planting_cost,
+                IsFertilized, soil_quality,
+                fertilizer_bonus, fertilizer_cost,
+                harvest_cost, bottling_cost,
+                plants_per_bottle, transport_cost,
+                vineprice, magazine_cost, magazine_capacity,store_needs,ch_types,
+                tabu_length=10, max_iter=50,epsilon=0.1):
 
-ch_types = {1: 'Barbera', 6: 'Cortese', 7: 'Grignolino'}
-
-# example data and visualisation
-num_of_years = 2
-types_of_grapes = 3
-num_of_fields = 3
-soil_types = 3
-
-m = 600
-l = [800, 800, 800]  # Ograniczenia górne
-h = [100, 100, 100]  # Ograniczenia dolne
-
-sol = generate_solution(m, l, h, num_of_years, types_of_grapes)
-
-
-planting_cost = plant_price_generator(ch_types)
-
-
-epsilon = 0.01
-max_iter = 50
-IsFertilized = 1
-soil_quality = soil_quality_generator(3, num_of_years, ch_types)
-fertilizer_bonus = 0.05
-fertilizer_cost = 2
-harvest_cost = 3
-bottling_cost = 4
-plants_per_bottle = 1
-transport_cost = 3
-vineprice = vine_price_generator(ch_types, num_of_years)
-magazine_cost = 2
-magazine_capacity = 600
-store_needs = [100, 100, 100]
-
-def tabu_search(beg_sol, tabu_length=100):
     gain, loss = ocena(beg_sol, planting_cost,
                        IsFertilized, soil_quality,
                        fertilizer_bonus, fertilizer_cost,
@@ -80,7 +86,9 @@ def tabu_search(beg_sol, tabu_length=100):
         neigh = [k for k, _ in mapa.items()]
 
         n_rem = None
+        value = None
         maxi = -np.inf
+        maxval = -np.inf
 
         for n in neigh:
 
@@ -151,6 +159,6 @@ def tabu_search(beg_sol, tabu_length=100):
     return bs_solution
 
 
-tabu_search(sol)
+#tabu_search(sol)
 
 
