@@ -1,6 +1,5 @@
 from main import *
 from PyQt6.QtWidgets import *
-from PyQt6.QtCore import Qt
 from PyQt6 import uic
 import pyqtgraph as pg
 
@@ -9,8 +8,8 @@ class UI(QMainWindow):
     def __init__(self):
         super().__init__()
         # loading the ui file with uic module
+        self.clicked = None
         uic.loadUi("app.ui", self)
-
         self.epsilon = 0.1
         self.max_iter = 50
 
@@ -29,9 +28,6 @@ class UI(QMainWindow):
         self.v8 = self.findChild(QCheckBox, 'Erbaluce')
         ##########
 
-
-
-
         self.input = self.findChild(QDoubleSpinBox, "eps")
         self.input2 = self.findChild(QSpinBox, "iter")
 
@@ -49,16 +45,30 @@ class UI(QMainWindow):
 
 
         self.st = self.findChild(QStackedWidget, "stackedWidget")
+        
+        # Zaczynamy od Menu
+        self.st.setCurrentIndex(0)
+        self.bset = self.findChild(QPushButton, "btn_set")
+        self.bset.clicked.connect(self.go_to_set)
 
-        self.b1 = self.findChild(QPushButton, "btn_page_1")
-        self.b1.clicked.connect(self.go_to_1)
+        self.b2 = self.findChild(QPushButton, "btn_page_1")
+        self.b2.clicked.connect(self.go_to_menu)
 
-        self.b2 = self.findChild(QPushButton, "btn_page_2")
-        self.b2.clicked.connect(self.go_to_2)
+        self.b3 = self.findChild(QPushButton, "btn_page_2")
+        self.b3.clicked.connect(self.go_to_1)
 
+        self.b4 = self.findChild(QPushButton, "btn_page_3")
+        self.b4.clicked.connect(self.go_to_2)
+
+        self.b4 = self.findChild(QPushButton, "btn_page4")
+        self.b4.clicked.connect(self.go_to_3)
+
+        self.b5 = self.findChild(QPushButton, "btn_info")
+        self.b5.clicked.connect(self.go_to_info)
 
         # wykres
         self.gv = self.findChild(QGraphicsView, 'graphWidget')
+
         L = [1, 2, 3, 4, 5]
         G = [22,33,44,55,2]
 
@@ -72,7 +82,6 @@ class UI(QMainWindow):
         self.gv.setLabel('bottom', 'Hour (H)', **styles)
 
         self.gv.showGrid(x=True, y=True)
-
 
     def plot(self, x, y, plotname, color):
         pen = pg.mkPen(color=color, width=2)
@@ -104,11 +113,24 @@ class UI(QMainWindow):
 
         print(self.epsilon, self.max_iter)
 
-    def go_to_1(self):
+    # Wszystkie przyciski działają
+    def go_to_set(self):
         self.st.setCurrentIndex(0)
 
-    def go_to_2(self):
+    def go_to_menu(self):
         self.st.setCurrentIndex(1)
+
+    def go_to_1(self):
+        self.st.setCurrentIndex(2)
+
+    def go_to_2(self):
+        self.st.setCurrentIndex(3)
+
+    def go_to_3(self):
+        self.st.setCurrentIndex(4)
+
+    def go_to_info(self):
+        self.st.setCurrentIndex(5)
 
     def start_tabu(self):
         ch_types = {1: 'Barbera', 6: 'Cortese', 7: 'Grignolino'}
