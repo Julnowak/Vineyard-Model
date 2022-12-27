@@ -1,15 +1,18 @@
 from main import *
 from PyQt6.QtWidgets import *
-from PyQt6 import uic
+from PyQt6 import uic,QtGui
 import pyqtgraph as pg
+from canvas import *
 
 class UI(QMainWindow):
 
     def __init__(self):
         super().__init__()
+
         # loading the ui file with uic module
         self.clicked = None
-        uic.loadUi("app.ui", self)
+        uic.loadUi("Projekt/app.ui", self)
+        self.setWindowIcon(QtGui.QIcon("Projekt/2836932.png"))
         self.epsilon = 0.1
         self.max_iter = 50
 
@@ -35,6 +38,10 @@ class UI(QMainWindow):
         self.button.clicked.connect(self.get)
         self.button.clicked.connect(self.grape_type_choice)
 
+        # Wykresior
+        self.c = self.findChild(QWidget, 'widget')
+        print(self.c)
+
         self.button3 = self.findChild(QPushButton, "start")
         self.button3.clicked.connect(self.start_tabu)
 
@@ -45,9 +52,12 @@ class UI(QMainWindow):
 
 
         self.st = self.findChild(QStackedWidget, "stackedWidget")
-        
+        self.st2 = self.findChild(QStackedWidget, "stackedWidget_2")
+
         # Zaczynamy od Menu
-        self.st.setCurrentIndex(0)
+        self.st.setCurrentIndex(1)
+        self.st2.setCurrentIndex(0)
+
         self.bset = self.findChild(QPushButton, "btn_set")
         self.bset.clicked.connect(self.go_to_set)
 
@@ -82,6 +92,10 @@ class UI(QMainWindow):
         self.gv.setLabel('bottom', 'Hour (H)', **styles)
 
         self.gv.showGrid(x=True, y=True)
+
+        # Inny wykres
+
+
 
     def plot(self, x, y, plotname, color):
         pen = pg.mkPen(color=color, width=2)
@@ -167,6 +181,7 @@ class UI(QMainWindow):
                     plants_per_bottle, transport_cost,
                     vineprice, magazine_cost, magazine_capacity, store_needs, ch_types,
                     10, self.max_iter, self.epsilon)
+        self.c.destroyer()
 
 
 app = QApplication([])

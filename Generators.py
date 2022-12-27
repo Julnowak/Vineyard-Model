@@ -40,12 +40,12 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
 
 
 def vine_price_generator(ch_types: Dict, num_of_years: int):
-    colors = ['darkorchid','slateblue','darkgoldenrod',
-              'orangered','crimson','teal','steelblue','firebrick']
+    # colors = ['darkorchid','slateblue','darkgoldenrod',
+    #           'orangered','crimson','teal','steelblue','firebrick']
     months = num_of_years * 12
     bottle_prices = np.ones((len(ch_types), months))
     c = 0
-    fig, ax = plt.subplots(len(ch_types), 1)
+    # fig, ax = plt.subplots(len(ch_types), 1)
     for _, v in ch_types.items():
         if v == 'Barbera':
             bottle_prices[c, :] = np.random.uniform(low=30.01, high=45.12, size=(1, months))
@@ -66,25 +66,25 @@ def vine_price_generator(ch_types: Dict, num_of_years: int):
         else:
             raise Exception(f'There is no grape type: "{v}"')
 
-        np.set_printoptions(precision=2)
-        if num_of_years <= 2:
-           ax[c].plot(range(1, months + 1), bottle_prices[c], label=v, linestyle='--', marker='o', c=colors[c])
-        else:
-            ax[c].plot(range(1, months + 1), bottle_prices[c], label=v, c=colors[c])
-        ax[c].grid()
-        ax[c].legend(loc='best')
-        c += 1
-
-    fig.suptitle(f"Zmiana ceny wina na przestrzeni {months} miesięcy")
-    fig.supylabel('Aktualna cena wina')
-
-    if months == 12:
-        month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        plt.xticks(range(1, months + 1), month)
-        fig.supxlabel('Miesiąc')
-    else:
-        fig.supxlabel('Nr.miesiąca')
-    plt.show()
+    #     np.set_printoptions(precision=2)
+    #     if num_of_years <= 2:
+    #        ax[c].plot(range(1, months + 1), bottle_prices[c], label=v, linestyle='--', marker='o', c=colors[c])
+    #     else:
+    #         ax[c].plot(range(1, months + 1), bottle_prices[c], label=v, c=colors[c])
+    #     ax[c].grid()
+    #     ax[c].legend(loc='best')
+    #     c += 1
+    #
+    # fig.suptitle(f"Zmiana ceny wina na przestrzeni {months} miesięcy")
+    # fig.supylabel('Aktualna cena wina')
+    #
+    # if months == 12:
+    #     month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    #     plt.xticks(range(1, months + 1), month)
+    #     fig.supxlabel('Miesiąc')
+    # else:
+    #     fig.supxlabel('Nr.miesiąca')
+    # plt.show()
     return bottle_prices
 
 def plant_price_generator(ch_types: Dict):

@@ -22,7 +22,7 @@ def tabu_search(beg_sol, planting_cost,
     sol_present_yourself(gain, loss, beg_sol, ch_types)
 
     TL = []
-    avgMemory=np.zeros((2*beg_sol.shape[0]*beg_sol.shape[1]*beg_sol.shape[2]))#pamiec srednioteminowa zlicza rozwiazania dane
+    avgMemory=np.zeros((2*beg_sol.shape[0]*beg_sol.shape[1]*beg_sol.shape[2])) #pamiec srednioteminowa zlicza rozwiazania dane
     streak=0
     streaknum=-1
 
