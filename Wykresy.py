@@ -3,6 +3,7 @@ import numpy as np
 
 
 def main_plot(gain, loss):
+    plt.figure()
     plt.plot(gain)
     plt.plot(loss)
     plt.title("Wykres zysku i strat")

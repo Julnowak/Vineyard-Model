@@ -42,6 +42,8 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
 def vine_price_generator(ch_types: Dict, num_of_years: int):
     # colors = ['darkorchid','slateblue','darkgoldenrod',
     #           'orangered','crimson','teal','steelblue','firebrick']
+    print(ch_types)
+
     months = num_of_years * 12
     bottle_prices = np.ones((len(ch_types), months))
     c = 0
@@ -73,7 +75,7 @@ def vine_price_generator(ch_types: Dict, num_of_years: int):
     #         ax[c].plot(range(1, months + 1), bottle_prices[c], label=v, c=colors[c])
     #     ax[c].grid()
     #     ax[c].legend(loc='best')
-    #     c += 1
+        c += 1
     #
     # fig.suptitle(f"Zmiana ceny wina na przestrzeni {months} miesięcy")
     # fig.supylabel('Aktualna cena wina')

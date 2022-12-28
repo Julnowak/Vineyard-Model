@@ -12,20 +12,23 @@ class UI(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        # loading the ui file with uic module
         self.clicked = None
         uic.loadUi("Projekt/app.ui", self)
         self.setWindowIcon(QtGui.QIcon("Projekt/2836932.png"))
-        self.epsilon = 0.1
-        self.max_iter = 50
 
-
+        ### Scrolle
         self.st = self.findChild(QStackedWidget, "stackedWidget")
         self.st2 = self.findChild(QStackedWidget, "stackedWidget_2")
+        self.st3 = self.findChild(QStackedWidget, "stackedWidget_3")
 
-        # Zaczynamy od Menu
+        # Wyzerowanie scrolli
         self.st.setCurrentIndex(1)
         self.st2.setCurrentIndex(1)
+        self.st3.setCurrentIndex(1)
+
+        ### MENU
+
+        ## Menu przyciski
 
         self.bset = self.findChild(QPushButton, "btn_set")
         self.bset.clicked.connect(lambda: self.st.setCurrentIndex(0))
@@ -46,6 +49,84 @@ class UI(QMainWindow):
         self.b5.clicked.connect(lambda: self.st.setCurrentIndex(5))
 
 
+        # progressbar w MENUu
+
+        self.pb = self.findChild(QProgressBar,"pb")
+        self.pb.setTextVisible(False)
+
+        # START w MENU
+        self.button3 = self.findChild(QPushButton, "start")
+        self.button3.clicked.connect(self.start_tabu)
+
+        ### WYKRESY
+
+        ## Przyciski
+        # ceny wina
+        self.w = self.findChild(QPushButton, "w_1")
+        self.w.clicked.connect(lambda: self.st3.setCurrentIndex(1))
+
+        # wykres początkowy
+        self.w1 = self.findChild(QPushButton, "w_2")
+        self.w1.clicked.connect(lambda: self.st3.setCurrentIndex(2))
+
+        # słupki początkowe 1
+        self.w2 = self.findChild(QPushButton, "w_3")
+        self.w2.clicked.connect(lambda: self.st3.setCurrentIndex(3))
+
+        # słupki początkowe 2
+        self.w21 = self.findChild(QPushButton, "w_31")
+        self.w21.clicked.connect(lambda: self.st3.setCurrentIndex(4))
+
+        # tabu search
+        self.w3 = self.findChild(QPushButton, "w_4")
+        self.w3.clicked.connect(lambda: self.st3.setCurrentIndex(0))
+
+        # wykres początkowy
+        self.w4 = self.findChild(QPushButton, "w_5")
+        self.w4.clicked.connect(lambda: self.st3.setCurrentIndex(5))
+
+        # słupki początkowe 1
+        self.w5 = self.findChild(QPushButton, "w_6")
+        self.w5.clicked.connect(lambda: self.st3.setCurrentIndex(6))
+
+        # słupki początkowe 2
+        self.w51 = self.findChild(QPushButton, "w_61")
+        self.w51.clicked.connect(lambda: self.st3.setCurrentIndex(7))
+
+        # Wykres 0 - tabu search
+        self.c = self.findChild(QWidget, 'widget')
+        self.c.setVisible(False)
+
+        # Wykres 1 - ceny win
+        self.c1 = self.findChild(QWidget, 'widget_2')
+        self.c1.setVisible(False)
+
+        # Wykres 2 - główny plot dla poczatkowego
+        self.c2 = self.findChild(QWidget, 'widget_3')
+        self.c2.setVisible(False)
+
+        # Wykres 3 - bar plot dla poczatkowego 1
+        self.c3 = self.findChild(QWidget, 'widget_4')
+        self.c3.setVisible(False)
+
+        # Wykres 5 - bar plot dla poczatkowego 2
+        self.c4 = self.findChild(QWidget, 'widget_5')
+        self.c4.setVisible(False)
+
+        # Wykres 6 - główny plot dla końcowego
+        self.c5 = self.findChild(QWidget, 'widget_6')
+        self.c5.setVisible(False)
+
+        # Wykres 7 - bar plot dla końcowego 1
+        self.c6 = self.findChild(QWidget, 'widget_7')
+        self.c6.setVisible(False)
+
+        # Wykres 8 - bar plot dla końcowego 2
+        self.c7 = self.findChild(QWidget, 'widget_8')
+        self.c7.setVisible(False)
+
+        ### USTAWIENIA
+        ## Ustawienia - przyciski
         self.n = self.findChild(QPushButton, "next")
         self.n.clicked.connect(lambda: self.st2.setCurrentIndex(0))
 
@@ -64,29 +145,34 @@ class UI(QMainWindow):
         self.p2 = self.findChild(QPushButton, "prev_3")
         self.p2.clicked.connect(lambda: self.st2.setCurrentIndex(2))
 
+        ## Ustawienia - podstawowe dane
 
-        self.input = self.findChild(QDoubleSpinBox, "eps")
-        self.input2 = self.findChild(QSpinBox, "iter")
+        # tabela
+        self.tab = self.findChild(QTableWidget,"tableWidget")
 
-        self.button = self.findChild(QPushButton, "pushButton")
-        self.button.clicked.connect(self.get)
-        self.button.clicked.connect(self.grape_type_choice)
-
-        # Wykresior
-        self.c = self.findChild(QWidget, 'widget')
-        print(self.c)
-
-        self.button3 = self.findChild(QPushButton, "start")
-        self.button3.clicked.connect(self.start_tabu)
-
-        # Czyszczenie
-        self.button2 = self.findChild(QPushButton, "pushButton_2")
-        self.button2.clicked.connect(lambda: self.input.setValue(0.10))
-        self.button2.clicked.connect(lambda: self.input2.setValue(50))
+        # Liczba pól
+        self.nr_field = self.findChild(QSpinBox,"fieldnum")
 
 
-        #Odczyt typów wina
-        #####
+        # Liczba lat/miesięcy
+        self.nr_time = self.findChild(QSpinBox, "timenum")
+
+        # Odświeżanie tabeli
+        self.rt = self.findChild(QPushButton,"refreshtab")
+        self.rt.clicked.connect(lambda: self.tab.setRowCount(int(self.nr_field.text())))
+
+        # Czyszcenie tabeli
+        self.ct = self.findChild(QPushButton,"cleartab")
+        self.ct.clicked.connect(lambda: self.tab.clearContents())
+
+        # Zaakceptowanie tabeli
+        self.at = self.findChild(QPushButton,"accepttab")
+        self.at.clicked.connect(lambda: self.acctab())
+
+
+        ## Ustawienia - rodzaje,nawozy,zbiory
+
+        # Odczyt typów wina
         self.v1 = self.findChild(QCheckBox, 'Barbera')
         self.v2 = self.findChild(QCheckBox, 'Chardonnay')
         self.v3 = self.findChild(QCheckBox, 'Nebbiolo')
@@ -95,49 +181,69 @@ class UI(QMainWindow):
         self.v6 = self.findChild(QCheckBox, 'Cortese')
         self.v7 = self.findChild(QCheckBox, 'Grignolino')
         self.v8 = self.findChild(QCheckBox, 'Erbaluce')
-        ##########
 
+        # Czy używamy nawozu
         self.ch1 = self.findChild(QCheckBox, "checkBox")
         self.ch1.toggled.connect(self.showDetails)
 
-        # wykres
-        self.gv = self.findChild(QGraphicsView, 'graphWidget')
+        # Typ nawozu
+        self.nawoz = self.findChild(QComboBox, "nawoz")
+        print(self.nawoz.currentText())
 
-        L = [1, 2, 3, 4, 5]
-        G = [22,33,44,55,2]
-
-        self.gv.addLegend()
-        self.plot(L, G, "Sensor1", 'r')
-        self.plot(G, L, "Sensor2", 'b')
-        self.gv.setTitle("Your Title Here", color="k", size="20pt")
-
-        styles = {'color': 'k', 'font-size': '16px'}
-        self.gv.setLabel('left', 'Temperature (°C)', **styles)
-        self.gv.setLabel('bottom', 'Hour (H)', **styles)
-
-        self.gv.showGrid(x=True, y=True)
+        # Koszt zbioru
+        self.zbior = self.findChild(QDoubleSpinBox, "zbior")
 
 
-        self.pb = self.findChild(QProgressBar,"pb")
-        self.pb.setTextVisible(False)
+        ## Ustawienia - butelkowanie, magazynowanie, transport
 
-        # DO tabeli w ust
-        self.tab = self.findChild(QTableWidget,"tableWidget")
-        self.nr_field = self.findChild(QSpinBox,"fieldnum")
-        self.rt = self.findChild(QPushButton,"refreshtab")
+        # Pojemność magazynu
+        self.magcap = self.findChild(QSpinBox, "capacity")
 
-        self.rt.clicked.connect(lambda: self.refrtab())
+        # Koszt magazynowania
+        self.magcost = self.findChild(QDoubleSpinBox, "magcost")
 
-    def plot(self, x, y, plotname, color):
-        pen = pg.mkPen(color=color, width=2)
-        self.gv.plot(x, y, name=plotname, pen=pen, symbol='o', symbolSize=4, symbolBrush=(color))
+        # Ilość jednostek winogron na butelkę
+        self.jperbot = self.findChild(QSpinBox, "jperbot")
 
-        # self.button2.clicked.connect(self.input2.clear)
+        # Koszt transportu
+        self.transcost = self.findChild(QDoubleSpinBox, "transcost")
+
+        # Koszt butelki
+        self.botcost = self.findChild(QDoubleSpinBox, "botcost")
+
+
+        ## Ustawienia - ustawienia algorytmu
+
+        # Epsilon
+        self.eps = self.findChild(QDoubleSpinBox, "eps")
+        self.epsilon = float(self.eps.text())
+
+        # Iteracje
+        self.iter = self.findChild(QSpinBox, "iter")
+        self.max_iter = int(self.iter.text())
+
+        # Długość TL
+        self.tl = self.findChild(QSpinBox, "TL")
+        self.tabu_length = int(self.tl.text())
+
+        ## Ustawienia przyciski
+
+        # zatwierdź
+        self.button = self.findChild(QPushButton, "pushButton")
+        self.button.clicked.connect(self.get)
+        self.button.clicked.connect(self.grape_type_choice)
+
+        # Czyszczenie
+        self.button2 = self.findChild(QPushButton, "pushButton_2")
+        # TODO: Dopisać wartości podstawowe dla reszty przycisków
+        self.button2.clicked.connect(lambda: self.input.setValue(0.10))
+        self.button2.clicked.connect(lambda: self.input2.setValue(50))
+
 
     def showDetails(self):
         print("Selected: ", self.ch1.isChecked(),
               "  Name: ", self.ch1.text())
-        # self.sender() gives ref to widget that emitted signal
+
 
     # Tworzy słownik wybranych rodzajów wina
     def grape_type_choice(self):
@@ -153,8 +259,8 @@ class UI(QMainWindow):
         return d
 
     def get(self):
-        self.epsilon = float(self.input.text())
-        self.max_iter = int(self.input2.text())
+        self.epsilon = float(self.eps.text())
+        self.max_iter = int(self.iter.text())
 
         print(self.epsilon, self.max_iter)
 
@@ -183,6 +289,11 @@ class UI(QMainWindow):
         plants_per_bottle = 1
         transport_cost = 3
         vineprice = vine_price_generator(ch_types, num_of_years)
+        print(vineprice)
+
+        self.c1.plot_vineprice(ch_types, num_of_years,vineprice)
+        self.c1.setVisible(True)
+
         magazine_cost = 2
         magazine_capacity = 600
         store_needs = [100, 100, 100]
@@ -194,10 +305,13 @@ class UI(QMainWindow):
                     harvest_cost, bottling_cost,
                     plants_per_bottle, transport_cost,
                     vineprice, magazine_cost, magazine_capacity, store_needs, ch_types,
-                    10, self.max_iter, self.epsilon)
+                    self.tabu_length, self.max_iter, self.epsilon)
+
         self.pb.setValue(0)
         self.pb.setTextVisible(False)
-        self.c.destroyer()
+
+        self.c.setVisible(True)
+
 
     def tabu_search(self, beg_sol, planting_cost,
                     IsFertilized, soil_quality,
@@ -214,7 +328,15 @@ class UI(QMainWindow):
                            plants_per_bottle, transport_cost,
                            vineprice, magazine_cost, magazine_capacity, store_needs)
 
-        sol_present_yourself(gain, loss, beg_sol, ch_types)
+        self.c2.plot_main(gain,loss)
+        self.c2.setVisible(True)
+
+        self.c3.plot_bar(gain, loss)
+        self.c3.setVisible(True)
+
+        self.c4.plot_bar2(gain, loss, beg_sol.shape[0])
+        self.c4.setVisible(True)
+        # sol_present_yourself(gain, loss, beg_sol, ch_types)
 
         TL = []
         avgMemory = np.zeros((2 * beg_sol.shape[0] * beg_sol.shape[1] * beg_sol.shape[
@@ -307,18 +429,35 @@ class UI(QMainWindow):
         self.pb.setValue(max_iter)
         print(limsta)
 
-        plt.plot(limsta)
-        plt.title('Wykres wartości funkcji celu')
-        plt.show()
+        # plt.plot(limsta)
+        # plt.title('Wykres wartości funkcji celu')
+        # plt.show()
 
-        sol_present_yourself(gain_rem, loss_rem, bs_solution, ch_types)
+        self.c.plotting(limsta)
+
+        # sol_present_yourself(gain_rem, loss_rem, bs_solution, ch_types)
+
+        self.c5.plot_main(gain_rem, loss_rem)
+        self.c5.setVisible(True)
+
+        self.c6.plot_bar(gain_rem, loss_rem)
+        self.c6.setVisible(True)
+
+        self.c7.plot_bar2(gain_rem, loss_rem, bs_solution.shape[0])
+        self.c7.setVisible(True)
 
         return bs_solution
 
-    def refrtab(self):
-        print(int(self.nr_field.text()))
-        self.tab.setRowCount(int(self.nr_field.text()))
-
+    def acctab(self):
+        for row in range(self.tab.rowCount()):
+            for column in range(self.tab.columnCount()):
+                _item = self.tab.item(row, column)
+                if _item:
+                    item = self.tab.item(row, column).text()
+                    print(f'row: {row}, column: {column}, item={item}')
+                else:
+                    item = None
+                    print(f'row: {row}, column: {column}, item={item}')
 
 app = QApplication([])
 window = UI()

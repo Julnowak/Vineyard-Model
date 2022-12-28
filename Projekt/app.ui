@@ -309,7 +309,7 @@ border: 0px solid;</string>
                <property name="font">
                 <font>
                  <family>Tw Cen MT Condensed</family>
-                 <pointsize>14</pointsize>
+                 <pointsize>13</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
@@ -326,7 +326,7 @@ QPushButton:hover {
 }</string>
                </property>
                <property name="text">
-                <string>MENU</string>
+                <string>START</string>
                </property>
               </widget>
              </item>
@@ -341,39 +341,7 @@ QPushButton:hover {
                <property name="font">
                 <font>
                  <family>Tw Cen MT Condensed</family>
-                 <pointsize>14</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                 <underline>false</underline>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QPushButton {
-	color: rgb(255, 255, 255);
-	background-color: rgb(35, 35, 35);
-	border: 0px solid;
-}
-QPushButton:hover {
-	background-color: rgba(255, 17, 180, 105);
-}</string>
-               </property>
-               <property name="text">
-                <string>Wykresy</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="btn_page_3">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>40</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Tw Cen MT Condensed</family>
-                 <pointsize>14</pointsize>
+                 <pointsize>13</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
@@ -395,7 +363,7 @@ QPushButton:hover {
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btn_page4">
+              <widget class="QPushButton" name="btn_page_3">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -405,7 +373,7 @@ QPushButton:hover {
                <property name="font">
                 <font>
                  <family>Tw Cen MT Condensed</family>
-                 <pointsize>14</pointsize>
+                 <pointsize>13</pointsize>
                  <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
@@ -422,7 +390,39 @@ QPushButton:hover {
 }</string>
                </property>
                <property name="text">
-                <string>Staty</string>
+                <string>Wykresy</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_page4">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Tw Cen MT Condensed</family>
+                 <pointsize>13</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                 <underline>false</underline>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+	color: rgb(255, 255, 255);
+	background-color: rgb(35, 35, 35);
+	border: 0px solid;
+}
+QPushButton:hover {
+	background-color: rgba(255, 17, 180, 105);
+}</string>
+               </property>
+               <property name="text">
+                <string>Statystyki</string>
                </property>
               </widget>
              </item>
@@ -551,7 +551,7 @@ QPushButton:hover {
              <enum>Qt::StrongFocus</enum>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="page">
              <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0,0,0">
@@ -604,7 +604,32 @@ QPushButton:hover {
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color: rgb(255, 255, 255);</string>
+                   <string notr="true">QPushButton {
+    color: #333;
+    border: 2px solid #555;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #888
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
+        );
+    }</string>
                   </property>
                   <property name="text">
                    <string>Zatwierdź</string>
@@ -620,7 +645,32 @@ QPushButton:hover {
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">color: rgb(255, 255, 255);</string>
+                   <string notr="true">QPushButton {
+    color: #333;
+    border: 2px solid #555;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #888
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
+        );
+    }</string>
                   </property>
                   <property name="text">
                    <string>Wyczyść</string>
@@ -642,334 +692,16 @@ QPushButton:hover {
                  <bool>true</bool>
                 </property>
                 <property name="currentIndex">
-                 <number>1</number>
+                 <number>3</number>
                 </property>
                 <widget class="QWidget" name="ust2">
                  <layout class="QGridLayout" name="gridLayout">
-                  <item row="1" column="1">
-                   <widget class="QGroupBox" name="groupBox_9">
-                    <property name="font">
-                     <font>
-                      <family>Tw Cen MT Condensed</family>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">color: rgb(255, 255, 255);</string>
-                    </property>
-                    <property name="title">
-                     <string>Pielęgnacja pola</string>
-                    </property>
-                    <widget class="QWidget" name="verticalLayoutWidget_9">
-                     <property name="geometry">
-                      <rect>
-                       <x>10</x>
-                       <y>70</y>
-                       <width>250</width>
-                       <height>148</height>
-                      </rect>
-                     </property>
-                     <layout class="QVBoxLayout" name="verticalLayout_31">
-                      <item>
-                       <widget class="QLabel" name="label_11">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Typ i koszt nawozu</string>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QComboBox" name="comboBox_2">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <item>
-                         <property name="text">
-                          <string>Standardowy (+5%) - 2zł/szt</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Wyższej jakości (+10%) - 4zł/szt</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Najwyższej jakości (_+17%) - 7zł/szt</string>
-                         </property>
-                        </item>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QLabel" name="label_12">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Koszt zbioru 1 jednostki winogron</string>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QDoubleSpinBox" name="eps_8">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="locale">
-                         <locale language="English" country="UnitedStates"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                        </property>
-                        <property name="showGroupSeparator" stdset="0">
-                         <bool>false</bool>
-                        </property>
-                        <property name="decimals">
-                         <number>2</number>
-                        </property>
-                        <property name="maximum">
-                         <double>9999999999999999455752309870428160.000000000000000</double>
-                        </property>
-                        <property name="singleStep">
-                         <double>0.010000000000000</double>
-                        </property>
-                        <property name="value">
-                         <double>2.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                    <widget class="QWidget" name="verticalLayoutWidget_10">
-                     <property name="geometry">
-                      <rect>
-                       <x>10</x>
-                       <y>30</y>
-                       <width>160</width>
-                       <height>31</height>
-                      </rect>
-                     </property>
-                     <layout class="QVBoxLayout" name="verticalLayout_32">
-                      <item>
-                       <widget class="QCheckBox" name="checkBox">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="layoutDirection">
-                         <enum>Qt::LeftToRight</enum>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Czy użyto nawozu?</string>
-                        </property>
-                        <property name="checked">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </widget>
-                  </item>
-                  <item row="1" column="0">
-                   <widget class="QGroupBox" name="groupBox_3">
-                    <property name="font">
-                     <font>
-                      <family>Tw Cen MT Condensed</family>
-                      <pointsize>14</pointsize>
-                     </font>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">color: rgb(255, 255, 255);</string>
-                    </property>
-                    <property name="title">
-                     <string>Rodzaje winogron</string>
-                    </property>
-                    <widget class="QWidget" name="gridLayoutWidget_2">
-                     <property name="geometry">
-                      <rect>
-                       <x>10</x>
-                       <y>30</y>
-                       <width>221</width>
-                       <height>124</height>
-                      </rect>
-                     </property>
-                     <layout class="QGridLayout" name="gridLayout_9">
-                      <item row="4" column="0">
-                       <widget class="QCheckBox" name="Grignolino">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Grignolino</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="0">
-                       <widget class="QCheckBox" name="Barbera">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Barbera</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="3" column="1">
-                       <widget class="QCheckBox" name="Cortese">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Cortese</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="4" column="1">
-                       <widget class="QCheckBox" name="Erbaluce">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Erbaluce</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="3" column="0">
-                       <widget class="QCheckBox" name="Dolcetto">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Dolcetto</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="1">
-                       <widget class="QCheckBox" name="Chardonnay">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Chardonnay</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="1">
-                       <widget class="QCheckBox" name="Arneis">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Arneis</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="0">
-                       <widget class="QCheckBox" name="Nebbiolo">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Nebbiolo</string>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </widget>
-                  </item>
                   <item row="0" column="0" colspan="2">
                    <widget class="QGroupBox" name="groupBox_20">
                     <property name="maximumSize">
                      <size>
                       <width>16777215</width>
-                      <height>50</height>
+                      <height>40</height>
                      </size>
                     </property>
                     <property name="styleSheet">
@@ -984,9 +716,9 @@ border-radius: 3px;} </string>
                     <widget class="QLabel" name="label_37">
                      <property name="geometry">
                       <rect>
-                       <x>310</x>
+                       <x>240</x>
                        <y>0</y>
-                       <width>261</width>
+                       <width>400</width>
                        <height>30</height>
                       </rect>
                      </property>
@@ -1011,7 +743,7 @@ border-radius: 3px;} </string>
                       <string notr="true">color: rgb(255, 255, 255);</string>
                      </property>
                      <property name="text">
-                      <string>WYBÓR RODZAJU WINOGRON  I  NAWOZU</string>
+                      <string>WYBÓR RODZAJU WINOGRON, NAWOZU  I KOSZTY ZBIORU</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignHCenter|Qt::AlignTop</set>
@@ -1125,6 +857,361 @@ QPushButton:pressed {
                     </widget>
                    </widget>
                   </item>
+                  <item row="1" column="1">
+                   <widget class="QGroupBox" name="groupBox_9">
+                    <property name="font">
+                     <font>
+                      <family>Tw Cen MT Condensed</family>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(255, 255, 255);</string>
+                    </property>
+                    <property name="title">
+                     <string>Nawozy</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <widget class="QWidget" name="verticalLayoutWidget_9">
+                     <property name="geometry">
+                      <rect>
+                       <x>20</x>
+                       <y>90</y>
+                       <width>401</width>
+                       <height>71</height>
+                      </rect>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_31">
+                      <item>
+                       <widget class="QLabel" name="label_11">
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(255, 255, 255);</string>
+                        </property>
+                        <property name="text">
+                         <string>Typ i koszt nawozu</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QComboBox" name="nawoz">
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(255, 255, 255);</string>
+                        </property>
+                        <item>
+                         <property name="text">
+                          <string>Standardowy (+5%) - 2zł/szt</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string>Wyższej jakości (+10%) - 4zł/szt</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string>Najwyższej jakości (_+17%) - 7zł/szt</string>
+                         </property>
+                        </item>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                    <widget class="QWidget" name="verticalLayoutWidget_10">
+                     <property name="geometry">
+                      <rect>
+                       <x>20</x>
+                       <y>30</y>
+                       <width>151</width>
+                       <height>31</height>
+                      </rect>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_32">
+                      <item>
+                       <widget class="QCheckBox" name="checkBox">
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
+                        <property name="layoutDirection">
+                         <enum>Qt::LeftToRight</enum>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(255, 255, 255);</string>
+                        </property>
+                        <property name="text">
+                         <string>Czy użyto nawozu?</string>
+                        </property>
+                        <property name="checked">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QGroupBox" name="groupBox_11">
+                    <property name="font">
+                     <font>
+                      <family>Tw Cen MT Condensed</family>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(255, 255, 255);</string>
+                    </property>
+                    <property name="title">
+                     <string>Warunki STOP</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <widget class="QWidget" name="verticalLayoutWidget_11">
+                     <property name="geometry">
+                      <rect>
+                       <x>20</x>
+                       <y>50</y>
+                       <width>401</width>
+                       <height>81</height>
+                      </rect>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_34">
+                      <item>
+                       <widget class="QLabel" name="label_57">
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(255, 255, 255);</string>
+                        </property>
+                        <property name="text">
+                         <string>Koszt zbioru 1 jednostki winogron</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QDoubleSpinBox" name="zbior">
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(255, 255, 255);</string>
+                        </property>
+                        <property name="locale">
+                         <locale language="English" country="UnitedStates"/>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                        </property>
+                        <property name="showGroupSeparator" stdset="0">
+                         <bool>false</bool>
+                        </property>
+                        <property name="decimals">
+                         <number>2</number>
+                        </property>
+                        <property name="maximum">
+                         <double>9999999999999999455752309870428160.000000000000000</double>
+                        </property>
+                        <property name="singleStep">
+                         <double>0.010000000000000</double>
+                        </property>
+                        <property name="value">
+                         <double>2.000000000000000</double>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </widget>
+                  </item>
+                  <item row="1" column="0" rowspan="2">
+                   <widget class="QGroupBox" name="groupBox_3">
+                    <property name="font">
+                     <font>
+                      <family>Tw Cen MT Condensed</family>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(255, 255, 255);</string>
+                    </property>
+                    <property name="title">
+                     <string>Rodzaje winogron</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <widget class="QWidget" name="gridLayoutWidget_2">
+                     <property name="geometry">
+                      <rect>
+                       <x>10</x>
+                       <y>30</y>
+                       <width>411</width>
+                       <height>211</height>
+                      </rect>
+                     </property>
+                     <layout class="QGridLayout" name="gridLayout_9">
+                      <item row="1" column="0">
+                       <widget class="QCheckBox" name="Nebbiolo">
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(255, 255, 255);</string>
+                        </property>
+                        <property name="text">
+                         <string>Nebbiolo</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="1">
+                       <widget class="QCheckBox" name="Chardonnay">
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(255, 255, 255);</string>
+                        </property>
+                        <property name="text">
+                         <string>Chardonnay</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="2" column="0">
+                       <widget class="QCheckBox" name="Dolcetto">
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(255, 255, 255);</string>
+                        </property>
+                        <property name="text">
+                         <string>Dolcetto</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="0">
+                       <widget class="QCheckBox" name="Barbera">
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(255, 255, 255);</string>
+                        </property>
+                        <property name="text">
+                         <string>Barbera</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="2" column="1">
+                       <widget class="QCheckBox" name="Cortese">
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(255, 255, 255);</string>
+                        </property>
+                        <property name="text">
+                         <string>Cortese</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="1" column="1">
+                       <widget class="QCheckBox" name="Arneis">
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(255, 255, 255);</string>
+                        </property>
+                        <property name="text">
+                         <string>Arneis</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="3" column="1">
+                       <widget class="QCheckBox" name="Erbaluce">
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(255, 255, 255);</string>
+                        </property>
+                        <property name="text">
+                         <string>Erbaluce</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="3" column="0">
+                       <widget class="QCheckBox" name="Grignolino">
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(255, 255, 255);</string>
+                        </property>
+                        <property name="text">
+                         <string>Grignolino</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </widget>
+                  </item>
                  </layout>
                 </widget>
                 <widget class="QWidget" name="ust1">
@@ -1165,106 +1252,6 @@ QPushButton:pressed {
                       <property name="checkable">
                        <bool>false</bool>
                       </property>
-                      <widget class="QTableWidget" name="tableWidget">
-                       <property name="enabled">
-                        <bool>true</bool>
-                       </property>
-                       <property name="geometry">
-                        <rect>
-                         <x>230</x>
-                         <y>10</y>
-                         <width>631</width>
-                         <height>371</height>
-                        </rect>
-                       </property>
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">background-color: rgb(255, 255, 255);</string>
-                       </property>
-                       <property name="verticalScrollBarPolicy">
-                        <enum>Qt::ScrollBarAsNeeded</enum>
-                       </property>
-                       <property name="horizontalScrollBarPolicy">
-                        <enum>Qt::ScrollBarAlwaysOff</enum>
-                       </property>
-                       <property name="sizeAdjustPolicy">
-                        <enum>QAbstractScrollArea::AdjustToContents</enum>
-                       </property>
-                       <property name="autoScroll">
-                        <bool>true</bool>
-                       </property>
-                       <property name="alternatingRowColors">
-                        <bool>false</bool>
-                       </property>
-                       <property name="showGrid">
-                        <bool>true</bool>
-                       </property>
-                       <property name="sortingEnabled">
-                        <bool>true</bool>
-                       </property>
-                       <property name="rowCount">
-                        <number>0</number>
-                       </property>
-                       <attribute name="horizontalHeaderCascadingSectionResizes">
-                        <bool>true</bool>
-                       </attribute>
-                       <attribute name="horizontalHeaderMinimumSectionSize">
-                        <number>30</number>
-                       </attribute>
-                       <attribute name="horizontalHeaderDefaultSectionSize">
-                        <number>209</number>
-                       </attribute>
-                       <attribute name="horizontalHeaderHighlightSections">
-                        <bool>true</bool>
-                       </attribute>
-                       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-                        <bool>true</bool>
-                       </attribute>
-                       <attribute name="horizontalHeaderStretchLastSection">
-                        <bool>false</bool>
-                       </attribute>
-                       <attribute name="verticalHeaderCascadingSectionResizes">
-                        <bool>true</bool>
-                       </attribute>
-                       <attribute name="verticalHeaderMinimumSectionSize">
-                        <number>50</number>
-                       </attribute>
-                       <attribute name="verticalHeaderDefaultSectionSize">
-                        <number>50</number>
-                       </attribute>
-                       <attribute name="verticalHeaderShowSortIndicator" stdset="0">
-                        <bool>true</bool>
-                       </attribute>
-                       <column>
-                        <property name="text">
-                         <string>Wysokość</string>
-                        </property>
-                        <property name="textAlignment">
-                         <set>AlignCenter</set>
-                        </property>
-                       </column>
-                       <column>
-                        <property name="text">
-                         <string>Szerokość</string>
-                        </property>
-                        <property name="textAlignment">
-                         <set>AlignCenter</set>
-                        </property>
-                       </column>
-                       <column>
-                        <property name="text">
-                         <string>Minimum obsianej powierzchni</string>
-                        </property>
-                        <property name="textAlignment">
-                         <set>AlignCenter</set>
-                        </property>
-                       </column>
-                      </widget>
                       <widget class="QGroupBox" name="groupBox_15">
                        <property name="enabled">
                         <bool>true</bool>
@@ -1272,9 +1259,9 @@ QPushButton:pressed {
                        <property name="geometry">
                         <rect>
                          <x>20</x>
-                         <y>0</y>
+                         <y>10</y>
                          <width>201</width>
-                         <height>381</height>
+                         <height>151</height>
                         </rect>
                        </property>
                        <property name="font">
@@ -1287,7 +1274,7 @@ QPushButton:pressed {
                         <string notr="true">color: rgb(255, 255, 255);</string>
                        </property>
                        <property name="title">
-                        <string>Dane</string>
+                        <string>Czas i pola</string>
                        </property>
                        <property name="alignment">
                         <set>Qt::AlignCenter</set>
@@ -1301,67 +1288,13 @@ QPushButton:pressed {
                        <widget class="QWidget" name="verticalLayoutWidget_4">
                         <property name="geometry">
                          <rect>
-                          <x>30</x>
+                          <x>10</x>
                           <y>30</y>
-                          <width>141</width>
-                          <height>221</height>
+                          <width>181</width>
+                          <height>116</height>
                          </rect>
                         </property>
                         <layout class="QVBoxLayout" name="verticalLayout_25">
-                         <item>
-                          <widget class="QLabel" name="label_32">
-                           <property name="font">
-                            <font>
-                             <family>Tw Cen MT Condensed</family>
-                             <pointsize>14</pointsize>
-                            </font>
-                           </property>
-                           <property name="styleSheet">
-                            <string notr="true">color: rgb(255, 255, 255);</string>
-                           </property>
-                           <property name="text">
-                            <string>Jednostka czasu</string>
-                           </property>
-                           <property name="alignment">
-                            <set>Qt::AlignCenter</set>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QRadioButton" name="radioButton">
-                           <property name="font">
-                            <font>
-                             <family>Tw Cen MT Condensed</family>
-                             <pointsize>14</pointsize>
-                            </font>
-                           </property>
-                           <property name="styleSheet">
-                            <string notr="true">color: rgb(255, 255, 255);</string>
-                           </property>
-                           <property name="text">
-                            <string>Miesiące</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QRadioButton" name="radioButton_2">
-                           <property name="font">
-                            <font>
-                             <family>Tw Cen MT Condensed</family>
-                             <pointsize>14</pointsize>
-                            </font>
-                           </property>
-                           <property name="styleSheet">
-                            <string notr="true">color: rgb(255, 255, 255);</string>
-                           </property>
-                           <property name="text">
-                            <string>Lata</string>
-                           </property>
-                           <property name="checked">
-                            <bool>true</bool>
-                           </property>
-                          </widget>
-                         </item>
                          <item>
                           <widget class="QLabel" name="label">
                            <property name="font">
@@ -1374,18 +1307,18 @@ QPushButton:pressed {
                             <string notr="true">color: rgb(255, 255, 255);</string>
                            </property>
                            <property name="text">
-                            <string>Czas</string>
+                            <string>Ilość lat</string>
                            </property>
                            <property name="alignment">
                             <set>Qt::AlignCenter</set>
                            </property>
                            <property name="buddy">
-                            <cstring>spinBox</cstring>
+                            <cstring>timenum</cstring>
                            </property>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QSpinBox" name="spinBox">
+                          <widget class="QSpinBox" name="timenum">
                            <property name="enabled">
                             <bool>true</bool>
                            </property>
@@ -1464,11 +1397,197 @@ QPushButton:pressed {
                          </item>
                         </layout>
                        </widget>
+                      </widget>
+                      <widget class="QGroupBox" name="groupBox_16">
+                       <property name="enabled">
+                        <bool>true</bool>
+                       </property>
+                       <property name="geometry">
+                        <rect>
+                         <x>20</x>
+                         <y>170</y>
+                         <width>201</width>
+                         <height>211</height>
+                        </rect>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Tw Cen MT Condensed</family>
+                         <pointsize>14</pointsize>
+                        </font>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">color: rgb(255, 255, 255);</string>
+                       </property>
+                       <property name="title">
+                        <string>Kontrola tabeli</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="flat">
+                        <bool>false</bool>
+                       </property>
+                       <property name="checkable">
+                        <bool>false</bool>
+                       </property>
+                       <widget class="QLabel" name="label_32">
+                        <property name="geometry">
+                         <rect>
+                          <x>80</x>
+                          <y>170</y>
+                          <width>101</width>
+                          <height>28</height>
+                         </rect>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">color: rgb(255, 255, 255);</string>
+                        </property>
+                        <property name="text">
+                         <string>Zaakceptuj  tabelę</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                        <property name="buddy">
+                         <cstring>fieldnum</cstring>
+                        </property>
+                       </widget>
+                       <widget class="QPushButton" name="cleartab">
+                        <property name="geometry">
+                         <rect>
+                          <x>20</x>
+                          <y>100</y>
+                          <width>41</width>
+                          <height>41</height>
+                         </rect>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>21</pointsize>
+                          <strikeout>false</strikeout>
+                          <stylestrategy>PreferDefault</stylestrategy>
+                          <kerning>true</kerning>
+                         </font>
+                        </property>
+                        <property name="layoutDirection">
+                         <enum>Qt::LeftToRight</enum>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">QPushButton {
+    color: #333;
+    border: 2px solid #555;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #888
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
+        );
+    }</string>
+                        </property>
+                        <property name="text">
+                         <string>Ⓧ</string>
+                        </property>
+                        <property name="iconSize">
+                         <size>
+                          <width>32</width>
+                          <height>32</height>
+                         </size>
+                        </property>
+                        <property name="autoRepeat">
+                         <bool>false</bool>
+                        </property>
+                       </widget>
+                       <widget class="QPushButton" name="accepttab">
+                        <property name="geometry">
+                         <rect>
+                          <x>20</x>
+                          <y>160</y>
+                          <width>41</width>
+                          <height>41</height>
+                         </rect>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>21</pointsize>
+                          <strikeout>false</strikeout>
+                          <stylestrategy>PreferDefault</stylestrategy>
+                          <kerning>true</kerning>
+                         </font>
+                        </property>
+                        <property name="layoutDirection">
+                         <enum>Qt::LeftToRight</enum>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">QPushButton {
+    color: #333;
+    border: 2px solid #555;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #888
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
+        );
+    }</string>
+                        </property>
+                        <property name="text">
+                         <string>🗸</string>
+                        </property>
+                        <property name="iconSize">
+                         <size>
+                          <width>32</width>
+                          <height>32</height>
+                         </size>
+                        </property>
+                        <property name="autoRepeat">
+                         <bool>false</bool>
+                        </property>
+                       </widget>
                        <widget class="QPushButton" name="refreshtab">
                         <property name="geometry">
                          <rect>
-                          <x>30</x>
-                          <y>270</y>
+                          <x>20</x>
+                          <y>40</y>
                           <width>41</width>
                           <height>41</height>
                          </rect>
@@ -1529,8 +1648,8 @@ QPushButton:pressed {
                        <widget class="QLabel" name="label_20">
                         <property name="geometry">
                          <rect>
-                          <x>80</x>
-                          <y>280</y>
+                          <x>70</x>
+                          <y>50</y>
                           <width>101</width>
                           <height>28</height>
                          </rect>
@@ -1545,82 +1664,20 @@ QPushButton:pressed {
                          <string notr="true">color: rgb(255, 255, 255);</string>
                         </property>
                         <property name="text">
-                         <string>Odśwież tabelę</string>
+                         <string>Odśwież  tabelę</string>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
                         </property>
                         <property name="buddy">
                          <cstring>fieldnum</cstring>
-                        </property>
-                       </widget>
-                       <widget class="QPushButton" name="refreshtab_2">
-                        <property name="geometry">
-                         <rect>
-                          <x>30</x>
-                          <y>320</y>
-                          <width>41</width>
-                          <height>41</height>
-                         </rect>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>21</pointsize>
-                          <strikeout>false</strikeout>
-                          <stylestrategy>PreferDefault</stylestrategy>
-                          <kerning>true</kerning>
-                         </font>
-                        </property>
-                        <property name="layoutDirection">
-                         <enum>Qt::LeftToRight</enum>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">QPushButton {
-    color: #333;
-    border: 2px solid #555;
-    border-radius: 20px;
-    border-style: outset;
-    background: qradialgradient(
-        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-        radius: 1.35, stop: 0 #fff, stop: 1 #888
-        );
-    padding: 5px;
-    }
-
-QPushButton:hover {
-    background: qradialgradient(
-        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
-        );
-    }
-
-QPushButton:pressed {
-    border-style: inset;
-    background: qradialgradient(
-        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
-        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
-        );
-    }</string>
-                        </property>
-                        <property name="text">
-                         <string>Ⓧ</string>
-                        </property>
-                        <property name="iconSize">
-                         <size>
-                          <width>32</width>
-                          <height>32</height>
-                         </size>
-                        </property>
-                        <property name="autoRepeat">
-                         <bool>false</bool>
                         </property>
                        </widget>
                        <widget class="QLabel" name="label_21">
                         <property name="geometry">
                          <rect>
-                          <x>80</x>
-                          <y>330</y>
+                          <x>70</x>
+                          <y>110</y>
                           <width>101</width>
                           <height>28</height>
                          </rect>
@@ -1635,7 +1692,7 @@ QPushButton:pressed {
                          <string notr="true">color: rgb(255, 255, 255);</string>
                         </property>
                         <property name="text">
-                         <string>Wyczyść tabelę</string>
+                         <string>Wyczyść  tabelę</string>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -1643,6 +1700,141 @@ QPushButton:pressed {
                         <property name="buddy">
                          <cstring>fieldnum</cstring>
                         </property>
+                       </widget>
+                      </widget>
+                      <widget class="QGroupBox" name="groupBox_22">
+                       <property name="enabled">
+                        <bool>true</bool>
+                       </property>
+                       <property name="geometry">
+                        <rect>
+                         <x>230</x>
+                         <y>10</y>
+                         <width>631</width>
+                         <height>371</height>
+                        </rect>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Tw Cen MT Condensed</family>
+                         <pointsize>14</pointsize>
+                        </font>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QGroupBox#groupBox_22{
+color: rgb(255, 255, 255);}</string>
+                       </property>
+                       <property name="title">
+                        <string>Tabela z informacjami na temat wielkości poszczególnych pól i minimalnej obsianej powierzchni</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="flat">
+                        <bool>false</bool>
+                       </property>
+                       <property name="checkable">
+                        <bool>false</bool>
+                       </property>
+                       <widget class="QTableWidget" name="tableWidget">
+                        <property name="enabled">
+                         <bool>true</bool>
+                        </property>
+                        <property name="geometry">
+                         <rect>
+                          <x>10</x>
+                          <y>40</y>
+                          <width>611</width>
+                          <height>321</height>
+                         </rect>
+                        </property>
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">background-color: rgba(195, 195, 195, 100);</string>
+                        </property>
+                        <property name="verticalScrollBarPolicy">
+                         <enum>Qt::ScrollBarAsNeeded</enum>
+                        </property>
+                        <property name="horizontalScrollBarPolicy">
+                         <enum>Qt::ScrollBarAsNeeded</enum>
+                        </property>
+                        <property name="sizeAdjustPolicy">
+                         <enum>QAbstractScrollArea::AdjustToContents</enum>
+                        </property>
+                        <property name="autoScroll">
+                         <bool>true</bool>
+                        </property>
+                        <property name="alternatingRowColors">
+                         <bool>false</bool>
+                        </property>
+                        <property name="showGrid">
+                         <bool>true</bool>
+                        </property>
+                        <property name="sortingEnabled">
+                         <bool>true</bool>
+                        </property>
+                        <property name="rowCount">
+                         <number>0</number>
+                        </property>
+                        <attribute name="horizontalHeaderCascadingSectionResizes">
+                         <bool>true</bool>
+                        </attribute>
+                        <attribute name="horizontalHeaderMinimumSectionSize">
+                         <number>30</number>
+                        </attribute>
+                        <attribute name="horizontalHeaderDefaultSectionSize">
+                         <number>190</number>
+                        </attribute>
+                        <attribute name="horizontalHeaderHighlightSections">
+                         <bool>true</bool>
+                        </attribute>
+                        <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                         <bool>true</bool>
+                        </attribute>
+                        <attribute name="horizontalHeaderStretchLastSection">
+                         <bool>false</bool>
+                        </attribute>
+                        <attribute name="verticalHeaderCascadingSectionResizes">
+                         <bool>true</bool>
+                        </attribute>
+                        <attribute name="verticalHeaderMinimumSectionSize">
+                         <number>50</number>
+                        </attribute>
+                        <attribute name="verticalHeaderDefaultSectionSize">
+                         <number>50</number>
+                        </attribute>
+                        <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+                         <bool>true</bool>
+                        </attribute>
+                        <column>
+                         <property name="text">
+                          <string>Wysokość </string>
+                         </property>
+                         <property name="textAlignment">
+                          <set>AlignCenter</set>
+                         </property>
+                        </column>
+                        <column>
+                         <property name="text">
+                          <string>Szerokość</string>
+                         </property>
+                         <property name="textAlignment">
+                          <set>AlignCenter</set>
+                         </property>
+                        </column>
+                        <column>
+                         <property name="text">
+                          <string>Ograniczenie dolne</string>
+                         </property>
+                         <property name="textAlignment">
+                          <set>AlignCenter</set>
+                         </property>
+                        </column>
                        </widget>
                       </widget>
                      </widget>
@@ -1654,7 +1846,7 @@ QPushButton:pressed {
                     <property name="maximumSize">
                      <size>
                       <width>16777215</width>
-                      <height>50</height>
+                      <height>40</height>
                      </size>
                     </property>
                     <property name="styleSheet">
@@ -1669,8 +1861,8 @@ border-radius: 3px;} </string>
                     <widget class="QLabel" name="label_43">
                      <property name="geometry">
                       <rect>
-                       <x>370</x>
-                       <y>10</y>
+                       <x>330</x>
+                       <y>0</y>
                        <width>200</width>
                        <height>30</height>
                       </rect>
@@ -1766,7 +1958,7 @@ QPushButton:pressed {
                     <property name="maximumSize">
                      <size>
                       <width>16777215</width>
-                      <height>50</height>
+                      <height>40</height>
                      </size>
                     </property>
                     <property name="styleSheet">
@@ -1964,12 +2156,12 @@ QPushButton:pressed {
                          <set>Qt::AlignCenter</set>
                         </property>
                         <property name="buddy">
-                         <cstring>spinBox_3</cstring>
+                         <cstring>capacity</cstring>
                         </property>
                        </widget>
                       </item>
                       <item>
-                       <widget class="QSpinBox" name="spinBox_3">
+                       <widget class="QSpinBox" name="capacity">
                         <property name="font">
                          <font>
                           <family>Tw Cen MT Condensed</family>
@@ -2013,7 +2205,7 @@ QPushButton:pressed {
                        </widget>
                       </item>
                       <item>
-                       <widget class="QDoubleSpinBox" name="eps_5">
+                       <widget class="QDoubleSpinBox" name="magcost">
                         <property name="font">
                          <font>
                           <family>Tw Cen MT Condensed</family>
@@ -2097,7 +2289,7 @@ QPushButton:pressed {
                        </widget>
                       </item>
                       <item>
-                       <widget class="QSpinBox" name="spinBox_4">
+                       <widget class="QSpinBox" name="jperbot">
                         <property name="font">
                          <font>
                           <family>Tw Cen MT Condensed</family>
@@ -2141,7 +2333,7 @@ QPushButton:pressed {
                        </widget>
                       </item>
                       <item>
-                       <widget class="QDoubleSpinBox" name="eps_4">
+                       <widget class="QDoubleSpinBox" name="transcost">
                         <property name="font">
                          <font>
                           <family>Tw Cen MT Condensed</family>
@@ -2194,7 +2386,7 @@ QPushButton:pressed {
                        </widget>
                       </item>
                       <item>
-                       <widget class="QDoubleSpinBox" name="eps_6">
+                       <widget class="QDoubleSpinBox" name="botcost">
                         <property name="font">
                          <font>
                           <family>Tw Cen MT Condensed</family>
@@ -2235,6 +2427,25 @@ QPushButton:pressed {
                 </widget>
                 <widget class="QWidget" name="ust4">
                  <layout class="QGridLayout" name="gridLayout_10">
+                  <item row="2" column="2">
+                   <widget class="QGroupBox" name="groupBox_13">
+                    <property name="font">
+                     <font>
+                      <family>Tw Cen MT Condensed</family>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(255, 255, 255);</string>
+                    </property>
+                    <property name="title">
+                     <string>Rozwiązanie poczatkowe</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
                   <item row="1" column="1">
                    <widget class="QGroupBox" name="groupBox_2">
                     <property name="font">
@@ -2249,18 +2460,21 @@ QPushButton:pressed {
                     <property name="title">
                      <string>Warunki STOP</string>
                     </property>
-                    <widget class="QWidget" name="gridLayoutWidget_4">
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <widget class="QWidget" name="verticalLayoutWidget">
                      <property name="geometry">
                       <rect>
                        <x>10</x>
                        <y>30</y>
-                       <width>451</width>
-                       <height>61</height>
+                       <width>261</width>
+                       <height>144</height>
                       </rect>
                      </property>
-                     <layout class="QGridLayout" name="gridLayout_4">
-                      <item row="0" column="1">
-                       <widget class="QLabel" name="iteracje">
+                     <layout class="QVBoxLayout" name="verticalLayout_7">
+                      <item>
+                       <widget class="QLabel" name="epsilon">
                         <property name="font">
                          <font>
                           <family>Tw Cen MT Condensed</family>
@@ -2271,7 +2485,7 @@ QPushButton:pressed {
                          <string notr="true">color: rgb(255, 255, 255);</string>
                         </property>
                         <property name="text">
-                         <string>Iteracje</string>
+                         <string>Epsilon</string>
                         </property>
                         <property name="textFormat">
                          <enum>Qt::AutoText</enum>
@@ -2283,11 +2497,11 @@ QPushButton:pressed {
                          <set>Qt::AlignCenter</set>
                         </property>
                         <property name="buddy">
-                         <cstring>iter</cstring>
+                         <cstring>eps</cstring>
                         </property>
                        </widget>
                       </item>
-                      <item row="1" column="0">
+                      <item>
                        <widget class="QDoubleSpinBox" name="eps">
                         <property name="font">
                          <font>
@@ -2321,8 +2535,8 @@ QPushButton:pressed {
                         </property>
                        </widget>
                       </item>
-                      <item row="0" column="0">
-                       <widget class="QLabel" name="epsilon">
+                      <item>
+                       <widget class="QLabel" name="iteracje">
                         <property name="font">
                          <font>
                           <family>Tw Cen MT Condensed</family>
@@ -2333,7 +2547,7 @@ QPushButton:pressed {
                          <string notr="true">color: rgb(255, 255, 255);</string>
                         </property>
                         <property name="text">
-                         <string>Epsilon</string>
+                         <string>Iteracje</string>
                         </property>
                         <property name="textFormat">
                          <enum>Qt::AutoText</enum>
@@ -2345,11 +2559,11 @@ QPushButton:pressed {
                          <set>Qt::AlignCenter</set>
                         </property>
                         <property name="buddy">
-                         <cstring>eps</cstring>
+                         <cstring>iter</cstring>
                         </property>
                        </widget>
                       </item>
-                      <item row="1" column="1">
+                      <item>
                        <widget class="QSpinBox" name="iter">
                         <property name="font">
                          <font>
@@ -2370,129 +2584,45 @@ QPushButton:pressed {
                          <number>999999999</number>
                         </property>
                         <property name="value">
-                         <number>50</number>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="2">
-                       <widget class="QSpinBox" name="iter_2">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="wrapping">
-                         <bool>false</bool>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                        </property>
-                        <property name="maximum">
-                         <number>999999999</number>
-                        </property>
-                        <property name="value">
-                         <number>50</number>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="2">
-                       <widget class="QLabel" name="iteracje_2">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Długość Listy Tabu</string>
-                        </property>
-                        <property name="textFormat">
-                         <enum>Qt::AutoText</enum>
-                        </property>
-                        <property name="scaledContents">
-                         <bool>false</bool>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="buddy">
-                         <cstring>iter</cstring>
+                         <number>10</number>
                         </property>
                        </widget>
                       </item>
                      </layout>
                     </widget>
-                    <widget class="QLabel" name="label_35">
-                     <property name="geometry">
-                      <rect>
-                       <x>510</x>
-                       <y>50</y>
-                       <width>86</width>
-                       <height>191</height>
-                      </rect>
-                     </property>
-                     <property name="font">
-                      <font>
-                       <family>Tw Cen MT Condensed</family>
-                       <pointsize>14</pointsize>
-                      </font>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color: rgb(255, 255, 255);</string>
-                     </property>
-                     <property name="text">
-                      <string>Typy Tabu List?</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                    <widget class="QLabel" name="label_34">
-                     <property name="geometry">
-                      <rect>
-                       <x>690</x>
-                       <y>50</y>
-                       <width>110</width>
-                       <height>251</height>
-                      </rect>
-                     </property>
-                     <property name="font">
-                      <font>
-                       <family>Tw Cen MT Condensed</family>
-                       <pointsize>14</pointsize>
-                      </font>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color: rgb(255, 255, 255);</string>
-                     </property>
-                     <property name="text">
-                      <string>Kryterium Aspiracji</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
                    </widget>
                   </item>
-                  <item row="0" column="1">
+                  <item row="2" column="1">
+                   <widget class="QGroupBox" name="groupBox_5">
+                    <property name="font">
+                     <font>
+                      <family>Tw Cen MT Condensed</family>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(255, 255, 255);</string>
+                    </property>
+                    <property name="title">
+                     <string>Kryterium Aspiracji</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1" colspan="2">
                    <widget class="QGroupBox" name="groupBox_18">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
-                      <height>50</height>
+                      <height>0</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
                       <width>16777215</width>
-                      <height>50</height>
+                      <height>40</height>
                      </size>
                     </property>
                     <property name="styleSheet">
@@ -2595,6 +2725,134 @@ QPushButton:pressed {
                     </widget>
                    </widget>
                   </item>
+                  <item row="2" column="3">
+                   <widget class="QGroupBox" name="groupBox_14">
+                    <property name="font">
+                     <font>
+                      <family>Tw Cen MT Condensed</family>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(255, 255, 255);</string>
+                    </property>
+                    <property name="title">
+                     <string>Sąsiedztwo</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="2" colspan="2">
+                   <widget class="QGroupBox" name="groupBox_4">
+                    <property name="font">
+                     <font>
+                      <family>Tw Cen MT Condensed</family>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color: rgb(255, 255, 255);</string>
+                    </property>
+                    <property name="title">
+                     <string>Tabu List</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <widget class="QLabel" name="label_35">
+                     <property name="geometry">
+                      <rect>
+                       <x>40</x>
+                       <y>60</y>
+                       <width>86</width>
+                       <height>71</height>
+                      </rect>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Tw Cen MT Condensed</family>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(255, 255, 255);</string>
+                     </property>
+                     <property name="text">
+                      <string>Typy Tabu List?</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                    <widget class="QSpinBox" name="TL">
+                     <property name="geometry">
+                      <rect>
+                       <x>200</x>
+                       <y>100</y>
+                       <width>219</width>
+                       <height>26</height>
+                      </rect>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Tw Cen MT Condensed</family>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(255, 255, 255);</string>
+                     </property>
+                     <property name="wrapping">
+                      <bool>false</bool>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                     </property>
+                     <property name="maximum">
+                      <number>999999999</number>
+                     </property>
+                     <property name="value">
+                      <number>10</number>
+                     </property>
+                    </widget>
+                    <widget class="QLabel" name="iteracje_2">
+                     <property name="geometry">
+                      <rect>
+                       <x>200</x>
+                       <y>44</y>
+                       <width>219</width>
+                       <height>50</height>
+                      </rect>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Tw Cen MT Condensed</family>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(255, 255, 255);</string>
+                     </property>
+                     <property name="text">
+                      <string>Długość Listy Tabu</string>
+                     </property>
+                     <property name="textFormat">
+                      <enum>Qt::AutoText</enum>
+                     </property>
+                     <property name="scaledContents">
+                      <bool>false</bool>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <property name="buddy">
+                      <cstring>iter</cstring>
+                     </property>
+                    </widget>
+                   </widget>
+                  </item>
                  </layout>
                 </widget>
                </widget>
@@ -2606,7 +2864,7 @@ QPushButton:pressed {
               <property name="geometry">
                <rect>
                 <x>270</x>
-                <y>400</y>
+                <y>390</y>
                 <width>391</width>
                 <height>101</height>
                </rect>
@@ -2617,8 +2875,36 @@ QPushButton:pressed {
                 <pointsize>26</pointsize>
                </font>
               </property>
+              <property name="toolTipDuration">
+               <number>1</number>
+              </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(193, 193, 193);</string>
+               <string notr="true">QPushButton {
+    color: #333;
+    border: 2px solid #555;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #888
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
+        );
+    }</string>
               </property>
               <property name="text">
                <string>START</string>
@@ -2658,52 +2944,1147 @@ border-radius:10px;
                <number>0</number>
               </property>
              </widget>
-            </widget>
-            <widget class="QWidget" name="page_2">
-             <widget class="PlotWidget" name="graphWidget">
+             <widget class="QGroupBox" name="groupBox_8">
               <property name="geometry">
                <rect>
-                <x>50</x>
-                <y>0</y>
-                <width>801</width>
-                <height>571</height>
-               </rect>
-              </property>
-              <property name="lineWidth">
-               <number>5</number>
-              </property>
-              <property name="backgroundBrush">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>255</red>
-                 <green>255</green>
-                 <blue>255</blue>
-                </color>
-               </brush>
-              </property>
-              <property name="interactive">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </widget>
-            <widget class="QWidget" name="page_3">
-             <widget class="Canvas" name="widget" native="true">
-              <property name="geometry">
-               <rect>
-                <x>20</x>
+                <x>130</x>
                 <y>20</y>
-                <width>911</width>
-                <height>551</height>
+                <width>711</width>
+                <height>301</height>
                </rect>
               </property>
+              <property name="font">
+               <font>
+                <family>Tw Cen MT Condensed</family>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(255, 255, 255);</string>
+              </property>
+              <property name="title">
+               <string>Aktualne parametry</string>
+              </property>
+              <widget class="QWidget" name="gridLayoutWidget">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>20</y>
+                 <width>191</width>
+                 <height>271</height>
+                </rect>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_5">
+                <item row="0" column="1">
+                 <widget class="QLabel" name="label_14">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>czas</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_15">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>Liczba pól:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLabel" name="label_18">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>pola</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_13">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>Okres czasu:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_19">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>Dokładność:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLabel" name="label_17">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>itera</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_16">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>Liczba iteracji:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="label_24">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>Typ i koszt nawozu</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="gridLayoutWidget_3">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>20</y>
+                 <width>191</width>
+                 <height>271</height>
+                </rect>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_7">
+                <item row="0" column="1">
+                 <widget class="QLabel" name="label_25">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>czas</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_26">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>Liczba pól:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLabel" name="label_27">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>pola</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_28">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>Okres czasu:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_29">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>Dokładność:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLabel" name="label_30">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>itera</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_33">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>Liczba iteracji:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="label_36">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>Typ i koszt nawozu</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="gridLayoutWidget_5">
+               <property name="geometry">
+                <rect>
+                 <x>410</x>
+                 <y>20</y>
+                 <width>291</width>
+                 <height>271</height>
+                </rect>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_8">
+                <item row="0" column="1">
+                 <widget class="QLabel" name="label_38">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>czas</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_39">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>Liczba pól:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLabel" name="label_40">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>pola</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_41">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>Okres czasu:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_45">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>Dokładność:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLabel" name="label_46">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>itera</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_47">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>Liczba iteracji:</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="label_48">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="text">
+                   <string>Typ i koszt nawozu</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
              </widget>
+            </widget>
+            <widget class="QWidget" name="page_2"/>
+            <widget class="QWidget" name="page_3">
+             <layout class="QGridLayout" name="gridLayout_13">
+              <item row="1" column="0">
+               <widget class="QGroupBox" name="groupBox">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>100</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">border: rgb(45, 45, 45);</string>
+                </property>
+                <property name="title">
+                 <string/>
+                </property>
+                <widget class="QPushButton" name="w_1">
+                 <property name="geometry">
+                  <rect>
+                   <x>10</x>
+                   <y>20</y>
+                   <width>131</width>
+                   <height>51</height>
+                  </rect>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Tw Cen MT Condensed</family>
+                   <pointsize>14</pointsize>
+                  </font>
+                 </property>
+                 <property name="toolTipDuration">
+                  <number>1</number>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    color: #333;
+    border: 2px solid #555;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #888
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
+        );
+    }</string>
+                 </property>
+                 <property name="text">
+                  <string>Ceny wina</string>
+                 </property>
+                </widget>
+                <widget class="QPushButton" name="w_2">
+                 <property name="geometry">
+                  <rect>
+                   <x>160</x>
+                   <y>20</y>
+                   <width>131</width>
+                   <height>51</height>
+                  </rect>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Tw Cen MT Condensed</family>
+                   <pointsize>14</pointsize>
+                  </font>
+                 </property>
+                 <property name="toolTipDuration">
+                  <number>1</number>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    color: #333;
+    border: 2px solid #555;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #888
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
+        );
+    }</string>
+                 </property>
+                 <property name="text">
+                  <string>Wykres początkowy</string>
+                 </property>
+                </widget>
+                <widget class="QPushButton" name="w_3">
+                 <property name="geometry">
+                  <rect>
+                   <x>310</x>
+                   <y>0</y>
+                   <width>131</width>
+                   <height>41</height>
+                  </rect>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Tw Cen MT Condensed</family>
+                   <pointsize>14</pointsize>
+                  </font>
+                 </property>
+                 <property name="toolTipDuration">
+                  <number>1</number>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    color: #333;
+    border: 2px solid #555;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #888
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
+        );
+    }</string>
+                 </property>
+                 <property name="text">
+                  <string>Słupki początkowe 1</string>
+                 </property>
+                </widget>
+                <widget class="QPushButton" name="w_4">
+                 <property name="geometry">
+                  <rect>
+                   <x>460</x>
+                   <y>20</y>
+                   <width>111</width>
+                   <height>51</height>
+                  </rect>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Tw Cen MT Condensed</family>
+                   <pointsize>14</pointsize>
+                  </font>
+                 </property>
+                 <property name="toolTipDuration">
+                  <number>1</number>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    color: #333;
+    border: 2px solid #555;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #888
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
+        );
+    }</string>
+                 </property>
+                 <property name="text">
+                  <string>Tabu Search</string>
+                 </property>
+                </widget>
+                <widget class="QPushButton" name="w_5">
+                 <property name="geometry">
+                  <rect>
+                   <x>590</x>
+                   <y>20</y>
+                   <width>131</width>
+                   <height>51</height>
+                  </rect>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Tw Cen MT Condensed</family>
+                   <pointsize>14</pointsize>
+                  </font>
+                 </property>
+                 <property name="toolTipDuration">
+                  <number>1</number>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    color: #333;
+    border: 2px solid #555;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #888
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
+        );
+    }</string>
+                 </property>
+                 <property name="text">
+                  <string>Wykres końcowy</string>
+                 </property>
+                </widget>
+                <widget class="QPushButton" name="w_6">
+                 <property name="geometry">
+                  <rect>
+                   <x>740</x>
+                   <y>0</y>
+                   <width>131</width>
+                   <height>41</height>
+                  </rect>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Tw Cen MT Condensed</family>
+                   <pointsize>14</pointsize>
+                  </font>
+                 </property>
+                 <property name="toolTipDuration">
+                  <number>1</number>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    color: #333;
+    border: 2px solid #555;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #888
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
+        );
+    }</string>
+                 </property>
+                 <property name="text">
+                  <string>Słupki końcowe 1</string>
+                 </property>
+                </widget>
+                <widget class="QPushButton" name="w_31">
+                 <property name="geometry">
+                  <rect>
+                   <x>310</x>
+                   <y>50</y>
+                   <width>131</width>
+                   <height>41</height>
+                  </rect>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Tw Cen MT Condensed</family>
+                   <pointsize>14</pointsize>
+                  </font>
+                 </property>
+                 <property name="toolTipDuration">
+                  <number>1</number>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    color: #333;
+    border: 2px solid #555;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #888
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
+        );
+    }</string>
+                 </property>
+                 <property name="text">
+                  <string>Słupki początkowe 2</string>
+                 </property>
+                </widget>
+                <widget class="QPushButton" name="w_61">
+                 <property name="geometry">
+                  <rect>
+                   <x>740</x>
+                   <y>50</y>
+                   <width>131</width>
+                   <height>41</height>
+                  </rect>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Tw Cen MT Condensed</family>
+                   <pointsize>14</pointsize>
+                  </font>
+                 </property>
+                 <property name="toolTipDuration">
+                  <number>1</number>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+    color: #333;
+    border: 2px solid #555;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #888
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
+        );
+    }</string>
+                 </property>
+                 <property name="text">
+                  <string>Słupki końcowe 2</string>
+                 </property>
+                </widget>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QStackedWidget" name="stackedWidget_3">
+                <property name="currentIndex">
+                 <number>2</number>
+                </property>
+                <widget class="QWidget" name="wyk">
+                 <widget class="Canvas" name="widget" native="true">
+                  <property name="geometry">
+                   <rect>
+                    <x>10</x>
+                    <y>20</y>
+                    <width>874</width>
+                    <height>450</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>450</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>450</height>
+                   </size>
+                  </property>
+                 </widget>
+                </widget>
+                <widget class="QWidget" name="wyk2">
+                 <widget class="Canvas" name="widget_2" native="true">
+                  <property name="geometry">
+                   <rect>
+                    <x>10</x>
+                    <y>20</y>
+                    <width>874</width>
+                    <height>450</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>450</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>450</height>
+                   </size>
+                  </property>
+                 </widget>
+                </widget>
+                <widget class="QWidget" name="wyk3">
+                 <widget class="Canvas" name="widget_3" native="true">
+                  <property name="geometry">
+                   <rect>
+                    <x>10</x>
+                    <y>20</y>
+                    <width>874</width>
+                    <height>450</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>450</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>450</height>
+                   </size>
+                  </property>
+                 </widget>
+                </widget>
+                <widget class="QWidget" name="wyk4">
+                 <widget class="Canvas" name="widget_4" native="true">
+                  <property name="geometry">
+                   <rect>
+                    <x>10</x>
+                    <y>20</y>
+                    <width>874</width>
+                    <height>450</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>450</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>450</height>
+                   </size>
+                  </property>
+                 </widget>
+                </widget>
+                <widget class="QWidget" name="wyk5">
+                 <widget class="Canvas" name="widget_5" native="true">
+                  <property name="geometry">
+                   <rect>
+                    <x>10</x>
+                    <y>20</y>
+                    <width>874</width>
+                    <height>450</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>450</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>450</height>
+                   </size>
+                  </property>
+                 </widget>
+                </widget>
+                <widget class="QWidget" name="wyk6">
+                 <widget class="Canvas" name="widget_6" native="true">
+                  <property name="geometry">
+                   <rect>
+                    <x>10</x>
+                    <y>20</y>
+                    <width>874</width>
+                    <height>450</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>450</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>450</height>
+                   </size>
+                  </property>
+                 </widget>
+                </widget>
+                <widget class="QWidget" name="wyk7">
+                 <widget class="Canvas" name="widget_7" native="true">
+                  <property name="geometry">
+                   <rect>
+                    <x>10</x>
+                    <y>20</y>
+                    <width>874</width>
+                    <height>450</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>450</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>450</height>
+                   </size>
+                  </property>
+                 </widget>
+                </widget>
+                <widget class="QWidget" name="wyk8">
+                 <widget class="Canvas" name="widget_8" native="true">
+                  <property name="geometry">
+                   <rect>
+                    <x>10</x>
+                    <y>20</y>
+                    <width>874</width>
+                    <height>450</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>450</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>450</height>
+                   </size>
+                  </property>
+                 </widget>
+                </widget>
+               </widget>
+              </item>
+             </layout>
             </widget>
             <widget class="QWidget" name="page_4">
              <widget class="QCheckBox" name="checkBox_4">
               <property name="geometry">
                <rect>
                 <x>400</x>
-                <y>130</y>
+                <y>170</y>
                 <width>70</width>
                 <height>17</height>
                </rect>
@@ -2717,10 +4098,10 @@ border-radius:10px;
              <widget class="QGroupBox" name="groupBox_6">
               <property name="geometry">
                <rect>
-                <x>30</x>
-                <y>10</y>
-                <width>911</width>
-                <height>231</height>
+                <x>40</x>
+                <y>250</y>
+                <width>431</width>
+                <height>321</height>
                </rect>
               </property>
               <property name="font">
@@ -2735,6 +4116,150 @@ border-radius:10px;
               <property name="title">
                <string>O projekcie</string>
               </property>
+              <widget class="QLabel" name="label_58">
+               <property name="geometry">
+                <rect>
+                 <x>240</x>
+                 <y>70</y>
+                 <width>142</width>
+                 <height>49</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Tw Cen MT Condensed</family>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 255, 255);</string>
+               </property>
+               <property name="text">
+                <string>u</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </widget>
+             <widget class="QGroupBox" name="groupBox_21">
+              <property name="geometry">
+               <rect>
+                <x>40</x>
+                <y>10</y>
+                <width>811</width>
+                <height>231</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Tw Cen MT Condensed</family>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(255, 255, 255);</string>
+              </property>
+              <property name="title">
+               <string>Jak korzystać?</string>
+              </property>
+              <widget class="QLabel" name="label_61">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>40</y>
+                 <width>671</width>
+                 <height>161</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Tw Cen MT Condensed</family>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 255, 255);</string>
+               </property>
+               <property name="text">
+                <string>W celu zmiany parametrów należy przejść do zakładki ustawień.
+
+Wygenerowane tabele, symulujące wartości, na które nie mamy wpływu, znajdują się w zakładce &quot;Tabele&quot;
+
+Wygenerowane wykresy znajsują się w zakładce &quot;Wykresy&quot;.
+
+Informacje o wygenerowanym rozwiązaniu znajdują się w zakładce &quot;Statystki&quot;.</string>
+               </property>
+               <property name="scaledContents">
+                <bool>false</bool>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </widget>
+             <widget class="QGroupBox" name="groupBox_23">
+              <property name="geometry">
+               <rect>
+                <x>500</x>
+                <y>250</y>
+                <width>351</width>
+                <height>321</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Tw Cen MT Condensed</family>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(255, 255, 255);</string>
+              </property>
+              <property name="title">
+               <string>Kontakt</string>
+              </property>
+              <widget class="QLabel" name="label_62">
+               <property name="geometry">
+                <rect>
+                 <x>50</x>
+                 <y>210</y>
+                 <width>142</width>
+                 <height>49</height>
+                </rect>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Tw Cen MT Condensed</family>
+                 <pointsize>14</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 255, 255);</string>
+               </property>
+               <property name="text">
+                <string>u</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+              <widget class="QCommandLinkButton" name="commandLinkButton">
+               <property name="geometry">
+                <rect>
+                 <x>30</x>
+                 <y>50</y>
+                 <width>271</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Github</string>
+               </property>
+              </widget>
              </widget>
             </widget>
            </widget>
@@ -2749,11 +4274,6 @@ border-radius:10px;
   </widget>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>PlotWidget</class>
-   <extends>QGraphicsView</extends>
-   <header>pyqtgraph</header>
-  </customwidget>
   <customwidget>
    <class>Canvas</class>
    <extends>QWidget</extends>
