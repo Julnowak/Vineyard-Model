@@ -6,7 +6,7 @@ from typing import Union, List, Dict
 def ocena(sol: np.ndarray, planting_costs: np.ndarray,
           Isfertilized, soil_quality, fertilizer_bonus, fertilizer_cost,
           harvest_cost, bottling_cost, plants_per_bottle, transport_cost,
-          bottle_price, magazine_cost, magazine_capacity, store_needs=None, pruning: bool = True, usuwanie: bool = False):
+          bottle_price, magazine_cost, magazine_capacity, store_needs=None):
 
     """
     :param sol:number_of_years * 12 x fields_num x types
@@ -49,6 +49,8 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
                  # Koszt obsiania danego pola danym typem winogron
                 if sol[m][f][t] != 0 and m%12 not in [0,1,11]:
                     plant_cost = sol[m][f][t] * planting_costs[t] + Isfertilized * fertilizer_cost
+                elif sol[m][f][t] != 0 and m%12 in [0,1,11]:
+                    plant_cost = 99999999
                 else:
                     plant_cost = 0
 
@@ -61,6 +63,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
                 # Koszt zbiorów
                 if sol[m][f][t] != 0 and m%12 not in [0, 1, 11]:
                     ha_cost = sol[m][f][t] * harvest_cost
+
                 else:
                     ha_cost = 0
 

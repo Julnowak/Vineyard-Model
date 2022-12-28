@@ -7,19 +7,18 @@ class Canvas(FigureCanvas):
     def __init__(self, parent):
 
         self.fig, self.ax = plt.subplots()
-        print(self.ax)
         super().__init__(self.fig)
         self.setParent(parent)
 
     # TABU
     def plotting(self, values):
-
+        print(values)
         self.ax.clear()
         self.ax.plot(values)
-
         self.ax.set(xlabel='Miesiąc', ylabel='Ilość pieniędzy',
                     title='Wykres wartości funkcji celu')
         self.ax.grid()
+        self.draw()
 
     # główny, liniowy plot
     def plot_main(self, gain, loss):
@@ -30,6 +29,7 @@ class Canvas(FigureCanvas):
         self.ax.set(xlabel='time (s)', ylabel='voltage (mV)',
                     title='Wykres zysku i strat')
         self.ax.grid()
+        self.draw()
 
     # bar plot mniej szczegółowy
     def plot_bar(self, gain, loss):
@@ -40,8 +40,10 @@ class Canvas(FigureCanvas):
                     title='Porównanie zysków i strat')
         self.ax.set_xticks([1, 2], ['Zyski', 'Straty'])
         self.ax.grid(axis='y')
+        self.draw()
 
-    def plot_bar2(self, gain, loss,m):
+    def plot_bar2(self, gain, loss, m):
+        self.ax.clear()
         labels = [f'm{i + 1}' for i in range(m)]
 
         x = np.arange(len(labels))  # the label locations
@@ -58,14 +60,18 @@ class Canvas(FigureCanvas):
         self.ax.set_ylabel('Ilość pieniędzy w zł')
         self.ax.legend()
         self.ax.grid(axis='y')
-        self.fig.tight_layout()
+        self.draw()
+
 
 
     # Ceny win
     # TODO: naprawić --- zrobić ładniej trzeba, sprawdzić dla 4, 2 i 7
     def plot_vineprice(self, ch_types, num_of_years, bottle_prices):
-        self.ax.remove()
-
+        if isinstance(self.ax, list):
+            for i in self.ax:
+                i.remove()
+        else:
+            self.ax.remove()
 
         colors = ['darkorchid','slateblue','darkgoldenrod',
                   'orangered','crimson','teal','steelblue','firebrick']

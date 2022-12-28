@@ -243,7 +243,6 @@ border: 0px solid;</string>
                 <font>
                  <family>Tw Cen MT Condensed</family>
                  <pointsize>18</pointsize>
-                 <weight>75</weight>
                  <italic>false</italic>
                  <bold>true</bold>
                  <underline>false</underline>
@@ -310,7 +309,6 @@ border: 0px solid;</string>
                 <font>
                  <family>Tw Cen MT Condensed</family>
                  <pointsize>13</pointsize>
-                 <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
                 </font>
@@ -342,7 +340,6 @@ QPushButton:hover {
                 <font>
                  <family>Tw Cen MT Condensed</family>
                  <pointsize>13</pointsize>
-                 <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
                 </font>
@@ -374,7 +371,6 @@ QPushButton:hover {
                 <font>
                  <family>Tw Cen MT Condensed</family>
                  <pointsize>13</pointsize>
-                 <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
                 </font>
@@ -406,7 +402,6 @@ QPushButton:hover {
                 <font>
                  <family>Tw Cen MT Condensed</family>
                  <pointsize>13</pointsize>
-                 <weight>75</weight>
                  <bold>true</bold>
                  <underline>false</underline>
                 </font>
@@ -477,7 +472,6 @@ QPushButton:hover {
              <font>
               <family>Tw Cen MT Condensed</family>
               <pointsize>16</pointsize>
-              <weight>75</weight>
               <bold>true</bold>
               <underline>false</underline>
              </font>
@@ -509,7 +503,6 @@ QPushButton:hover {
              <font>
               <family>Tw Cen MT Condensed</family>
               <pointsize>16</pointsize>
-              <weight>75</weight>
               <italic>false</italic>
               <bold>true</bold>
               <underline>false</underline>
@@ -551,40 +544,24 @@ QPushButton:hover {
              <enum>Qt::StrongFocus</enum>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>4</number>
             </property>
             <widget class="QWidget" name="page">
              <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0,0,0">
-              <item row="0" column="0" colspan="2">
-               <widget class="QLabel" name="label_31">
-                <property name="font">
-                 <font>
-                  <family>Tw Cen MT Condensed</family>
-                  <pointsize>36</pointsize>
-                  <weight>75</weight>
-                  <italic>false</italic>
-                  <bold>true</bold>
-                  <underline>false</underline>
-                  <kerning>true</kerning>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">color: rgb(255, 255, 255);</string>
-                </property>
-                <property name="text">
-                 <string>USTAWIENIA</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
               <item row="4" column="0">
                <layout class="QGridLayout" name="gridLayout_11">
                 <item row="0" column="0" rowspan="2">
-                 <widget class="QLabel" name="label_22">
+                 <widget class="QLabel" name="warn1">
+                  <property name="font">
+                   <font>
+                    <pointsize>20</pointsize>
+                   </font>
+                  </property>
                   <property name="text">
                    <string/>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
                 </item>
@@ -679,13 +656,6 @@ QPushButton:pressed {
                 </item>
                </layout>
               </item>
-              <item row="1" column="0">
-               <widget class="Line" name="line">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
               <item row="3" column="0">
                <widget class="QStackedWidget" name="stackedWidget_2">
                 <property name="enabled">
@@ -732,7 +702,6 @@ border-radius: 3px;} </string>
                       <font>
                        <family>Tw Cen MT Condensed</family>
                        <pointsize>16</pointsize>
-                       <weight>50</weight>
                        <italic>false</italic>
                        <bold>false</bold>
                        <underline>false</underline>
@@ -1094,6 +1063,9 @@ QPushButton:pressed {
                         <property name="text">
                          <string>Nebbiolo</string>
                         </property>
+                        <property name="checked">
+                         <bool>true</bool>
+                        </property>
                        </widget>
                       </item>
                       <item row="0" column="1">
@@ -1109,6 +1081,9 @@ QPushButton:pressed {
                         </property>
                         <property name="text">
                          <string>Chardonnay</string>
+                        </property>
+                        <property name="checked">
+                         <bool>true</bool>
                         </property>
                        </widget>
                       </item>
@@ -1141,6 +1116,9 @@ QPushButton:pressed {
                         </property>
                         <property name="text">
                          <string>Barbera</string>
+                        </property>
+                        <property name="checked">
+                         <bool>true</bool>
                         </property>
                        </widget>
                       </item>
@@ -1210,6 +1188,35 @@ QPushButton:pressed {
                       </item>
                      </layout>
                     </widget>
+                    <widget class="QLabel" name="warnin">
+                     <property name="geometry">
+                      <rect>
+                       <x>20</x>
+                       <y>280</y>
+                       <width>391</width>
+                       <height>48</height>
+                      </rect>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Tw Cen MT Condensed</family>
+                       <pointsize>18</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(255, 0, 4);</string>
+                     </property>
+                     <property name="text">
+                      <string/>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
                    </widget>
                   </item>
                  </layout>
@@ -1227,7 +1234,6 @@ QPushButton:pressed {
                        <font>
                         <family>Tw Cen MT Condensed</family>
                         <pointsize>14</pointsize>
-                        <weight>50</weight>
                         <bold>false</bold>
                        </font>
                       </property>
@@ -1754,6 +1760,12 @@ color: rgb(255, 255, 255);}</string>
                           <verstretch>0</verstretch>
                          </sizepolicy>
                         </property>
+                        <property name="font">
+                         <font>
+                          <family>Tw Cen MT Condensed</family>
+                          <pointsize>14</pointsize>
+                         </font>
+                        </property>
                         <property name="styleSheet">
                          <string notr="true">background-color: rgba(195, 195, 195, 100);</string>
                         </property>
@@ -1771,6 +1783,9 @@ color: rgb(255, 255, 255);}</string>
                         </property>
                         <property name="alternatingRowColors">
                          <bool>false</bool>
+                        </property>
+                        <property name="textElideMode">
+                         <enum>Qt::ElideMiddle</enum>
                         </property>
                         <property name="showGrid">
                          <bool>true</bool>
@@ -1815,24 +1830,15 @@ color: rgb(255, 255, 255);}</string>
                          <property name="text">
                           <string>Wysokość </string>
                          </property>
-                         <property name="textAlignment">
-                          <set>AlignCenter</set>
-                         </property>
                         </column>
                         <column>
                          <property name="text">
                           <string>Szerokość</string>
                          </property>
-                         <property name="textAlignment">
-                          <set>AlignCenter</set>
-                         </property>
                         </column>
                         <column>
                          <property name="text">
                           <string>Ograniczenie dolne</string>
-                         </property>
-                         <property name="textAlignment">
-                          <set>AlignCenter</set>
                          </property>
                         </column>
                        </widget>
@@ -1877,7 +1883,6 @@ border-radius: 3px;} </string>
                       <font>
                        <family>Tw Cen MT Condensed</family>
                        <pointsize>16</pointsize>
-                       <weight>50</weight>
                        <italic>false</italic>
                        <bold>false</bold>
                        <underline>false</underline>
@@ -1989,7 +1994,6 @@ border-radius: 3px;} </string>
                       <font>
                        <family>Tw Cen MT Condensed</family>
                        <pointsize>16</pointsize>
-                       <weight>50</weight>
                        <italic>false</italic>
                        <bold>false</bold>
                        <underline>false</underline>
@@ -2378,7 +2382,7 @@ QPushButton:pressed {
                          <string notr="true">color: rgb(255, 255, 255);</string>
                         </property>
                         <property name="text">
-                         <string>Koszt butelki</string>
+                         <string>Koszt butelkowania (1 butelka)</string>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -2653,7 +2657,6 @@ border-radius: 3px;} </string>
                       <font>
                        <family>Tw Cen MT Condensed</family>
                        <pointsize>16</pointsize>
-                       <weight>50</weight>
                        <italic>false</italic>
                        <bold>false</bold>
                        <underline>false</underline>
@@ -2857,6 +2860,36 @@ QPushButton:pressed {
                 </widget>
                </widget>
               </item>
+              <item row="1" column="0">
+               <widget class="Line" name="line">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0" colspan="2">
+               <widget class="QLabel" name="label_31">
+                <property name="font">
+                 <font>
+                  <family>Tw Cen MT Condensed</family>
+                  <pointsize>36</pointsize>
+                  <italic>false</italic>
+                  <bold>true</bold>
+                  <underline>false</underline>
+                  <kerning>true</kerning>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(255, 255, 255);</string>
+                </property>
+                <property name="text">
+                 <string>USTAWIENIA</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
             <widget class="QWidget" name="page_7">
@@ -2922,7 +2955,6 @@ QPushButton:pressed {
               <property name="font">
                <font>
                 <pointsize>10</pointsize>
-                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
@@ -3458,11 +3490,54 @@ border-radius:10px;
                </layout>
               </widget>
              </widget>
+             <widget class="QLabel" name="warn2">
+              <property name="geometry">
+               <rect>
+                <x>140</x>
+                <y>520</y>
+                <width>621</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(255, 0, 0);</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
             </widget>
             <widget class="QWidget" name="page_2"/>
             <widget class="QWidget" name="page_3">
              <layout class="QGridLayout" name="gridLayout_13">
-              <item row="1" column="0">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_49">
+                <property name="font">
+                 <font>
+                  <family>Tw Cen MT Condensed</family>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(255, 255, 255);</string>
+                </property>
+                <property name="text">
+                 <string>Wykresy</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
                <widget class="QGroupBox" name="groupBox">
                 <property name="minimumSize">
                  <size>
@@ -3876,27 +3951,227 @@ QPushButton:pressed {
                   <string>Słupki końcowe 2</string>
                  </property>
                 </widget>
+                <widget class="QLabel" name="dark">
+                 <property name="geometry">
+                  <rect>
+                   <x>10</x>
+                   <y>20</y>
+                   <width>131</width>
+                   <height>51</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
+
+    border-radius: 20px;
+    border-style: outset;
+	background-color: rgba(0, 0, 0, 100);
+    padding: 5px;
+    }
+
+
+</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+                <widget class="QLabel" name="dark_2">
+                 <property name="geometry">
+                  <rect>
+                   <x>160</x>
+                   <y>20</y>
+                   <width>131</width>
+                   <height>51</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
+
+    border-radius: 20px;
+    border-style: outset;
+	background-color: rgba(0, 0, 0, 100);
+    padding: 5px;
+    }
+
+
+</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+                <widget class="QLabel" name="dark_3">
+                 <property name="geometry">
+                  <rect>
+                   <x>310</x>
+                   <y>0</y>
+                   <width>131</width>
+                   <height>41</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
+
+    border-radius: 20px;
+    border-style: outset;
+	background-color: rgba(0, 0, 0, 100);
+    padding: 5px;
+    }
+
+
+</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+                <widget class="QLabel" name="dark_4">
+                 <property name="geometry">
+                  <rect>
+                   <x>310</x>
+                   <y>50</y>
+                   <width>131</width>
+                   <height>41</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
+
+    border-radius: 20px;
+    border-style: outset;
+	background-color: rgba(0, 0, 0, 100);
+    padding: 5px;
+    }
+
+
+</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+                <widget class="QLabel" name="dark_5">
+                 <property name="geometry">
+                  <rect>
+                   <x>460</x>
+                   <y>20</y>
+                   <width>111</width>
+                   <height>51</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
+
+    border-radius: 20px;
+    border-style: outset;
+	background-color: rgba(0, 0, 0, 100);
+    padding: 5px;
+    }
+
+
+</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+                <widget class="QLabel" name="dark_6">
+                 <property name="geometry">
+                  <rect>
+                   <x>590</x>
+                   <y>20</y>
+                   <width>131</width>
+                   <height>51</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
+
+    border-radius: 20px;
+    border-style: outset;
+	background-color: rgba(0, 0, 0, 100);
+    padding: 5px;
+    }
+
+
+</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+                <widget class="QLabel" name="dark_7">
+                 <property name="geometry">
+                  <rect>
+                   <x>740</x>
+                   <y>0</y>
+                   <width>131</width>
+                   <height>41</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
+
+    border-radius: 20px;
+    border-style: outset;
+	background-color: rgba(0, 0, 0, 100);
+    padding: 5px;
+    }
+
+
+</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+                <widget class="QLabel" name="dark_8">
+                 <property name="geometry">
+                  <rect>
+                   <x>740</x>
+                   <y>50</y>
+                   <width>131</width>
+                   <height>41</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel {
+
+    border-radius: 20px;
+    border-style: outset;
+	background-color: rgba(0, 0, 0, 100);
+    padding: 5px;
+    }
+
+
+</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
                </widget>
               </item>
-              <item row="0" column="0">
+              <item row="1" column="0">
                <widget class="QStackedWidget" name="stackedWidget_3">
                 <property name="currentIndex">
-                 <number>2</number>
+                 <number>0</number>
                 </property>
                 <widget class="QWidget" name="wyk">
                  <widget class="Canvas" name="widget" native="true">
                   <property name="geometry">
                    <rect>
-                    <x>10</x>
-                    <y>20</y>
-                    <width>874</width>
+                    <x>-7</x>
+                    <y>-10</y>
+                    <width>891</width>
                     <height>450</height>
                    </rect>
                   </property>
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
-                    <height>450</height>
+                    <height>400</height>
                    </size>
                   </property>
                   <property name="maximumSize">
@@ -3911,16 +4186,16 @@ QPushButton:pressed {
                  <widget class="Canvas" name="widget_2" native="true">
                   <property name="geometry">
                    <rect>
-                    <x>10</x>
-                    <y>20</y>
-                    <width>874</width>
+                    <x>-7</x>
+                    <y>-10</y>
+                    <width>891</width>
                     <height>450</height>
                    </rect>
                   </property>
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
-                    <height>450</height>
+                    <height>400</height>
                    </size>
                   </property>
                   <property name="maximumSize">
@@ -3935,9 +4210,9 @@ QPushButton:pressed {
                  <widget class="Canvas" name="widget_3" native="true">
                   <property name="geometry">
                    <rect>
-                    <x>10</x>
-                    <y>20</y>
-                    <width>874</width>
+                    <x>0</x>
+                    <y>-10</y>
+                    <width>881</width>
                     <height>450</height>
                    </rect>
                   </property>
@@ -3959,22 +4234,22 @@ QPushButton:pressed {
                  <widget class="Canvas" name="widget_4" native="true">
                   <property name="geometry">
                    <rect>
-                    <x>10</x>
-                    <y>20</y>
-                    <width>874</width>
-                    <height>450</height>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>881</width>
+                    <height>431</height>
                    </rect>
                   </property>
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
-                    <height>450</height>
+                    <height>400</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
                     <width>16777215</width>
-                    <height>450</height>
+                    <height>500</height>
                    </size>
                   </property>
                  </widget>
@@ -3983,16 +4258,16 @@ QPushButton:pressed {
                  <widget class="Canvas" name="widget_5" native="true">
                   <property name="geometry">
                    <rect>
-                    <x>10</x>
-                    <y>20</y>
-                    <width>874</width>
-                    <height>450</height>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>881</width>
+                    <height>431</height>
                    </rect>
                   </property>
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
-                    <height>450</height>
+                    <height>400</height>
                    </size>
                   </property>
                   <property name="maximumSize">
@@ -4007,16 +4282,16 @@ QPushButton:pressed {
                  <widget class="Canvas" name="widget_6" native="true">
                   <property name="geometry">
                    <rect>
-                    <x>10</x>
-                    <y>20</y>
-                    <width>874</width>
-                    <height>450</height>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>881</width>
+                    <height>431</height>
                    </rect>
                   </property>
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
-                    <height>450</height>
+                    <height>400</height>
                    </size>
                   </property>
                   <property name="maximumSize">
@@ -4031,16 +4306,16 @@ QPushButton:pressed {
                  <widget class="Canvas" name="widget_7" native="true">
                   <property name="geometry">
                    <rect>
-                    <x>10</x>
-                    <y>20</y>
-                    <width>874</width>
-                    <height>450</height>
+                    <x>-10</x>
+                    <y>0</y>
+                    <width>891</width>
+                    <height>431</height>
                    </rect>
                   </property>
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
-                    <height>450</height>
+                    <height>400</height>
                    </size>
                   </property>
                   <property name="maximumSize">
@@ -4055,16 +4330,16 @@ QPushButton:pressed {
                  <widget class="Canvas" name="widget_8" native="true">
                   <property name="geometry">
                    <rect>
-                    <x>10</x>
-                    <y>20</y>
-                    <width>874</width>
+                    <x>-7</x>
+                    <y>-10</y>
+                    <width>891</width>
                     <height>450</height>
                    </rect>
                   </property>
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
-                    <height>450</height>
+                    <height>400</height>
                    </size>
                   </property>
                   <property name="maximumSize">
@@ -4080,18 +4355,67 @@ QPushButton:pressed {
              </layout>
             </widget>
             <widget class="QWidget" name="page_4">
-             <widget class="QCheckBox" name="checkBox_4">
+             <widget class="QLabel" name="label_51">
               <property name="geometry">
                <rect>
                 <x>400</x>
-                <y>170</y>
-                <width>70</width>
-                <height>17</height>
+                <y>10</y>
+                <width>151</width>
+                <height>49</height>
                </rect>
               </property>
-              <property name="text">
-               <string>CheckBox</string>
+              <property name="font">
+               <font>
+                <family>Tw Cen MT Condensed</family>
+                <pointsize>14</pointsize>
+               </font>
               </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(255, 255, 255);</string>
+              </property>
+              <property name="text">
+               <string>Statystyki</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+             <widget class="QTableWidget" name="tw">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>70</y>
+                <width>881</width>
+                <height>511</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Tw Cen MT Condensed</family>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: qlineargradient(spread:pad, x1:0.966, y1:0.193091, x2:0.972, y2:1, stop:0 rgba(160, 160, 160, 255), stop:1 rgba(255, 255, 255, 255));</string>
+              </property>
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarAlwaysOn</enum>
+              </property>
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="textElideMode">
+               <enum>Qt::ElideMiddle</enum>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+              <attribute name="horizontalHeaderMinimumSectionSize">
+               <number>80</number>
+              </attribute>
+              <attribute name="verticalHeaderDefaultSectionSize">
+               <number>50</number>
+              </attribute>
              </widget>
             </widget>
             <widget class="QWidget" name="page_8">

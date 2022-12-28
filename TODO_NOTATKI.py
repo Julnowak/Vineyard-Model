@@ -14,6 +14,7 @@
 # TODO - funkcja !!!
 
 # TODO ograniczenia
+# TODO - oflagować i przetestować
 
 # max_fields_capacity = max(mfields_capacity)  # Do naprawy
 # field_grow = np.zeros(shape=(fields, max_fields_capacity)) # Tylko do rośnięcia

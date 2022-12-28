@@ -192,26 +192,26 @@ def soil_quality_generator(field_nr: int,years:int, ch_types: Dict, troj = False
     return soil_quality
 
 # test
-# ch_types = {1: 'Barbera',5: 'Dolcetto', 6: 'Cortese', 8: 'Erbaluce'}
-# num_of_years = 2
-# types_of_grapes = 3
-# num_of_fields = 3
-# soil_types = 3
-#
-# m = 600
-# l = [800, 800, 800]  # Ograniczenia górne
-# h = [100, 100, 100]  # Ograniczenia dolne
-#
-# sol = generate_solution(m, l, h, num_of_years, types_of_grapes)
-#
-#
-# planting_cost = plant_price_generator(ch_types)
-#
-# epsilon = 0.01
-# max_iter = 50
-# IsFertilized = 1
-# soil_quality = soil_quality_generator(3, num_of_years, ch_types, True)
+ch_types = {1: 'Barbera',5: 'Dolcetto', 6: 'Cortese', 8: 'Erbaluce'}
+num_of_years = 2
+types_of_grapes = 3
+num_of_fields = 3
+soil_types = 3
 
+m = 600
+l = [800, 800, 800]  # Ograniczenia górne
+h = [100, 100, 100]  # Ograniczenia dolne
+
+sol = generate_solution(m, l, h, num_of_years, types_of_grapes)
+
+
+planting_cost = plant_price_generator(ch_types)
+
+epsilon = 0.01
+max_iter = 50
+IsFertilized = 1
+soil_quality = soil_quality_generator(3, num_of_years, ch_types)
+print(soil_quality)
 
 #ok so last bit tells us if its adding or subtracting so
 #oposite is jut makeing number odd or even

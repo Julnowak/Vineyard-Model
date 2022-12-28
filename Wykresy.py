@@ -74,3 +74,23 @@ def sol_present_yourself(gain, loss, sol, ch_types):
     plot_2_bar_gain_and_loss(gain, loss)
 
 
+def wypisz(sol,ch_types):
+    months = sol.shape[0]
+    fields = sol.shape[1]
+    grape_types = sol.shape[2]
+    text = ''
+
+    for m in range(months):
+        mi = 0
+        for f in range(fields):
+            for t in range(grape_types):
+                if sol[m][f][t] != 0:
+                    if mi == 0:
+                        text += f'W {m+1} miesiącu: '
+
+
+                    text += f'   \nNa polu {f+1} zasadzono {int(sol[m][f][t])} jednostek winogron typu {ch_types[list(ch_types)[t]]}.'
+                    mi += 1
+        if mi == 3:
+            text += '\n\n'
+    return text

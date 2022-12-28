@@ -1,11 +1,10 @@
 from PyQt6.QtWidgets import *
 from PyQt6 import uic,QtGui
-import pyqtgraph as pg
 from Command_files import *
 from Generators import *
 from Wykresy import *
-import time
 from canvas import *
+
 
 class UI(QMainWindow):
 
@@ -61,37 +60,49 @@ class UI(QMainWindow):
         ### WYKRESY
 
         ## Przyciski
+        # Przyciemnienie
+        self.d = self.findChild(QLabel, 'dark')
+        self.d1 = self.findChild(QLabel, 'dark_2')
+        self.d2 = self.findChild(QLabel, 'dark_3')
+        self.d3 = self.findChild(QLabel, 'dark_4')
+        self.d4 = self.findChild(QLabel, 'dark_5')
+        self.d5 = self.findChild(QLabel, 'dark_6')
+        self.d6 = self.findChild(QLabel, 'dark_7')
+        self.d7 = self.findChild(QLabel, 'dark_8')
+        self.shader(self.d)
+
+
         # ceny wina
         self.w = self.findChild(QPushButton, "w_1")
-        self.w.clicked.connect(lambda: self.st3.setCurrentIndex(1))
+        self.w.clicked.connect(lambda: (self.st3.setCurrentIndex(1), self.shader(self.d)))
 
         # wykres początkowy
         self.w1 = self.findChild(QPushButton, "w_2")
-        self.w1.clicked.connect(lambda: self.st3.setCurrentIndex(2))
+        self.w1.clicked.connect(lambda: (self.st3.setCurrentIndex(2), self.shader(self.d1)))
 
         # słupki początkowe 1
         self.w2 = self.findChild(QPushButton, "w_3")
-        self.w2.clicked.connect(lambda: self.st3.setCurrentIndex(3))
+        self.w2.clicked.connect(lambda: (self.st3.setCurrentIndex(3), self.shader(self.d2)))
 
         # słupki początkowe 2
         self.w21 = self.findChild(QPushButton, "w_31")
-        self.w21.clicked.connect(lambda: self.st3.setCurrentIndex(4))
+        self.w21.clicked.connect(lambda: (self.st3.setCurrentIndex(4), self.shader(self.d3)))
 
         # tabu search
         self.w3 = self.findChild(QPushButton, "w_4")
-        self.w3.clicked.connect(lambda: self.st3.setCurrentIndex(0))
+        self.w3.clicked.connect(lambda: (self.st3.setCurrentIndex(0), self.shader(self.d4)))
 
         # wykres początkowy
         self.w4 = self.findChild(QPushButton, "w_5")
-        self.w4.clicked.connect(lambda: self.st3.setCurrentIndex(5))
+        self.w4.clicked.connect(lambda: (self.st3.setCurrentIndex(5),self.shader(self.d5)))
 
         # słupki początkowe 1
         self.w5 = self.findChild(QPushButton, "w_6")
-        self.w5.clicked.connect(lambda: self.st3.setCurrentIndex(6))
+        self.w5.clicked.connect(lambda: (self.st3.setCurrentIndex(6), self.shader(self.d6)))
 
         # słupki początkowe 2
         self.w51 = self.findChild(QPushButton, "w_61")
-        self.w51.clicked.connect(lambda: self.st3.setCurrentIndex(7))
+        self.w51.clicked.connect(lambda: (self.st3.setCurrentIndex(7), self.d7.setVisible(True), self.shader(self.d7)))
 
         # Wykres 0 - tabu search
         self.c = self.findChild(QWidget, 'widget')
@@ -125,6 +136,15 @@ class UI(QMainWindow):
         self.c7 = self.findChild(QWidget, 'widget_8')
         self.c7.setVisible(False)
 
+
+        ### STATYSTYKI
+        # data = [[1,2,3],
+        #         [4,5,6]]
+        #
+        self.t = self.findChild(QTableWidget, 'tw')
+        # self.t.setVisible(False)
+
+
         ### USTAWIENIA
         ## Ustawienia - przyciski
         self.n = self.findChild(QPushButton, "next")
@@ -156,6 +176,7 @@ class UI(QMainWindow):
 
         # Liczba lat/miesięcy
         self.nr_time = self.findChild(QSpinBox, "timenum")
+        self.num_of_years = int(self.nr_time.text())
 
         # Odświeżanie tabeli
         self.rt = self.findChild(QPushButton,"refreshtab")
@@ -182,6 +203,8 @@ class UI(QMainWindow):
         self.v7 = self.findChild(QCheckBox, 'Grignolino')
         self.v8 = self.findChild(QCheckBox, 'Erbaluce')
 
+        self.ch_types = {1: 'Barbera', 6: 'Cortese', 7: 'Grignolino'}
+
         # Czy używamy nawozu
         self.ch1 = self.findChild(QCheckBox, "checkBox")
         self.ch1.toggled.connect(self.showDetails)
@@ -192,24 +215,29 @@ class UI(QMainWindow):
 
         # Koszt zbioru
         self.zbior = self.findChild(QDoubleSpinBox, "zbior")
-
+        self.harvest_cost = float(self.zbior.text())
 
         ## Ustawienia - butelkowanie, magazynowanie, transport
 
         # Pojemność magazynu
         self.magcap = self.findChild(QSpinBox, "capacity")
+        self.magazine_capacity = int(self.magcap.text())
 
         # Koszt magazynowania
         self.magcost = self.findChild(QDoubleSpinBox, "magcost")
+        self.magazine_cost = float(self.magcost.text())
 
         # Ilość jednostek winogron na butelkę
         self.jperbot = self.findChild(QSpinBox, "jperbot")
+        self.plants_per_bottle = int(self.jperbot.text())
 
         # Koszt transportu
         self.transcost = self.findChild(QDoubleSpinBox, "transcost")
+        self.transport_cost = float(self.transcost.text())
 
-        # Koszt butelki
+        # Koszt butelkowania
         self.botcost = self.findChild(QDoubleSpinBox, "botcost")
+        self.bottling_cost = float(self.botcost.text())
 
 
         ## Ustawienia - ustawienia algorytmu
@@ -235,10 +263,23 @@ class UI(QMainWindow):
 
         # Czyszczenie
         self.button2 = self.findChild(QPushButton, "pushButton_2")
+
         # TODO: Dopisać wartości podstawowe dla reszty przycisków
         self.button2.clicked.connect(lambda: self.input.setValue(0.10))
         self.button2.clicked.connect(lambda: self.input2.setValue(50))
 
+        self.warn = self.findChild(QLabel, 'warnin')
+        self.warn1 = self.findChild(QLabel, 'warn1')
+        self.warn2 = self.findChild(QLabel, 'warn2')
+        self.warn2.setVisible(False)
+
+
+    def shader(self, cur):
+        for d in [self.d,self.d1,self.d2,self.d3,self.d4,self.d5,self.d6,self.d7]:
+            if d != cur:
+                d.setVisible(False)
+            else:
+                d.setVisible(True)
 
     def showDetails(self):
         print("Selected: ", self.ch1.isChecked(),
@@ -259,59 +300,74 @@ class UI(QMainWindow):
         return d
 
     def get(self):
-        self.epsilon = float(self.eps.text())
-        self.max_iter = int(self.iter.text())
 
-        print(self.epsilon, self.max_iter)
+        if self.grape_type_choice() == {}:
+            self.warn.setText(u"\u26A0"+' Musisz ustawić co najmniej jeden typ!')
+            self.warn1.setText(u"\u26A0")
+            self.warn2.setVisible(True)
+            self.warn2.setText(u"\u26A0"+' Coś poszło nie tak! Sprawdź ustawienia.')
+        else:
+            self.warn.clear()
+            self.warn1.clear()
+            self.warn2.setVisible(False)
+            self.warn2.clear()
+            self.epsilon = float(self.eps.text())
+            self.max_iter = int(self.iter.text())
+            self.num_of_years = int(self.nr_time.text())
+            self.magazine_capacity = int(self.magcap.text())
+            self.magazine_cost = float(self.magcost.text())
+            self.plants_per_bottle = int(self.jperbot.text())
+            self.transport_cost = float(self.transcost.text())
+            self.bottling_cost = float(self.botcost.text())
+            self.harvest_cost = float(self.zbior.text())
+            self.ch_types = self.grape_type_choice()
 
+            print(self.ch_types)
+            print(self.epsilon, self.max_iter, self.num_of_years,self.magazine_capacity )
+            print(self.magazine_cost, self.plants_per_bottle, self.transport_cost )
+            print(self.bottling_cost, self.harvest_cost)
 
     def start_tabu(self):
-        ch_types = {1: 'Barbera', 6: 'Cortese', 7: 'Grignolino'}
+        if self.grape_type_choice() != {}:
+            # example data and visualisation
+            types_of_grapes = len(self.ch_types)
 
-        # example data and visualisation
-        num_of_years = 2
-        types_of_grapes = len(ch_types)
+            m = 600
+            l = [800, 800, 800]  # Ograniczenia górne
+            h = [100, 100, 100]  # Ograniczenia dolne
 
-        m = 600
-        l = [800, 800, 800]  # Ograniczenia górne
-        h = [100, 100, 100]  # Ograniczenia dolne
+            sol = generate_solution(m, l, h, self.num_of_years, types_of_grapes)
 
-        sol = generate_solution(m, l, h, num_of_years, types_of_grapes)
+            planting_cost = plant_price_generator(self.ch_types)
 
-        planting_cost = plant_price_generator(ch_types)
+            IsFertilized = 1
+            soil_quality = soil_quality_generator(3, self.num_of_years, self.ch_types)
+            fertilizer_bonus = 0.05
+            fertilizer_cost = 2
 
-        IsFertilized = 1
-        soil_quality = soil_quality_generator(3, num_of_years, ch_types)
-        fertilizer_bonus = 0.05
-        fertilizer_cost = 2
-        harvest_cost = 3
-        bottling_cost = 4
-        plants_per_bottle = 1
-        transport_cost = 3
-        vineprice = vine_price_generator(ch_types, num_of_years)
-        print(vineprice)
+            vineprice = vine_price_generator(self.ch_types, self.num_of_years)
 
-        self.c1.plot_vineprice(ch_types, num_of_years,vineprice)
-        self.c1.setVisible(True)
+            self.c1.plot_vineprice(ch_types, self.num_of_years, vineprice)
+            self.c1.setVisible(True)
 
-        magazine_cost = 2
-        magazine_capacity = 600
-        store_needs = [100, 100, 100]
+            store_needs = [100, 100, 100]
 
-        # Tabu search wbudowany
-        self.tabu_search(sol, planting_cost,
-                    IsFertilized, soil_quality,
-                    fertilizer_bonus, fertilizer_cost,
-                    harvest_cost, bottling_cost,
-                    plants_per_bottle, transport_cost,
-                    vineprice, magazine_cost, magazine_capacity, store_needs, ch_types,
-                    self.tabu_length, self.max_iter, self.epsilon)
+            # Tabu search wbudowany
+            self.tabu_search(sol, planting_cost,
+                        IsFertilized, soil_quality,
+                        fertilizer_bonus, fertilizer_cost,
+                        self.harvest_cost, self.bottling_cost,
+                        self.plants_per_bottle, self.transport_cost,
+                        vineprice, self.magazine_cost, self.magazine_capacity, store_needs, self.ch_types,
+                        self.tabu_length, self.max_iter, self.epsilon)
 
-        self.pb.setValue(0)
-        self.pb.setTextVisible(False)
-
-        self.c.setVisible(True)
-
+            self.pb.setValue(0)
+            self.pb.setTextVisible(False)
+        else:
+            self.warn.setText(u"\u26A0" + ' Musisz ustawić co najmniej jeden typ!')
+            self.warn1.setText(u"\u26A0")
+            self.warn2.setVisible(True)
+            self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
 
     def tabu_search(self, beg_sol, planting_cost,
                     IsFertilized, soil_quality,
@@ -320,6 +376,8 @@ class UI(QMainWindow):
                     plants_per_bottle, transport_cost,
                     vineprice, magazine_cost, magazine_capacity, store_needs, ch_types,
                     tabu_length=10, max_iter=50, epsilon=0.1):
+
+
 
         gain, loss = ocena(beg_sol, planting_cost,
                            IsFertilized, soil_quality,
@@ -359,6 +417,11 @@ class UI(QMainWindow):
         counter = 0
         self.pb.setTextVisible(True)
         self.pb.setMaximum(max_iter)
+
+        # DANE
+        dane_excel = [[counter, gain, loss, sum(gain) - sum(loss), len(TL), TL]]
+        dane = [[counter, round(sum(gain),2),  round(sum(loss),2),  round(sum(gain)-sum(loss),2), len(TL), wypisz(beg_sol, ch_types)]]
+
         limsta = []
 
         while not (stop_iter or stop_eps):
@@ -412,7 +475,7 @@ class UI(QMainWindow):
                     TL.pop(0)
                     TL.append(generateAntiNum(n_rem))
                 solution = mapa[n_rem].copy()
-
+            print(TL)
             if counter > max_iter:
                 stop_iter = True
 
@@ -422,18 +485,19 @@ class UI(QMainWindow):
             past_sol = maxval
 
             counter += 1
+            dane.append([counter, round(sum(gain_rem),2),  round(sum(loss_rem),2),  round(sum(gain_rem)-sum(loss_rem),2), len(TL), wypisz(solution, ch_types)])
             print(counter)
             if counter >= max_iter:
                 stop_iter = True
 
         self.pb.setValue(max_iter)
-        print(limsta)
 
         # plt.plot(limsta)
         # plt.title('Wykres wartości funkcji celu')
         # plt.show()
 
         self.c.plotting(limsta)
+        self.c.setVisible(True)
 
         # sol_present_yourself(gain_rem, loss_rem, bs_solution, ch_types)
 
@@ -445,6 +509,16 @@ class UI(QMainWindow):
 
         self.c7.plot_bar2(gain_rem, loss_rem, bs_solution.shape[0])
         self.c7.setVisible(True)
+
+        self.t.setRowCount(len(dane))
+        self.t.setColumnCount(len(dane[0]))
+        self.t.setHorizontalHeaderLabels(["Iteracja", "zysk", "strata","bilans","Aktualna długość TL","Opis"])
+
+        for k in range(len(dane)):
+            for i in range(len(dane[0])):
+                self.t.setItem(k, i, QTableWidgetItem(str(dane[k][i])))
+        self.t.resizeColumnsToContents()
+        self.t.resizeRowsToContents()
 
         return bs_solution
 
