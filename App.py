@@ -136,10 +136,6 @@ class UI(QMainWindow):
         self.c7 = self.findChild(QWidget, 'widget_8')
         self.c7.setVisible(False)
 
-
-        ### STATYSTYKI
-        # data = [[1,2,3],
-        #         [4,5,6]]
         #
         self.t = self.findChild(QTableWidget, 'tw')
         # self.t.setVisible(False)
@@ -170,6 +166,9 @@ class UI(QMainWindow):
         # tabela
         self.tab = self.findChild(QTableWidget,"tableWidget")
 
+        # flaga
+        self.flaga = self.findChild(QCheckBox,"flaga")
+
         # Liczba pól
         self.nr_field = self.findChild(QSpinBox,"fieldnum")
 
@@ -178,9 +177,13 @@ class UI(QMainWindow):
         self.nr_time = self.findChild(QSpinBox, "timenum")
         self.num_of_years = int(self.nr_time.text())
 
+        # Zapotrzebowanie
+        self.zap = self.findChild(QTableWidget, "zap")
+        self.ch_types = {1:'Barbera', 2:'Chardonnay', 3: 'Nebbiolo'}
         # Odświeżanie tabeli
         self.rt = self.findChild(QPushButton,"refreshtab")
-        self.rt.clicked.connect(lambda: self.tab.setRowCount(int(self.nr_field.text())))
+        self.rt.clicked.connect(lambda: (self.tab.setRowCount(int(self.nr_field.text())),self.zap.setRowCount(len(self.ch_types)+1),
+                                         self.zap.setVerticalHeaderLabels(list(self.ch_types.values())+[''])))
 
         # Czyszcenie tabeli
         self.ct = self.findChild(QPushButton,"cleartab")
@@ -203,15 +206,17 @@ class UI(QMainWindow):
         self.v7 = self.findChild(QCheckBox, 'Grignolino')
         self.v8 = self.findChild(QCheckBox, 'Erbaluce')
 
-        self.ch_types = {1: 'Barbera', 6: 'Cortese', 7: 'Grignolino'}
+
 
         # Czy używamy nawozu
         self.ch1 = self.findChild(QCheckBox, "checkBox")
-        self.ch1.toggled.connect(self.showDetails)
+        self.IsFertilized = 1
+        self.ch1.toggled.connect(lambda: self.check())
 
         # Typ nawozu
         self.nawoz = self.findChild(QComboBox, "nawoz")
-        print(self.nawoz.currentText())
+        self.fertilizer_bonus = 0.05
+        self.fertilizer_cost = 2.00
 
         # Koszt zbioru
         self.zbior = self.findChild(QDoubleSpinBox, "zbior")
@@ -238,6 +243,7 @@ class UI(QMainWindow):
         # Koszt butelkowania
         self.botcost = self.findChild(QDoubleSpinBox, "botcost")
         self.bottling_cost = float(self.botcost.text())
+
 
 
         ## Ustawienia - ustawienia algorytmu
@@ -273,6 +279,8 @@ class UI(QMainWindow):
         self.warn2 = self.findChild(QLabel, 'warn2')
         self.warn2.setVisible(False)
 
+        self.h = [800,800,800]
+        self.l = [100,100,100]
 
     def shader(self, cur):
         for d in [self.d,self.d1,self.d2,self.d3,self.d4,self.d5,self.d6,self.d7]:
@@ -281,10 +289,11 @@ class UI(QMainWindow):
             else:
                 d.setVisible(True)
 
-    def showDetails(self):
-        print("Selected: ", self.ch1.isChecked(),
-              "  Name: ", self.ch1.text())
-
+    def check(self):
+        if self.ch1.isChecked():
+            self.IsFertilized = 1
+        else:
+            self.IsFertilized = 0
 
     # Tworzy słownik wybranych rodzajów wina
     def grape_type_choice(self):
@@ -311,6 +320,7 @@ class UI(QMainWindow):
             self.warn1.clear()
             self.warn2.setVisible(False)
             self.warn2.clear()
+
             self.epsilon = float(self.eps.text())
             self.max_iter = int(self.iter.text())
             self.num_of_years = int(self.nr_time.text())
@@ -321,53 +331,49 @@ class UI(QMainWindow):
             self.bottling_cost = float(self.botcost.text())
             self.harvest_cost = float(self.zbior.text())
             self.ch_types = self.grape_type_choice()
+            self.acctab()
 
-            print(self.ch_types)
-            print(self.epsilon, self.max_iter, self.num_of_years,self.magazine_capacity )
-            print(self.magazine_cost, self.plants_per_bottle, self.transport_cost )
-            print(self.bottling_cost, self.harvest_cost)
+            if self.nawoz.currentText() == 'Standardowy (+5%) - 2zł/szt':
+                self.fertilizer_bonus = 0.05
+                self.fertilizer_cost = 2.00
+            elif self.nawoz.currentText() == 'Wyższej jakości (+10%) - 4zł/szt':
+                self.fertilizer_bonus = 0.10
+                self.fertilizer_cost = 4.00
+            else:
+                self.fertilizer_bonus = 0.17
+                self.fertilizer_cost = 7.00
+
 
     def start_tabu(self):
-        if self.grape_type_choice() != {}:
-            # example data and visualisation
-            types_of_grapes = len(self.ch_types)
 
-            m = 600
-            l = [800, 800, 800]  # Ograniczenia górne
-            h = [100, 100, 100]  # Ograniczenia dolne
+            if self.ch_types != {}:
 
-            sol = generate_solution(m, l, h, self.num_of_years, types_of_grapes)
+                sol = generate_solution(self.magazine_capacity,  self.h, self.l, self.num_of_years, len(self.ch_types))
 
-            planting_cost = plant_price_generator(self.ch_types)
+                planting_cost = plant_price_generator(self.ch_types)
+                soil_quality = soil_quality_generator(len(self.ch_types), self.num_of_years, self.ch_types)
+                vineprice = vine_price_generator(self.ch_types, self.num_of_years)
 
-            IsFertilized = 1
-            soil_quality = soil_quality_generator(3, self.num_of_years, self.ch_types)
-            fertilizer_bonus = 0.05
-            fertilizer_cost = 2
+                self.c1.plot_vineprice(self.ch_types, self.num_of_years, vineprice)
+                self.c1.setVisible(True)
 
-            vineprice = vine_price_generator(self.ch_types, self.num_of_years)
+                store_needs = [100, 100, 100]
+                # Tabu search wbudowany
+                self.tabu_search(sol, planting_cost,
+                            self.IsFertilized, soil_quality,
+                            self.fertilizer_bonus, self.fertilizer_cost,
+                            self.harvest_cost, self.bottling_cost,
+                            self.plants_per_bottle, self.transport_cost,
+                            vineprice, self.magazine_cost, self.magazine_capacity, store_needs, self.ch_types,
+                            self.tabu_length, self.max_iter, self.epsilon)
 
-            self.c1.plot_vineprice(ch_types, self.num_of_years, vineprice)
-            self.c1.setVisible(True)
-
-            store_needs = [100, 100, 100]
-
-            # Tabu search wbudowany
-            self.tabu_search(sol, planting_cost,
-                        IsFertilized, soil_quality,
-                        fertilizer_bonus, fertilizer_cost,
-                        self.harvest_cost, self.bottling_cost,
-                        self.plants_per_bottle, self.transport_cost,
-                        vineprice, self.magazine_cost, self.magazine_capacity, store_needs, self.ch_types,
-                        self.tabu_length, self.max_iter, self.epsilon)
-
-            self.pb.setValue(0)
-            self.pb.setTextVisible(False)
-        else:
-            self.warn.setText(u"\u26A0" + ' Musisz ustawić co najmniej jeden typ!')
-            self.warn1.setText(u"\u26A0")
-            self.warn2.setVisible(True)
-            self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
+                self.pb.setValue(0)
+                self.pb.setTextVisible(False)
+            else:
+                self.warn.setText(u"\u26A0" + ' Musisz ustawić co najmniej jeden typ!')
+                self.warn1.setText(u"\u26A0")
+                self.warn2.setVisible(True)
+                self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
 
     def tabu_search(self, beg_sol, planting_cost,
                     IsFertilized, soil_quality,
@@ -523,15 +529,29 @@ class UI(QMainWindow):
         return bs_solution
 
     def acctab(self):
+        upper = []
+        lower = []
         for row in range(self.tab.rowCount()):
             for column in range(self.tab.columnCount()):
                 _item = self.tab.item(row, column)
                 if _item:
-                    item = self.tab.item(row, column).text()
-                    print(f'row: {row}, column: {column}, item={item}')
+                    item = int(self.tab.item(row, column).text())
                 else:
-                    item = None
-                    print(f'row: {row}, column: {column}, item={item}')
+                    item = 0
+
+                if column == 0:
+                    upper.append(item)
+                elif column == 1:
+                    upper[row] *= item
+                else:
+                    lower.append(item)
+        if upper[0] != 0 and lower[0] != 0 and self.flaga.isChecked():
+            upper = [upper[0]] * self.tab.rowCount()
+            lower = [lower[0]] * self.tab.rowCount()
+
+        self.h, self.l = upper, lower
+        print(self.h)
+        print(self.l)
 
 app = QApplication([])
 window = UI()

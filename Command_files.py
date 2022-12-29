@@ -48,9 +48,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
 
                  # Koszt obsiania danego pola danym typem winogron
                 if sol[m][f][t] != 0 and m%12 not in [0,1,11]:
-                    plant_cost = sol[m][f][t] * planting_costs[t] + Isfertilized * fertilizer_cost
-                elif sol[m][f][t] != 0 and m%12 in [0,1,11]:
-                    plant_cost = 99999999
+                    plant_cost = sol[m][f][t] * planting_costs[t] + Isfertilized * fertilizer_cost*sol[m][f][t]
                 else:
                     plant_cost = 0
 

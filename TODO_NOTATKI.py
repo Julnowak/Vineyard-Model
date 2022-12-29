@@ -1,7 +1,5 @@
 # TYLKO NOTATKI, BRAK UŻYTEGO KODU
 
-# TODO - Dodać miarę dopuszczalności - funkcja kary konieczna!
-
 # TODO - trójpolówka - jest
 
 # TODO - magazynowanie - (w teorii uwzględnione)
@@ -9,7 +7,7 @@
 # TODO - zapotrzebowanie sklepu - (większośc)
 
 # TODO lista długoterminowa - częstotliwość wystąpień zmian
-# TODO - ogarnąć tabu list
+# TODO - ogarnąć tabu list (TL NIE DZIAŁA)
 
 # TODO - funkcja !!!
 

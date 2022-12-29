@@ -67,11 +67,8 @@ class Canvas(FigureCanvas):
     # Ceny win
     # TODO: naprawić --- zrobić ładniej trzeba, sprawdzić dla 4, 2 i 7
     def plot_vineprice(self, ch_types, num_of_years, bottle_prices):
-        if isinstance(self.ax, list):
-            for i in self.ax:
-                i.remove()
-        else:
-            self.ax.remove()
+        self.fig.clf()
+        print(self.fig.axes)
 
         colors = ['darkorchid','slateblue','darkgoldenrod',
                   'orangered','crimson','teal','steelblue','firebrick']
@@ -94,12 +91,14 @@ class Canvas(FigureCanvas):
                 else:
                     ax.plot(range(1, months + 1), bottle_prices[c], c=colors[c])
                 ax.grid()
-                self.ax.legend(v,loc='best')
+                ax.legend(v,loc='best')
+
                 c += 1
             elif k == 2:
                 pass
             else:
                 pass
+            self.draw()
             #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         # fig.suptitle(f"Zmiana ceny wina na przestrzeni {months} miesięcy")

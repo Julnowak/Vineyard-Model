@@ -1,8 +1,8 @@
 <RCC>
     <qresource prefix="/grapes">
-        <file>vineyards-shutterstock_1493420213.jpg</file>
-        <file>grapes-varieties©iStock.jpg</file>
         <file>2836932.png</file>
+        <file>pngwing.com.png</file>
+        <file>idek.png</file>
     </qresource>
     <qresource prefix="/icons">
         <file>gears-icon.png</file>
@@ -10,5 +10,6 @@
         <file>redo-circle-outline-icon.png</file>
         <file>round-arrow-left-icon.png</file>
         <file>round-arrow-right-icon.png</file>
+        <file>pngegg.png</file>
     </qresource>
 </RCC>
