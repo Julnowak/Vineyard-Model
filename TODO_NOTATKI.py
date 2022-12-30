@@ -1,17 +1,21 @@
 # TYLKO NOTATKI, BRAK UŻYTEGO KODU
 
-# TODO - trójpolówka - jest
-
-# TODO - magazynowanie - (w teorii uwzględnione)
-
-# TODO - zapotrzebowanie sklepu - (większośc)
+# PAWEŁ
 
 # TODO lista długoterminowa - częstotliwość wystąpień zmian
 # TODO - ogarnąć tabu list (TL NIE DZIAŁA)
+# TODO - generowanie otoczenia działa źle (?), trzeba to obgadać i naprawić, bo wybiera dziwaczne rozwiązania (w test.out)
+# TODO - przyjrzeć się ograniczeniom, górne trzeba dostosować, dolne trzeba dodać
 
-# TODO - funkcja !!!
+# Julia
+# TODO - trójpolówka - jest, trzeba nieco poprawić i przetestować
 
+# TODO - zapotrzebowanie sklepu aplikacja
+# TODO - naprawić przebieg algorytmu dla 8 rodzajów
+# TODO - dodać błędy od magazynu, rodzajów do apki
 # TODO ograniczenia
+
+# FILIP
 # TODO - oflagować i przetestować
 
 # max_fields_capacity = max(mfields_capacity)  # Do naprawy

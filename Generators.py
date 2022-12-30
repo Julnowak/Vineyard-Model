@@ -4,13 +4,17 @@ from typing import Union, List, Dict
 import matplotlib.pyplot as plt
 
 
-# Generator rozwiązania początkowego
+# Generator rozwiązania początkowego - działa
 def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[List, Dict],
                       min_fields_capacity: Union[List, Dict], number_of_years: int,
                       number_of_grapetypes: int) -> np.ndarray:
 
+    for x in range(len(min_fields_capacity)):
+        if min_fields_capacity[x] > max_fields_capacity[x]:
+            raise Exception('Cannot set minimum capacity of field greater than maximum capacity of field.')
+
     if max_magazine_capacity < sum(min_fields_capacity):
-        raise Exception('Magazine capacity too low!')
+        raise Exception('Magazine capacity is too low or minimum field capacity is too high.')
 
     fields_num = len(max_fields_capacity)
     solution = np.zeros((number_of_years * 12, fields_num, number_of_grapetypes))
@@ -22,7 +26,6 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
     for i in range(number_of_years):
         winter += [0 + 12 * i, 1 + 12 * i, 11 + 12 * i]
         planting_breaks += [3 + 12 * i, 4 + 12 * i, 5 + 12 * i, 7 + 12 * i, 8 + 12 * i, 9 + 12 * i]
-    # print(winter)
 
     for m in range(solution.shape[0]):
         if m in winter or m in planting_breaks:
@@ -40,14 +43,9 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
 
 
 def vine_price_generator(ch_types: Dict, num_of_years: int):
-    # colors = ['darkorchid','slateblue','darkgoldenrod',
-    #           'orangered','crimson','teal','steelblue','firebrick']
-    print(ch_types)
-
     months = num_of_years * 12
     bottle_prices = np.ones((len(ch_types), months))
     c = 0
-    # fig, ax = plt.subplots(len(ch_types), 1)
     for _, v in ch_types.items():
         if v == 'Barbera':
             bottle_prices[c, :] = np.random.uniform(low=30.01, high=45.12, size=(1, months))
@@ -67,27 +65,10 @@ def vine_price_generator(ch_types: Dict, num_of_years: int):
             bottle_prices[c, :] = np.random.uniform(low=132.00, high=137.00, size=(1, months))
         else:
             raise Exception(f'There is no grape type: "{v}"')
-
-    #     np.set_printoptions(precision=2)
-    #     if num_of_years <= 2:
-    #        ax[c].plot(range(1, months + 1), bottle_prices[c], label=v, linestyle='--', marker='o', c=colors[c])
-    #     else:
-    #         ax[c].plot(range(1, months + 1), bottle_prices[c], label=v, c=colors[c])
-    #     ax[c].grid()
-    #     ax[c].legend(loc='best')
         c += 1
-    #
-    # fig.suptitle(f"Zmiana ceny wina na przestrzeni {months} miesięcy")
-    # fig.supylabel('Aktualna cena wina')
-    #
-    # if months == 12:
-    #     month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    #     plt.xticks(range(1, months + 1), month)
-    #     fig.supxlabel('Miesiąc')
-    # else:
-    #     fig.supxlabel('Nr.miesiąca')
-    # plt.show()
+
     return bottle_prices
+
 
 def plant_price_generator(ch_types: Dict):
     planting_prices = np.ones((len(ch_types), 1))
@@ -112,10 +93,11 @@ def plant_price_generator(ch_types: Dict):
         else:
             raise Exception(f'There is no grape type: "{v}"')
         c += 1
+
     return planting_prices.reshape((len(ch_types)))
 
 
-def soil_quality_generator(field_nr: int,years:int, ch_types: Dict, troj = False):
+def soil_quality_generator(field_nr: int, years:int, ch_types: Dict, troj = False):
     """
     :param field_nr: number of all available fields
     :param ch_types: Types of grapes that have been chosen by user
@@ -145,7 +127,7 @@ def soil_quality_generator(field_nr: int,years:int, ch_types: Dict, troj = False
         # Jej działanie to dodawanie jakości dla gleby dla danej, losowej sekwencji
         # Jakość dodawana jednakowa dla wszystkich pól
 
-        trojka = []
+        trojlist = []
         soil_quality = np.zeros((months, field_nr, len(ch_types)))
         rem = np.zeros((months, field_nr, len(ch_types)))
         sq = np.random.uniform(low=0.7, high=0.95, size=(field_nr, len(ch_types)))
@@ -154,32 +136,37 @@ def soil_quality_generator(field_nr: int,years:int, ch_types: Dict, troj = False
             seq = []
             seq.append(t)
             k = t
-            for _ in range(2):
+            for i in range(2):
                 if len(ch_types)>2:
                     while k in seq:
                         k = random.choice(list(ch_types))
                     seq.append(k)
+                elif len(ch_types)==2:
+                    seq.append(list(ch_types)[i])
+
                 else:
                     k = random.choice(list(ch_types))
                     seq.append(k)
-            trojka.append(seq)
+            trojlist.append(seq)
+        mix=[]
 
-        trojka = random.choice(trojka)
-        cop = trojka.copy()
+        for i in range(field_nr):
+            mix.append(random.choice(trojlist))
+
+        cop = mix.copy()
+        print(cop)
 
         for m in range(months):
-            if m!= 0:
-                if m%3 == 1:
-                    rem[m, :, mapk[cop[0]]] += 0.2
-                elif m%3 == 2:
-                    rem[m, :, mapk[cop[0]]] += 0.2
-                elif m%3 == 0:
-                    cop = trojka.copy()
-                    rem[m, :, mapk[cop[0]]] += 0.2
-                cop.pop(0)
+            if m%12 in [2,6,10]:
+                for f in range(field_nr):
+                    print(cop[f])
+                    rem[m, f, mapk[cop[f][0]]] += 10
+                    cop[f].pop(0)
+                    if not cop[f]:
+                        cop[f] = mix[f].copy()
             else:
                 rem[m,:,:] = 0
-                cop.pop(0)
+
 
             if m % 12 in [0, 1, 11]:
                 soil_quality[m, :, :] = sq * 0.3
@@ -192,26 +179,26 @@ def soil_quality_generator(field_nr: int,years:int, ch_types: Dict, troj = False
     return soil_quality
 
 # test
-# ch_types = {1: 'Barbera',5: 'Dolcetto', 6: 'Cortese', 8: 'Erbaluce'}
-# num_of_years = 2
-# types_of_grapes = 3
-# num_of_fields = 3
-# soil_types = 3
-#
-# m = 600
-# l = [800, 800, 800]  # Ograniczenia górne
-# h = [100, 100, 100]  # Ograniczenia dolne
-#
-# sol = generate_solution(m, l, h, num_of_years, types_of_grapes)
-#
-#
-# planting_cost = plant_price_generator(ch_types)
-#
-# epsilon = 0.01
-# max_iter = 50
-# IsFertilized = 1
-# soil_quality = soil_quality_generator(3, num_of_years, ch_types)
-# print(soil_quality)
+ch_types = {1: 'Barbera',5: 'Dolcetto'}
+num_of_years = 2
+types_of_grapes = 3
+num_of_fields = 3
+soil_types = 3
+
+m = 600
+l = [800, 800, 800]  # Ograniczenia górne
+h = [100, 100, 100]  # Ograniczenia dolne
+
+sol = generate_solution(m, l, h, num_of_years, types_of_grapes)
+
+
+planting_cost = plant_price_generator(ch_types)
+
+epsilon = 0.01
+max_iter = 50
+IsFertilized = 1
+soil_quality = soil_quality_generator(3, num_of_years, ch_types,True)
+print(soil_quality)
 
 #ok so last bit tells us if its adding or subtracting so
 #oposite is jut makeing number odd or even

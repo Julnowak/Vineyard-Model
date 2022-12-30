@@ -8,21 +8,6 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
           harvest_cost, bottling_cost, plants_per_bottle, transport_cost,
           bottle_price, magazine_cost, magazine_capacity, store_needs=None):
 
-    """
-    :param sol:number_of_years * 12 x fields_num x types
-    :param planting_costs: grape_types
-    :param Isfertilized:
-    :param soil_quality: fieldsNum - Nie soil_type tylko mnoznik jakościowy typu np. 0.7 przemnażany przez oczekiwaną ilośc plonów
-    :param fertilizer_bonus:
-    :param fertilizer_cost:
-    :param harvest_cost:
-    :param bottling_cost:
-    :param plants_per_bottle:
-    :param transport_cost:
-    :param bottle_price: grape_types x 12
-    :return:
-    """
-
     if store_needs is None:
         store_needs = [np.inf] * sol.shape[2]
 
@@ -38,7 +23,6 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
     bottles_selled = 0
     bottles_remained =0
     for m in range(months):
-
         store_needs_actual = store_needs.copy()
         month_cost = 0
         month_gain = 0
@@ -51,6 +35,9 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
                     plant_cost = sol[m][f][t] * planting_costs[t] + Isfertilized * fertilizer_cost*sol[m][f][t]
                 else:
                     plant_cost = 0
+                # print('------',m,' ',f, ' ',t,'------' )
+                # print('zasadzono:',sol[m][f][t])
+                # print('koszt obsadzenia',plant_cost)
 
                 # Ilość zbioru z pola
                 if m % 12 in [0, 1, 11]:
@@ -58,19 +45,24 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
                 else:
                     gathering = sol[m][f][t] * (soil_quality[m][f][t] + Isfertilized * fertilizer_bonus)
 
+                # print('zebrano:', gathering)
+
                 # Koszt zbiorów
                 if sol[m][f][t] != 0 and m%12 not in [0, 1, 11]:
-                    ha_cost = sol[m][f][t] * harvest_cost
-
+                    ha_cost = gathering * harvest_cost
                 else:
                     ha_cost = 0
 
+                # print('koszt zbioru:', ha_cost)
 
                 # Ilość butelek, które powstały
                 bottles = int(gathering // plants_per_bottle) + remains[t]
-                # if gathering / plants_per_bottle - bottles != 0:
-                #     left = gathering / plants_per_bottle - bottles
-                #     month_cost += left*20
+                bottling_expenses = int(gathering // plants_per_bottle) * bottling_cost
+
+                # print('koszt butelkowania:', bottling_expenses)
+                # print('Nowe butelki:', int(gathering // plants_per_bottle))
+                # print('Pozostałe butelki:', remains[t])
+
 
                 if store_needs_actual[t] >= bottles:
                     store_needs_actual[t] = store_needs_actual[t] - bottles
@@ -82,24 +74,54 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
                     bottles_selled = bottles - bottles_remained
                     store_needs_actual[t] = 0
 
+                # print('butelki po tej rundzie:', bottles_remained)
+                # print('butelki sprzedane:', bottles_selled)
 
                 # butelkowanie i transport
-                bottrans_cost = bottles_selled * bottling_cost + transport_cost * bottles_selled
+                bottrans_cost = bottling_expenses + transport_cost * bottles_selled
 
+                # print('koszty transportu:', transport_cost * bottles_selled)
                 bottle_gain = bottles_selled * bottle_price[t][m]
 
+                # print('zysk ze sprzedaży:', bottle_gain)
+
                 month_cost += plant_cost + ha_cost + bottrans_cost + bottles_remained * magazine_cost
+                # print(month_cost)
+                # print(bottles_remained * magazine_cost)
 
                 month_gain += bottle_gain
 
                 remains[t] = bottles_remained
+                # print(remains)
 
         if magazine_capacity < sum(remains):
-            remains[remains.index(max(remains))]= max(remains) - (sum(remains) - 600)
-            month_gain += (sum(remains) - 600) * 0.5 * bottle_price[remains.index(max(remains))][m]
+            remains[remains.index(max(remains))] = max(remains) - (sum(remains) - magazine_capacity)
+            month_gain += (sum(remains) - magazine_capacity) * 0.5 * bottle_price[remains.index(max(remains))][m]
+        # Sprzedajemy po połowie ceny
+
+        # Kara
+        for i in store_needs_actual:
+            if i != 0:
+                month_cost += i * 1.0
 
         # Plus opłata utrzymania winnicy
-        cost.append(month_cost + np.random.uniform(low=1800.00, high=2800.00))
-        gains.append(month_gain)
+        cost.append(round(month_cost + np.random.uniform(low=1600.00, high=2000.00), 2))
+        gains.append(round(month_gain,2))
 
     return gains, cost
+
+# Czy plony mieszczą się w zakresie ograniczeń
+def isOK_size(sol, minimum, maximum, mag):
+    flaga = True
+    for m in range(sol.shape[0]):
+        if m%12 not in [0,1,3,4,5,7,8,9,11]:
+            for f in range(sol.shape[1]):
+                if np.sum(sol[m][f]) > maximum[f] or np.sum(sol[m][f]) < minimum[f]:
+                    flaga = False
+
+        # Nie jest to ograniczenie ostatecze magazynu
+        if np.sum(sol[m]) > mag:
+            flaga = False
+    return flaga
+
+

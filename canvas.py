@@ -68,51 +68,38 @@ class Canvas(FigureCanvas):
     # TODO: naprawić --- zrobić ładniej trzeba, sprawdzić dla 4, 2 i 7
     def plot_vineprice(self, ch_types, num_of_years, bottle_prices):
         self.fig.clf()
-        print(self.fig.axes)
 
         colors = ['darkorchid','slateblue','darkgoldenrod',
                   'orangered','crimson','teal','steelblue','firebrick']
 
         c = 0
-        if len(ch_types)>6:
-            k = 3
-        elif len(ch_types)>3:
+        if len(ch_types)>4:
             k = 2
         else:
             k = 1
         months = num_of_years * 12
 
-
         for _, v in ch_types.items():
-            if k == 1:
-                ax = self.fig.add_subplot(len(ch_types), k, c+1)
-                if num_of_years <= 2:
-                   ax.plot(range(1, months + 1), bottle_prices[c], linestyle='--', marker='o', c=colors[c])
-                else:
-                    ax.plot(range(1, months + 1), bottle_prices[c], c=colors[c])
-                ax.grid()
-                ax.legend(v,loc='best')
-
-                c += 1
-            elif k == 2:
-                pass
+            ax = self.fig.add_subplot(len(ch_types), k, c+1)
+            if num_of_years <= 2:
+               ax.plot(range(1, months + 1), bottle_prices[c], linestyle='--', marker='o', c=colors[c])
             else:
-                pass
-            self.draw()
-            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+               ax.plot(range(1, months + 1), bottle_prices[c], c=colors[c])
+            ax.grid()
+            ax.legend((v,), loc='best')
 
-        # fig.suptitle(f"Zmiana ceny wina na przestrzeni {months} miesięcy")
-        # fig.supylabel('Aktualna cena wina')
-        #
-        # if months == 12:
-        #     month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        #     plt.xticks(range(1, months + 1), month)
-        #     fig.supxlabel('Miesiąc')
-        # else:
-        #     fig.supxlabel('Nr.miesiąca')
-        #
-        # #
-        # self.ax.set(xlabel='time (s)', ylabel='voltage (mV)',
-        #             title='About as simple as it gets, folks')
+            c += 1
 
+        self.fig.suptitle(f"Zmiana ceny wina na przestrzeni {months} miesięcy",y = 0.97)
+        self.fig.supylabel('Aktualna cena wina')
+
+        if months == 12:
+            month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            plt.xticks(range(1, months + 1), month)
+            self.fig.supxlabel('Miesiąc')
+        else:
+            self.fig.supxlabel('Nr.miesiąca')
+
+        self.fig.tight_layout()
+        self.draw()
 
