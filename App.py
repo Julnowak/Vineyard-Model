@@ -169,6 +169,8 @@ class UI(QMainWindow):
 
         # flaga
         self.flaga = self.findChild(QCheckBox, "flaga")
+        self.flaga2 = self.findChild(QCheckBox, "flaga_2")
+        self.store_need = [100,100,100]
 
         # Liczba pól
         self.nr_field = self.findChild(QSpinBox, "fieldnum")
@@ -180,6 +182,8 @@ class UI(QMainWindow):
         # Zapotrzebowanie
         self.zap = self.findChild(QTableWidget, "zap")
         self.ch_types = {1: 'Barbera', 2: 'Chardonnay', 3: 'Nebbiolo'}
+        self.xclear = self.findChild(QPushButton, "xclear")
+        self.xclear .clicked.connect(lambda: self.zap.clearContents())
 
         # Odświeżanie tabeli
         self.rt = self.findChild(QPushButton, "refreshtab")
@@ -187,13 +191,10 @@ class UI(QMainWindow):
             lambda: (self.tab.setRowCount(int(self.nr_field.text())), self.zap.setRowCount(len(self.ch_types) + 1),
                      self.zap.setVerticalHeaderLabels(list(self.ch_types.values()) + [''])))
 
-        # Czyszcenie tabeli
+        # Czyszczenie tabeli
         self.ct = self.findChild(QPushButton, "cleartab")
         self.ct.clicked.connect(lambda: self.tab.clearContents())
 
-        # Zaakceptowanie tabeli
-        self.at = self.findChild(QPushButton, "accepttab")
-        self.at.clicked.connect(lambda: self.acctab())
 
         ## Ustawienia - rodzaje,nawozy,zbiory
 
@@ -267,7 +268,6 @@ class UI(QMainWindow):
         # zatwierdź
         self.button = self.findChild(QPushButton, "pushButton")
         self.button.clicked.connect(self.get)
-        self.button.clicked.connect(self.grape_type_choice)
 
         # Czyszczenie
         self.button2 = self.findChild(QPushButton, "pushButton_2")
@@ -280,9 +280,16 @@ class UI(QMainWindow):
         self.warn1 = self.findChild(QLabel, 'warn1')
         self.warn2 = self.findChild(QLabel, 'warn2')
         self.warn2.setVisible(False)
+        self.warn3 = self.findChild(QLabel, 'warn3')
+        self.warnin2 = self.findChild(QLabel, 'warnin_2')
+        self.warnin2.setVisible(False)
 
-        self.h = [800, 800, 800]
-        self.l = [100, 100, 100]
+        self.warn4 = self.findChild(QLabel, 'warn4')
+        self.warnin3 = self.findChild(QLabel, 'warnin_3')
+        self.warnin3.setVisible(False)
+
+        self.upper = [800, 800, 800]
+        self.lower = [100, 100, 100]
         self.show_yourself()
 
     def shader(self, cur):
@@ -303,7 +310,6 @@ class UI(QMainWindow):
             self.trojka = True
         else:
             self.trojka = False
-        # print(self.trojka)
 
     # Tworzy słownik wybranych rodzajów wina
     def grape_type_choice(self):
@@ -318,6 +324,11 @@ class UI(QMainWindow):
         return d
 
     def get(self):
+        self.warn.clear()
+        self.warn1.clear()
+        self.warn2.setVisible(False)
+        self.warn2.clear()
+
         self.ch_types = self.grape_type_choice()
         if self.ch_types == {}:
             self.warn.setText(u"\u26A0" + ' Musisz ustawić co najmniej jeden typ!')
@@ -325,10 +336,6 @@ class UI(QMainWindow):
             self.warn2.setVisible(True)
             self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
         else:
-            self.warn.clear()
-            self.warn1.clear()
-            self.warn2.setVisible(False)
-            self.warn2.clear()
 
             self.epsilon = float(self.eps.text())
             self.max_iter = int(self.iter.text())
@@ -339,9 +346,8 @@ class UI(QMainWindow):
             self.transport_cost = float(self.transcost.text())
             self.bottling_cost = float(self.botcost.text())
             self.harvest_cost = float(self.zbior.text())
-
-            # Tu się sypie
-            # self.acctab()
+            self.acctab()
+            self.acczap()
 
             if self.nawoz.currentText() == 'Standardowy (+5%) - 2zł/szt':
                 self.fertilizer_bonus = 0.05
@@ -353,35 +359,31 @@ class UI(QMainWindow):
                 self.fertilizer_bonus = 0.17
                 self.fertilizer_cost = 7.00
 
+
+
     def start_tabu(self):
         try:
-            if self.ch_types != {}:
+            sol = generate_solution(self.magazine_capacity, self.upper, self.lower, self.num_of_years, len(self.ch_types))
+            planting_cost = plant_price_generator(self.ch_types)
+            soil_quality = soil_quality_generator(len(self.ch_types), self.num_of_years, self.ch_types, self.trojka)
+            vineprice = vine_price_generator(self.ch_types, self.num_of_years)
 
-                sol = generate_solution(self.magazine_capacity, self.h, self.l, self.num_of_years, len(self.ch_types))
-                planting_cost = plant_price_generator(self.ch_types)
-                soil_quality = soil_quality_generator(len(self.ch_types), self.num_of_years, self.ch_types, self.trojka)
-                vineprice = vine_price_generator(self.ch_types, self.num_of_years)
+            self.c1.plot_vineprice(self.ch_types, self.num_of_years, vineprice)
+            self.c1.setVisible(True)
 
-                self.c1.plot_vineprice(self.ch_types, self.num_of_years, vineprice)
-                self.c1.setVisible(True)
 
-                store_needs = [100, 100, 100]
-                # Tabu search wbudowany
-                self.tabu_search(sol, planting_cost,
-                                 self.IsFertilized, soil_quality,
-                                 self.fertilizer_bonus, self.fertilizer_cost,
-                                 self.harvest_cost, self.bottling_cost,
-                                 self.plants_per_bottle, self.transport_cost,
-                                 vineprice, self.magazine_cost, self.magazine_capacity, store_needs, self.ch_types,
-                                 self.tabu_length, self.max_iter, self.epsilon)
+            # Tabu search wbudowany
+            self.tabu_search(sol, planting_cost,
+                             self.IsFertilized, soil_quality,
+                             self.fertilizer_bonus, self.fertilizer_cost,
+                             self.harvest_cost, self.bottling_cost,
+                             self.plants_per_bottle, self.transport_cost,
+                             vineprice, self.magazine_cost, self.magazine_capacity, self.store_need, self.ch_types,
+                             self.tabu_length, self.max_iter, self.epsilon)
 
-                self.pb.setValue(0)
-                self.pb.setTextVisible(False)
-            else:
-                self.warn.setText(u"\u26A0" + ' Musisz ustawić co najmniej jeden typ!')
-                self.warn1.setText(u"\u26A0")
-                self.warn2.setVisible(True)
-                self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
+            self.pb.setValue(0)
+            self.pb.setTextVisible(False)
+
         except:
             print('Coś poszło nie tak!')
 
@@ -392,6 +394,7 @@ class UI(QMainWindow):
                     plants_per_bottle, transport_cost,
                     vineprice, magazine_cost, magazine_capacity, store_needs, ch_types,
                     tabu_length=10, max_iter=50, epsilon=0.1):
+
 
         gain, loss = ocena(beg_sol, planting_cost,
                            IsFertilized, soil_quality,
@@ -433,7 +436,6 @@ class UI(QMainWindow):
         self.pb.setMaximum(max_iter)
 
         # DANE
-        dane_excel = [[counter, gain, loss, sum(gain) - sum(loss), len(TL), TL]]
         dane = [[counter, round(sum(gain), 2), round(sum(loss), 2), round(sum(gain) - sum(loss), 2), len(TL),
                  wypisz(beg_sol, ch_types)]]
 
@@ -511,10 +513,6 @@ class UI(QMainWindow):
 
         self.pb.setValue(max_iter)
 
-        # plt.plot(limsta)
-        # plt.title('Wykres wartości funkcji celu')
-        # plt.show()
-
         self.c.plotting(limsta)
         self.c.setVisible(True)
 
@@ -542,29 +540,167 @@ class UI(QMainWindow):
         return bs_solution
 
     def acctab(self):
-        upper = []
-        lower = []
-        for row in range(self.tab.rowCount()):
-            for column in range(self.tab.columnCount()):
-                _item = self.tab.item(row, column)
-                if _item:
-                    item = int(self.tab.item(row, column).text())
-                else:
-                    item = 0
+        try:
+            upper = []
+            lower = []
+            for row in range(self.tab.rowCount()):
+                for column in range(self.tab.columnCount()):
+                    _item = self.tab.item(row, column)
 
-                if column == 0:
-                    upper.append(item)
-                elif column == 1:
-                    upper[row] *= item
-                else:
-                    lower.append(item)
-        if upper[0] != 0 and lower[0] != 0 and self.flaga.isChecked():
-            upper = [upper[0]] * self.tab.rowCount()
-            lower = [lower[0]] * self.tab.rowCount()
+                    if _item:
+                        try:
+                            item = int(self.tab.item(row, column).text())
+                        except:
+                            raise TypeError
+                    else:
+                        item = 0
 
-        self.h, self.l = upper, lower
-        print(self.h)
-        print(self.l)
+                    if column == 0:
+                        upper.append(item)
+                    elif column == 1:
+                        upper[row] *= item
+                    else:
+                        lower.append(item)
+
+
+            if upper[0] != 0 and self.flaga.isChecked():
+                upper = [upper[0]] * self.tab.rowCount()
+                lower = [lower[0]] * self.tab.rowCount()
+
+            self.upper = upper
+            self.lower = lower
+            self.warnin2.setVisible(False)
+            self.warn3.setText("")
+
+
+            for x in range(len(lower)):
+                if lower[x] > upper[x]:
+                    raise ValueError
+                if upper[x] == 0:
+                    raise ZeroDivisionError
+                if lower[x] < 0 or 0 > upper[x]:
+                    raise AttributeError
+
+        except ValueError:
+            self.warnin2.setVisible(True)
+            self.warnin2.setText(u"\u26A0" + ' Złe wejście tabeli! Ograniczenie górne mniejsze od dolnego.')
+
+            self.warn3.setText(u"\u26A0")
+            self.warn2.setVisible(True)
+            self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
+
+            self.upper = []
+            self.lower = []
+
+
+        except AttributeError:
+            self.warnin2.setVisible(True)
+            self.warnin2.setText(u"\u26A0" + ' Złe wejście tabeli! Nie mogą być mniejsze od 0!')
+
+            self.warn3.setText(u"\u26A0")
+            self.warn2.setVisible(True)
+            self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
+
+            self.upper = []
+            self.lower = []
+
+        except ZeroDivisionError:
+
+            self.warnin2.setVisible(True)
+            self.warnin2.setText(u"\u26A0" + ' Złe wejście tabeli! Ograniczenie górne nie może być równe 0.')
+
+            self.warn3.setText(u"\u26A0")
+            self.warn2.setVisible(True)
+            self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
+
+            self.upper = []
+            self.lower = []
+
+        except TypeError:
+
+            self.warnin2.setVisible(True)
+            self.warnin2.setText(u"\u26A0" + ' Złe wejście tabeli!')
+
+            self.warn3.setText(u"\u26A0")
+            self.warn2.setVisible(True)
+            self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
+
+            self.upper = []
+            self.lower = []
+
+        except:
+            self.warnin2.setVisible(True)
+            self.warnin2.setText(u"\u26A0" + 'Coś poszło nie tak!')
+
+            self.warn3.setText(u"\u26A0")
+            self.warn2.setVisible(True)
+            self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
+
+            self.upper = []
+            self.lower = []
+
+    def acczap(self):
+        try:
+            zap = []
+            for row in range(self.zap.rowCount()):
+                for column in range(self.zap.columnCount()):
+                    print('h')
+                    _item = self.zap.item(row, column)
+                    if _item:
+                        try:
+                            item = int(self.zap.item(row, column).text())
+                        except:
+                            raise TypeError
+                    else:
+                        item = 0
+
+                    zap.append(item)
+
+            if zap[0] != 0 and self.flaga2.isChecked():
+                zap = [zap[0]] * self.zap.rowCount()
+
+            for x in zap:
+                if x < 0:
+                    raise ArithmeticError
+
+            self.store_need = zap[:-1]
+            self.warnin3.setVisible(False)
+            self.warn4.setText("")
+
+        except TypeError:
+
+            self.warnin3.setVisible(True)
+            self.warnin3.setText(u"\u26A0" + ' Złe wejście tabeli!')
+
+            self.warn4.setText(u"\u26A0")
+            self.warn2.setVisible(True)
+            self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
+
+            self.store_need = []
+
+        except ArithmeticError:
+
+            self.warnin3.setVisible(True)
+            self.warnin3.setText(u"\u26A0" + ' Wartość mniejsza od 0!')
+
+            self.warn4.setText(u"\u26A0")
+            self.warn2.setVisible(True)
+            self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
+
+            self.store_need = []
+
+        except:
+            self.warnin3.setVisible(True)
+            self.warnin3.setText(u"\u26A0" + ' Coś poszło nie tak!')
+
+            self.warn4.setText(u"\u26A0")
+            self.warn2.setVisible(True)
+            self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
+
+            self.store_need = []
+
+
+        print(self.store_need)
 
     def show_yourself(self):
         print(self.epsilon,'\n',
@@ -576,8 +712,8 @@ class UI(QMainWindow):
               self.transport_cost,'\n',
               self.bottling_cost,'\n',
               self.harvest_cost,'\n',
-              self.l,'\n',
-              self.h)
+              self.lower,'\n',
+              self.upper)
 
 
 app = QApplication([])

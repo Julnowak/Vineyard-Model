@@ -9,6 +9,8 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
                       min_fields_capacity: Union[List, Dict], number_of_years: int,
                       number_of_grapetypes: int) -> np.ndarray:
 
+    print(min_fields_capacity)
+    print(max_fields_capacity)
     for x in range(len(min_fields_capacity)):
         if min_fields_capacity[x] > max_fields_capacity[x]:
             raise Exception('Cannot set minimum capacity of field greater than maximum capacity of field.')
@@ -153,52 +155,57 @@ def soil_quality_generator(field_nr: int, years:int, ch_types: Dict, troj = Fals
         for i in range(field_nr):
             mix.append(random.choice(trojlist))
 
+        # Sekwencje dla każdego pola
+        print(mix)
         cop = mix.copy()
-        print(cop)
 
         for m in range(months):
-            if m%12 in [2,6,10]:
+            if m%12 in [2, 6, 10]:
                 for f in range(field_nr):
-                    print(cop[f])
-                    rem[m, f, mapk[cop[f][0]]] += 10
-                    cop[f].pop(0)
-                    if not cop[f]:
-                        cop[f] = mix[f].copy()
+                    if m%12 == 2:
+                        if m!= 2:
+                            rem[m][f][mapk[cop[f][0]]] += 0.25
+                    if m%12 == 6:
+                        rem[m][f][mapk[cop[f][1]]] += 0.25
+                    if m%12 == 10:
+                        rem[m][f][mapk[cop[f][2]]] += 0.25
+
             else:
                 rem[m,:,:] = 0
-
 
             if m % 12 in [0, 1, 11]:
                 soil_quality[m, :, :] = sq * 0.3
             elif m % 12 in [3, 4, 5, 7, 8, 9]:
-                soil_quality[m, :, :] = sq * 0.7
+                soil_quality[m, :, :] = sq * 0.6
             else:
                 soil_quality[m, :, :] = sq
-
         soil_quality = np.add(rem, soil_quality)
+
+    soil_quality[soil_quality>1] = 1.0
+
     return soil_quality
 
 # test
-ch_types = {1: 'Barbera',5: 'Dolcetto'}
-num_of_years = 2
-types_of_grapes = 3
-num_of_fields = 3
-soil_types = 3
-
-m = 600
-l = [800, 800, 800]  # Ograniczenia górne
-h = [100, 100, 100]  # Ograniczenia dolne
-
-sol = generate_solution(m, l, h, num_of_years, types_of_grapes)
-
-
-planting_cost = plant_price_generator(ch_types)
-
-epsilon = 0.01
-max_iter = 50
-IsFertilized = 1
-soil_quality = soil_quality_generator(3, num_of_years, ch_types,True)
-print(soil_quality)
+# ch_types = {1: 'Barbera', 2: 'Chardonnay', 3: 'Nebbiolo'}
+# num_of_years = 2
+# types_of_grapes = 3
+# num_of_fields = 3
+# soil_types = 3
+#
+# m = 600
+# l = [800, 800, 800]  # Ograniczenia górne
+# h = [100, 100, 100]  # Ograniczenia dolne
+#
+# sol = generate_solution(m, l, h, num_of_years, types_of_grapes)
+#
+#
+# planting_cost = plant_price_generator(ch_types)
+#
+# epsilon = 0.01
+# max_iter = 50
+# IsFertilized = 1
+# soil_quality = soil_quality_generator(3, num_of_years, ch_types,True)
+# print(soil_quality)
 
 #ok so last bit tells us if its adding or subtracting so
 #oposite is jut makeing number odd or even
