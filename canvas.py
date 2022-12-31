@@ -11,7 +11,7 @@ class Canvas(FigureCanvas):
         self.setParent(parent)
 
     # TABU
-    def plotting(self, values):
+    def plotting(self, values,filename='Tabu_Search'):
         print(values)
         self.ax.clear()
         self.ax.plot(values)
@@ -19,20 +19,23 @@ class Canvas(FigureCanvas):
                     title='Wykres wartości funkcji celu')
         self.ax.grid()
         self.draw()
+        self.fig.tight_layout()
+        self.fig.savefig('Wyniki/Wykresy/' + filename)
 
     # główny, liniowy plot
-    def plot_main(self, gain, loss):
+    def plot_main(self, gain, loss, filename):
 
         self.ax.clear()
         self.ax.plot(gain)
         self.ax.plot(loss)
-        self.ax.set(xlabel='time (s)', ylabel='voltage (mV)',
+        self.ax.set(xlabel='Nr miesiąca', ylabel='Ilość pieniędzy w zł',
                     title='Wykres zysku i strat')
         self.ax.grid()
         self.draw()
+        self.fig.savefig('Wyniki/Wykresy/' + filename)
 
     # bar plot mniej szczegółowy
-    def plot_bar(self, gain, loss):
+    def plot_bar(self, gain, loss, filename):
         self.ax.clear()
         self.ax.bar(1, sum(gain))
         self.ax.bar(2, sum(loss))
@@ -41,8 +44,9 @@ class Canvas(FigureCanvas):
         self.ax.set_xticks([1, 2], ['Zyski', 'Straty'])
         self.ax.grid(axis='y')
         self.draw()
+        self.fig.savefig('Wyniki/Wykresy/' + filename)
 
-    def plot_bar2(self, gain, loss, m):
+    def plot_bar2(self, gain, loss, m, filename):
         self.ax.clear()
         labels = [f'm{i + 1}' for i in range(m)]
 
@@ -61,36 +65,42 @@ class Canvas(FigureCanvas):
         self.ax.legend()
         self.ax.grid(axis='y')
         self.draw()
+        self.fig.savefig('Wyniki/Wykresy/' + filename)
 
 
 
     # Ceny win
-    # TODO: naprawić --- zrobić ładniej trzeba, sprawdzić dla 4, 2 i 7
-    def plot_vineprice(self, ch_types, num_of_years, bottle_prices):
+
+    def plot_vineprice(self, ch_types, num_of_years, bottle_prices,filename= 'ceny_wina.png'):
+        self.ax.clear()
         self.fig.clf()
 
         colors = ['darkorchid','slateblue','darkgoldenrod',
                   'orangered','crimson','teal','steelblue','firebrick']
 
         c = 0
-        if len(ch_types)>4:
+        if len(ch_types) > 4:
             k = 2
         else:
             k = 1
         months = num_of_years * 12
 
         for _, v in ch_types.items():
-            ax = self.fig.add_subplot(len(ch_types), k, c+1)
-            if num_of_years <= 2:
-               ax.plot(range(1, months + 1), bottle_prices[c], linestyle='--', marker='o', c=colors[c])
+            if k >= 2:
+                ax = self.fig.add_subplot(len(ch_types) - len(ch_types) // 2, k, c + 1)
             else:
-               ax.plot(range(1, months + 1), bottle_prices[c], c=colors[c])
+                ax = self.fig.add_subplot(len(ch_types), k, c + 1)
+
+            if num_of_years <= 2:
+                ax.plot(range(1, months + 1), bottle_prices[c], linestyle='--', marker='o', c=colors[c])
+            else:
+                ax.plot(range(1, months + 1), bottle_prices[c], c=colors[c])
             ax.grid()
             ax.legend((v,), loc='best')
 
             c += 1
 
-        self.fig.suptitle(f"Zmiana ceny wina na przestrzeni {months} miesięcy",y = 0.97)
+        self.fig.suptitle(f"Zmiana ceny wina na przestrzeni {months} miesięcy", y=0.97)
         self.fig.supylabel('Aktualna cena wina')
 
         if months == 12:
@@ -99,7 +109,6 @@ class Canvas(FigureCanvas):
             self.fig.supxlabel('Miesiąc')
         else:
             self.fig.supxlabel('Nr.miesiąca')
-
         self.fig.tight_layout()
         self.draw()
-
+        self.fig.savefig('Wyniki/Wykresy/'+ filename)

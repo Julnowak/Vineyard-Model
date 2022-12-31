@@ -145,3 +145,46 @@ print(gain, '\n', loss)
 
 
 # Testy wykresów
+colors = ['darkorchid', 'slateblue', 'darkgoldenrod',
+          'orangered', 'crimson', 'teal', 'steelblue', 'firebrick']
+ch_types = {1: 'Barbera', 2: 'Chardonnay'}
+num_of_years = 2
+bottle_prices = vine_price_generator(ch_types,num_of_years)
+
+
+
+c = 0
+if len(ch_types) > 4:
+    k = 2
+else:
+    k = 1
+months = num_of_years * 12
+
+fig = plt.figure()
+for _, v in ch_types.items():
+    if k > 2:
+        ax = fig.add_subplot(len(ch_types)- len(ch_types)//2, k, c + 1)
+    else:
+        ax = fig.add_subplot(len(ch_types), k, c + 1)
+
+    if num_of_years <= 2:
+        ax.plot(range(1, months + 1), bottle_prices[c], linestyle='--', marker='o', c=colors[c])
+    else:
+        ax.plot(range(1, months + 1), bottle_prices[c], c=colors[c])
+    ax.grid()
+    ax.legend((v,), loc='best')
+
+    c += 1
+
+fig.suptitle(f"Zmiana ceny wina na przestrzeni {months} miesięcy", y=0.97)
+fig.supylabel('Aktualna cena wina')
+
+if months == 12:
+    month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    plt.xticks(range(1, months + 1), month)
+    fig.supxlabel('Miesiąc')
+else:
+    fig.supxlabel('Nr.miesiąca')
+fig.tight_layout()
+
+plt.show()

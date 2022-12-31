@@ -8,12 +8,10 @@
 # TODO - przyjrzeć się ograniczeniom, górne trzeba dostosować, dolne trzeba dodać
 
 # Julia
-# TODO - trójpolówka - jest, trzeba nieco poprawić i przetestować
-
-# TODO - zapotrzebowanie sklepu aplikacja
-# TODO - naprawić przebieg algorytmu dla 8 rodzajów
-# TODO - dodać błędy od magazynu, rodzajów do apki
 # TODO ograniczenia
+# TODO Sprawdzić funkcjonowanie aplikacji
+# TODO Dodać refresh do drugiej tabeli
+# TODO Zrobić pliki
 
 # FILIP
 # TODO - oflagować i przetestować

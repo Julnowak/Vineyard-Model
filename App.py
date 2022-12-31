@@ -60,6 +60,14 @@ class UI(QMainWindow):
         self.button3 = self.findChild(QPushButton, "start")
         self.button3.clicked.connect(self.start_tabu)
 
+        # Rozpiska w menu
+        self.text = self.findChild(QLabel, 'text')
+        self.text2 = self.findChild(QLabel, 'text_2')
+        self.text3 = self.findChild(QLabel, 'text_3')
+        self.text4 = self.findChild(QLabel, 'text_4')
+        self.text5 = self.findChild(QLabel, 'text_5')
+        self.text6 = self.findChild(QLabel, 'text_6')
+
         ### WYKRESY
 
         ## Przyciski
@@ -140,7 +148,7 @@ class UI(QMainWindow):
 
         #
         self.t = self.findChild(QTableWidget, 'tw')
-        # self.t.setVisible(False)
+        self.t.setVisible(False)
 
         ### USTAWIENIA
         ## Ustawienia - przyciski
@@ -189,7 +197,7 @@ class UI(QMainWindow):
         self.rt = self.findChild(QPushButton, "refreshtab")
         self.rt.clicked.connect(
             lambda: (self.tab.setRowCount(int(self.nr_field.text())), self.zap.setRowCount(len(self.ch_types) + 1),
-                     self.zap.setVerticalHeaderLabels(list(self.ch_types.values()) + [''])))
+                     self.zap.setVerticalHeaderLabels(list(self.ch_types.values()) + ['']), self.grape_type_choice()))
 
         # Czyszczenie tabeli
         self.ct = self.findChild(QPushButton, "cleartab")
@@ -280,6 +288,7 @@ class UI(QMainWindow):
         self.warn1 = self.findChild(QLabel, 'warn1')
         self.warn2 = self.findChild(QLabel, 'warn2')
         self.warn2.setVisible(False)
+
         self.warn3 = self.findChild(QLabel, 'warn3')
         self.warnin2 = self.findChild(QLabel, 'warnin_2')
         self.warnin2.setVisible(False)
@@ -288,9 +297,21 @@ class UI(QMainWindow):
         self.warnin3 = self.findChild(QLabel, 'warnin_3')
         self.warnin3.setVisible(False)
 
+        self.warnin4 = self.findChild(QLabel, 'warnin_4')
+        self.warnin4.setVisible(False)
+
         self.upper = [800, 800, 800]
         self.lower = [100, 100, 100]
         self.show_yourself()
+        self.set()
+
+    def set(self):
+        self.text.setText(str(self.num_of_years))
+        self.text2.setText(str(self.nr_field.text()))
+        self.text3.setText(str(self.max_iter))
+        self.text4.setText(str(self.epsilon))
+        self.text5.setText(str(self.tabu_length))
+        self.text6.setText(str(self.magazine_capacity))
 
     def shader(self, cur):
         for d in [self.d, self.d1, self.d2, self.d3, self.d4, self.d5, self.d6, self.d7]:
@@ -321,7 +342,7 @@ class UI(QMainWindow):
             if t.isChecked():
                 d[c] = t.text()
             c += 1
-        return d
+        self.ch_types = d
 
     def get(self):
         self.warn.clear()
@@ -329,7 +350,7 @@ class UI(QMainWindow):
         self.warn2.setVisible(False)
         self.warn2.clear()
 
-        self.ch_types = self.grape_type_choice()
+        self.grape_type_choice()
         if self.ch_types == {}:
             self.warn.setText(u"\u26A0" + ' Musisz ustawić co najmniej jeden typ!')
             self.warn1.setText(u"\u26A0")
@@ -348,6 +369,9 @@ class UI(QMainWindow):
             self.harvest_cost = float(self.zbior.text())
             self.acctab()
             self.acczap()
+            self.tab.setRowCount(int(self.nr_field.text()))
+            self.zap.setRowCount(len(self.ch_types) + 1)
+            self.zap.setVerticalHeaderLabels(list(self.ch_types.values()) + [''])
 
             if self.nawoz.currentText() == 'Standardowy (+5%) - 2zł/szt':
                 self.fertilizer_bonus = 0.05
@@ -359,10 +383,12 @@ class UI(QMainWindow):
                 self.fertilizer_bonus = 0.17
                 self.fertilizer_cost = 7.00
 
+        self.set()
 
 
     def start_tabu(self):
         try:
+            self.show_yourself()
             sol = generate_solution(self.magazine_capacity, self.upper, self.lower, self.num_of_years, len(self.ch_types))
             planting_cost = plant_price_generator(self.ch_types)
             soil_quality = soil_quality_generator(len(self.ch_types), self.num_of_years, self.ch_types, self.trojka)
@@ -380,7 +406,6 @@ class UI(QMainWindow):
                              self.plants_per_bottle, self.transport_cost,
                              vineprice, self.magazine_cost, self.magazine_capacity, self.store_need, self.ch_types,
                              self.tabu_length, self.max_iter, self.epsilon)
-
             self.pb.setValue(0)
             self.pb.setTextVisible(False)
 
@@ -403,14 +428,16 @@ class UI(QMainWindow):
                            plants_per_bottle, transport_cost,
                            vineprice, magazine_cost, magazine_capacity, store_needs)
 
-        self.c2.plot_main(gain, loss)
+        self.c2.plot_main(gain, loss,'beginning_main_linear_plot')
         self.c2.setVisible(True)
 
-        self.c3.plot_bar(gain, loss)
+        self.c3.plot_bar(gain, loss,'beginning_bar_plot')
         self.c3.setVisible(True)
 
-        self.c4.plot_bar2(gain, loss, beg_sol.shape[0])
+        self.c4.plot_bar2(gain, loss, beg_sol.shape[0],'beginning_detailed_bar_plot')
         self.c4.setVisible(True)
+
+        self.t.setVisible(True)
         # sol_present_yourself(gain, loss, beg_sol, ch_types)
 
         TL = []
@@ -518,13 +545,13 @@ class UI(QMainWindow):
 
         # sol_present_yourself(gain_rem, loss_rem, bs_solution, ch_types)
 
-        self.c5.plot_main(gain_rem, loss_rem)
+        self.c5.plot_main(gain_rem, loss_rem,'ending_main_linear_plot')
         self.c5.setVisible(True)
 
-        self.c6.plot_bar(gain_rem, loss_rem)
+        self.c6.plot_bar(gain_rem, loss_rem,'ending_bar_plot')
         self.c6.setVisible(True)
 
-        self.c7.plot_bar2(gain_rem, loss_rem, bs_solution.shape[0])
+        self.c7.plot_bar2(gain_rem, loss_rem, bs_solution.shape[0],'ending_detailed_bar_plot')
         self.c7.setVisible(True)
 
         self.t.setRowCount(len(dane))
@@ -571,7 +598,8 @@ class UI(QMainWindow):
             self.lower = lower
             self.warnin2.setVisible(False)
             self.warn3.setText("")
-
+            self.warn2.setVisible(False)
+            self.warnin4.setVisible(False)
 
             for x in range(len(lower)):
                 if lower[x] > upper[x]:
@@ -580,6 +608,9 @@ class UI(QMainWindow):
                     raise ZeroDivisionError
                 if lower[x] < 0 or 0 > upper[x]:
                     raise AttributeError
+
+            if sum(lower) > self.magazine_capacity:
+                raise InterruptedError
 
         except ValueError:
             self.warnin2.setVisible(True)
@@ -592,6 +623,16 @@ class UI(QMainWindow):
             self.upper = []
             self.lower = []
 
+        except InterruptedError:
+            self.warnin4.setVisible(True)
+            self.warnin4.setText(u"\u26A0" + ' Za mała pojemność magazynu!')
+
+            self.warn4.setText(u"\u26A0")
+            self.warn2.setVisible(True)
+            self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
+
+            self.upper = []
+            self.lower = []
 
         except AttributeError:
             self.warnin2.setVisible(True)
@@ -713,7 +754,8 @@ class UI(QMainWindow):
               self.bottling_cost,'\n',
               self.harvest_cost,'\n',
               self.lower,'\n',
-              self.upper)
+              self.upper,'\n',
+              self.ch_types)
 
 
 app = QApplication([])
