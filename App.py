@@ -515,13 +515,14 @@ class UI(QMainWindow):
             if maxval >= bs:
                 solution = mapa[n_rem].copy()
             else:
-                if len(TL) < tabu_length:
-                    TL.append(generateAntiNum(n_rem))
-                else:
-                    TL.pop(0)
-                    TL.append(generateAntiNum(n_rem))
                 solution = mapa[n_rem].copy()
             print(TL)
+
+            if len(TL) < tabu_length:
+                TL.append(generateAntiNum(n_rem))
+            else:
+                TL.pop(0)
+                TL.append(generateAntiNum(n_rem))
             if counter > max_iter:
                 stop_iter = True
 

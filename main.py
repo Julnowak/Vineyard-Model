@@ -90,13 +90,15 @@ def tabu_search(beg_sol, planting_cost,
         if maxval >= bs:
             solution = mapa[n_rem].copy()
         else:
-            if len(TL) < tabu_length:
-                TL.append(generateAntiNum(n_rem))
-            else:
-                TL.pop(0)
-                TL.append(generateAntiNum(n_rem))
             solution = mapa[n_rem].copy()
 
+        print("pawel:",len(TL) , tabu_length)
+
+        if len(TL) < tabu_length:
+            TL.append(generateAntiNum(n_rem))
+        else:
+            TL.pop(0)
+            TL.append(generateAntiNum(n_rem))
 
         if counter > max_iter:
             stop_iter = True
