@@ -3,7 +3,7 @@ from Generators import *
 from Wykresy import *
 
 import sys
-f = open("test.out", 'w')
+f = open("Wyniki/Tabele/test.out", 'w')
 sys.stdout = f
 
 np.set_printoptions(precision=4)

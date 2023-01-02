@@ -7,7 +7,7 @@ from canvas import *
 
 
 # import sys
-# f = open("test.out", 'w')
+# f = open("Wyniki/Tabele/algorytm.txt", 'w')
 # sys.stdout = f
 
 class UI(QMainWindow):
@@ -276,6 +276,38 @@ class UI(QMainWindow):
         self.tl = self.findChild(QSpinBox, "TL")
         self.tabu_length = int(self.tl.text())
 
+        # Typy TL
+        self.smol = self.findChild(QCheckBox, "smol")
+        self.tabulist = self.smol.isChecked()
+
+        self.med = self.findChild(QCheckBox, "med")
+        self.MidTermMem = self.med.isChecked()
+
+        self.lon = self.findChild(QCheckBox, "lon")
+        self.LongTermMem = self.lon.isChecked()
+
+        # Typy sąsiedztwa
+        self.sasiad = self.findChild(QCheckBox, "sasiedztwo")
+        self.sasiad2 = self.findChild(QCheckBox, "sasiedztwo_2")
+        self.sasiad3 = self.findChild(QCheckBox, "sasiedztwo_3")
+        self.sasiad4 = self.findChild(QCheckBox, "sasiedztwo_4")
+        self.som = self.findChild(QDoubleSpinBox, "som")
+        self.SolutionSpaceCoverage = float(self.som.text())
+
+        # Typy rozwiązania początkowego
+        self.pocz = self.findChild(QCheckBox, "roz_beg")
+        self.pocz2 = self.findChild(QCheckBox, "roz_beg_2")
+        self.pocz3 = self.findChild(QCheckBox, "roz_beg_3")
+        self.pocz4 = self.findChild(QCheckBox, "roz_beg_4")
+
+        # Kryterium aspiracji - tak/nie
+        self.aspik= self.findChild(QCheckBox, "aspi")
+        self.aspicheck = self.aspik.isChecked()
+
+        # Długość do kryterium aspiracji
+        self.aspinum = self.findChild(QSpinBox, "aspi_2")
+        self.midtemmemTreshold = int(self.aspinum.text())
+
         ## Ustawienia przyciski
 
         # zatwierdź
@@ -378,6 +410,13 @@ class UI(QMainWindow):
             self.zap.setRowCount(len(self.ch_types) + 1)
             self.zap.setVerticalHeaderLabels(list(self.ch_types.values()) + [''])
 
+            self.tabulist = self.smol.isChecked()
+            self.MidTermMem = self.med.isChecked()
+            self.LongTermMem = self.lon.isChecked()
+            self.SolutionSpaceCoverage = float(self.som.text())
+            self.aspicheck = self.aspik.isChecked()
+            self.midtemmemTreshold = int(self.aspinum.text())
+
             if self.nawoz.currentText() == 'Standardowy (+5%) - 2zł/szt':
                 self.fertilizer_bonus = 0.05
                 self.fertilizer_cost = 2.00
@@ -428,6 +467,7 @@ class UI(QMainWindow):
 
 
         #flagi
+
         LongTermMem=True
         SolutionSpaceCoverage=1
         MidTermMem=True#non implemented

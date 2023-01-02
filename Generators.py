@@ -2,7 +2,7 @@ import random
 import numpy as np
 from typing import Union, List, Dict
 import matplotlib.pyplot as plt
-
+import sys
 
 # Generator rozwiązania początkowego - działa
 def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[List, Dict],
@@ -45,6 +45,7 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
 
 
 def vine_price_generator(ch_types: Dict, num_of_years: int):
+
     months = num_of_years * 12
     bottle_prices = np.ones((len(ch_types), months))
     c = 0
