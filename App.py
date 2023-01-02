@@ -466,7 +466,7 @@ class UI(QMainWindow):
             df1 = pd.DataFrame(data={'Typ':list(self.ch_types.values()), 'Cena': planting_cost.astype(float)})
             df1.to_csv('Wyniki/Tabele/ceny_sadzenia.csv', sep=' ', header=None, float_format='%.2f', index=False)
 
-            soil_quality = soil_quality_generator(len(self.ch_types), self.num_of_years, self.ch_types, self.trojka)
+            soil_quality = soil_quality_generator(self.fields, self.num_of_years, self.ch_types, self.trojka)
             writer = pd.ExcelWriter('Wyniki/Tabele/jakosc_gleby.xlsx', engine='xlsxwriter')
             for i in range(self.num_of_years * 12):
                 df2 = pd.DataFrame(data=soil_quality[i, :, :].astype(float))
