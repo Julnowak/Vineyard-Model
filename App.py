@@ -426,6 +426,14 @@ class UI(QMainWindow):
                     tabu_length=10, max_iter=50, epsilon=0.1):
 
 
+
+        #flagi
+        LongTermMem=True
+        SolutionSpaceCoverage=1
+        MidTermMem=True#non implemented
+        tabulist=True
+        midtemmemTreshold=30
+
         gain, loss = ocena(beg_sol, planting_cost,
                            IsFertilized, soil_quality,
                            fertilizer_bonus, fertilizer_cost,
@@ -451,7 +459,6 @@ class UI(QMainWindow):
         avgMemory = np.zeros((2 * beg_sol.shape[0] * beg_sol.shape[1] * beg_sol.shape[
             2]))  # pamiec srednioteminowa zlicza rozwiazania dane
         streak = 0
-        streaknum = -1
 
         solution = beg_sol.copy()
         past_sol = sum(gain) - sum(loss)
@@ -478,7 +485,7 @@ class UI(QMainWindow):
         print('----------------------------------------------------')
         while not (stop_iter or stop_eps):
             self.pb.setValue(counter)
-            mapa = generateAllsolutions(solution)
+            mapa = generateAllsolutions(solution,numberofsolutions=SolutionSpaceCoverage)
             # print(mapa)
             neigh = [k for k, _ in mapa.items()]
 
@@ -507,32 +514,33 @@ class UI(QMainWindow):
             # print(n_rem)
 
             limsta.append(maxval)
+            if LongTermMem:
+                avgMemory[n_rem] = avgMemory[n_rem] + 1
 
-            avgMemory[n_rem] = avgMemory[n_rem] + 1
-            if n_rem == streaknum:
-                streak = streak + 1
-            else:
-                streaknum = n_rem
-                streak = 1
-            if streak > 99999:
-                # wybralismy 9999 to smao rozw zróbmy coś dzikiego
-                # Bardziej chodzi że jak spada przez x iteracji to reset robimy
-                print('Uwaga')
-                pass
+
+
+
             limsta.append(value)
 
             if maxval >= bs:
                 solution = mapa[n_rem].copy()
+                streak = 0
             else:
+                if MidTermMem:
+                    streak = streak + 1
                 solution = mapa[n_rem].copy()
 
-            print("pawel:", len(TL), tabu_length)
+            if(tabulist):
+                if len(TL) < tabu_length:
+                    TL.append(generateAntiNum(n_rem))
+                else:
+                    TL.pop(0)
+                    TL.append(generateAntiNum(n_rem))
 
-            if len(TL) < tabu_length:
-                TL.append(generateAntiNum(n_rem))
-            else:
-                TL.pop(0)
-                TL.append(generateAntiNum(n_rem))
+            if streak > midtemmemTreshold:
+                #tutaj ten reset ale nei wiem jak to zrobić
+                #nalepiej sol=gennewcompletlynewsol()
+                pass
 
             if abs(past_sol - maxval) <= epsilon:
                 stop_eps = True

@@ -243,7 +243,7 @@ def generateSolutionFromNumber(num,solution,gorne,randomFlag=True):
     if (res<0).any():
         return solution.copy()
     for i in range(len(gorne)):
-        if (res[:,i,:]>gorne[i]).any():#hardlimit 500 zasian na pole
+        if (res[:,i,:]>gorne[i]).any():
             return solution.copy()
     # invaild solution we return basic solution
 
