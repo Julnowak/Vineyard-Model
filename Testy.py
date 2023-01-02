@@ -139,17 +139,17 @@ gain, loss = ocena(testowe, planting_cost,
                    plants_per_bottle, transport_cost,
                    vineprice, magazine_cost, magazine_capacity, store_needs)
 
-
-print(gain, '\n', loss)
-# Testy głównych funkcji
-
-
-# Testy wykresów
-colors = ['darkorchid', 'slateblue', 'darkgoldenrod',
-          'orangered', 'crimson', 'teal', 'steelblue', 'firebrick']
-ch_types = {1: 'Barbera', 2: 'Chardonnay'}
-num_of_years = 2
-bottle_prices = vine_price_generator(ch_types,num_of_years)
+#
+# print(gain, '\n', loss)
+# # Testy głównych funkcji
+#
+#
+# # Testy wykresów
+# colors = ['darkorchid', 'slateblue', 'darkgoldenrod',
+#           'orangered', 'crimson', 'teal', 'steelblue', 'firebrick']
+# ch_types = {1: 'Barbera', 2: 'Chardonnay'}
+# num_of_years = 2
+# bottle_prices = vine_price_generator(ch_types,num_of_years)
 
 
 
@@ -188,3 +188,12 @@ else:
 fig.tight_layout()
 
 plt.show()
+import pandas as pd
+
+# soil_quality = soil_quality_generator(len(ch_types), num_of_years, ch_types)
+# writer = pd.ExcelWriter('Wyniki/Tabele/jakosc_gleby.xlsx', engine='xlsxwriter')
+# for i in range(num_of_years * 12):
+#     df2 = pd.DataFrame(data=soil_quality[i, :, :].astype(float))
+#     df2.insert(loc=0, column='Pole', value=list(range(2)))
+#     df2.to_excel('Wyniki/Tabele/jakosc_gleby.xlsx', sheet_name=f'Miesiac {i + 1}',
+#                  header=['Pole']+list(ch_types.values()), index=False)

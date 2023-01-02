@@ -4,6 +4,10 @@ from Command_files import *
 from Generators import *
 from Wykresy import *
 from canvas import *
+import pandas as pd
+import xlsxwriter
+import os
+cur = os.path.abspath(os.getcwd())
 
 
 # import sys
@@ -23,13 +27,17 @@ class UI(QMainWindow):
         self.st = self.findChild(QStackedWidget, "stackedWidget")
         self.st2 = self.findChild(QStackedWidget, "stackedWidget_2")
         self.st3 = self.findChild(QStackedWidget, "stackedWidget_3")
+        self.st4 = self.findChild(QStackedWidget, "st4")
 
         # Wyzerowanie scrolli
         self.st.setCurrentIndex(1)
         self.st2.setCurrentIndex(1)
         self.st3.setCurrentIndex(1)
+        self.st4.setCurrentIndex(0)
 
         ### MENU
+
+
 
         ## Menu przyciski
 
@@ -67,6 +75,23 @@ class UI(QMainWindow):
         self.text4 = self.findChild(QLabel, 'text_4')
         self.text5 = self.findChild(QLabel, 'text_5')
         self.text6 = self.findChild(QLabel, 'text_6')
+
+        self.mn = self.findChild(QPushButton, "mn")
+        self.mn.clicked.connect(lambda: self.st4.setCurrentIndex(1))
+
+        self.mn2 = self.findChild(QPushButton, "mn_2")
+        self.mn2.clicked.connect(lambda: self.st4.setCurrentIndex(0))
+
+        # self.mn3 = self.findChild(QPushButton, "mn_3")
+        # self.mn3.clicked.connect(lambda: self.st4.setCurrentIndex(2))
+
+        ## TABELE
+        self.lik = self.findChild(QLabel, 'p_1')
+        txt = cur + r'\Wyniki\Tabele\ceny_wina.csv'
+        print(txt)
+        self.lik.setText(f"<a href={txt} >Ceny win</a>" )
+
+
 
         ### WYKRESY
 
@@ -182,6 +207,7 @@ class UI(QMainWindow):
 
         # Liczba pól
         self.nr_field = self.findChild(QSpinBox, "fieldnum")
+        self.fields = int(self.nr_field.text())
 
         # Liczba lat/miesięcy
         self.nr_time = self.findChild(QSpinBox, "timenum")
@@ -432,11 +458,27 @@ class UI(QMainWindow):
 
     def start_tabu(self):
         try:
+
             self.show_yourself()
             sol = generate_solution(self.magazine_capacity, self.upper, self.lower, self.num_of_years, len(self.ch_types))
+
             planting_cost = plant_price_generator(self.ch_types)
+            df1 = pd.DataFrame(data={'Typ':list(self.ch_types.values()), 'Cena': planting_cost.astype(float)})
+            df1.to_csv('Wyniki/Tabele/ceny_sadzenia.csv', sep=' ', header=None, float_format='%.2f', index=False)
+
             soil_quality = soil_quality_generator(len(self.ch_types), self.num_of_years, self.ch_types, self.trojka)
+            writer = pd.ExcelWriter('Wyniki/Tabele/jakosc_gleby.xlsx', engine='xlsxwriter')
+            for i in range(self.num_of_years * 12):
+                df2 = pd.DataFrame(data=soil_quality[i, :, :].astype(float))
+                df2.insert(loc=0, column='Pole', value=list(range(1,self.fields+1)))
+                df2.to_excel(writer, sheet_name=f'Miesiac {i + 1}',
+                             header=['Pole'] + list(self.ch_types.values()), index=False)
+            writer.close()
+
             vineprice = vine_price_generator(self.ch_types, self.num_of_years)
+            df3 = pd.DataFrame(data=vineprice.astype(float),columns=list('m'+str(i) for i in range(1,self.num_of_years*12+1)))
+            df3.insert(loc=0,column='Typ',value=list(self.ch_types.values()))
+            df3.to_csv('Wyniki/Tabele/ceny_wina.csv', sep=' ', index=False)
 
             self.c1.plot_vineprice(self.ch_types, self.num_of_years, vineprice)
             self.c1.setVisible(True)
@@ -578,6 +620,8 @@ class UI(QMainWindow):
                     TL.append(generateAntiNum(n_rem))
 
             if streak > midtemmemTreshold:
+                print('yuk')
+                solution = beg_sol
                 #tutaj ten reset ale nei wiem jak to zrobić
                 #nalepiej sol=gennewcompletlynewsol()
                 pass

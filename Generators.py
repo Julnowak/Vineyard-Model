@@ -157,7 +157,6 @@ def soil_quality_generator(field_nr: int, years:int, ch_types: Dict, troj = Fals
             mix.append(random.choice(trojlist))
 
         # Sekwencje dla każdego pola
-        print(mix)
         cop = mix.copy()
 
         for m in range(months):
@@ -332,4 +331,4 @@ testowe = np.array([[[0, 0, 0],
                      [0, 0, 0],
                      [0, 0, 0]]])
 
-print(gen(testowe))
+# print(gen(testowe))
