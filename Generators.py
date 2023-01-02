@@ -249,26 +249,20 @@ def generateSolutionFromNumber(num,solution,gorne,randomFlag=True):
 
     return res
 
-#idk if it works
-def generateAllsolutions(sol,gorne=[800,800,800]):
+# number of solutions should be between 0.1 and 1
+def generateAllsolutions(sol,gorne=[800,800,800],numberofsolutions=1):
     res={}
-    for i in range(2*sol.shape[0]*sol.shape[1]*sol.shape[2]):
+    randTable=np.random.rand(2*sol.shape[0]*sol.shape[1]*sol.shape[2])
+    for i in range(len(randTable)):
+        if randTable[i]>numberofsolutions:
+            continue
         buff = generateSolutionFromNumber(i, sol,gorne)
         if not (buff==sol).all():
             res[i]=buff
     return res
 
-# # test  for basicv solution
-# sol = np.zeros((2, 3, 4),dtype=int)
-# sol[0,:,0]=1
-
 import time
 
-# get the start time
-# st = time.time()
-# generateAllsolutions(sol)
-# end=time.time()
-# print(end-st)
 def gen(sol):
     res={}
     lista = [2,6,10]
