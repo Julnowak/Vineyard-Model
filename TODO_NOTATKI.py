@@ -3,9 +3,17 @@
 # PAWEŁ
 
 # TODO lista długoterminowa - częstotliwość wystąpień zmian
-# TODO - ogarnąć tabu list (TL NIE DZIAŁA)
-# TODO - generowanie otoczenia działa źle (?), trzeba to obgadać i naprawić, bo wybiera dziwaczne rozwiązania (w test.out)
+# TODO - ogarnąć tabu list
+# Lista Tabu już działa, jakbyś mógł to proszę dodaj flagi do kryterium aspiracji i list
+
+# TODO - generowanie otoczenia działa źle
+# W sąsiedztwie ogólnie trochę pomieszałam i sprawdź tylko, czy ma to sens.
+# Zerujemy miesiące spoza listy [2,6,10]
+# Dopisałam jedno mniejsze sąsiedztwo i to jest świetny przykład do restartu, który w naszym przypadku na razie nie działa
+# Dopisz jeszcze jakieś sąsiedztwo albo 2, żeby było ich trochę
+
 # TODO - przyjrzeć się ograniczeniom, górne trzeba dostosować, dolne trzeba dodać
+# Do sąsiedztwa dorzuć ustawialne ograniczenia dolne i górne (mają postać list)
 
 # Julia
 # TODO ograniczenia

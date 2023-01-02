@@ -233,10 +233,12 @@ def generateSolutionFromNumber(num,solution,gorne,randomFlag=True):
         addNum=20
     else:
         addNum=random.randint(5, 30)
-    if plusmin == 0:
+    if plusmin == 0 and posx not in [0,1,3,4,5,7,8,9,11]:
         res[posx][posy][posz]=val + addNum
-    else:
+    elif posx not in [0,1,3,4,5,7,8,9,11]:
         res[posx][posy][posz] =val - addNum
+    else:
+        res[posx][posy][posz] = 0
 
     if (res<0).any():
         return solution.copy()
@@ -267,3 +269,72 @@ import time
 # generateAllsolutions(sol)
 # end=time.time()
 # print(end-st)
+def gen(sol):
+    res={}
+    lista = [2,6,10]
+    counter=0
+    for m in range(sol.shape[0]):
+        if m%12 in lista:
+            for f in range(sol.shape[1]):
+                for t in range(sol.shape[2]):
+                    if sol[m][f][t] != 0:
+
+                        res[counter] = sol.copy()
+                        res[counter][m][f][t] += 30
+                        counter += 1
+                        res[counter] = sol.copy()
+                        res[counter][m][f][t] -= 30
+                        counter += 1
+
+
+    return res
+
+testowe = np.array([[[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]],
+
+                    [[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]],
+
+                    [[0, 300, 0],
+                     [307, 0, 0],
+                     [0, 258, 0]],
+
+                    [[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]],
+
+                    [[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]],
+
+                    [[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]],
+
+                    [[0, 0, 300],
+                     [0, 0, 372],
+                     [275, 0, 0]],
+
+                    [[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]],
+
+                    [[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]],
+
+                    [[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]],
+
+                    [[301, 0, 0],
+                     [0, 0, 205],
+                     [0, 0, 351]],
+
+                    [[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]]])
+
+print(gen(testowe))

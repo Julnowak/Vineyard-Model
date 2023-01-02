@@ -196,8 +196,7 @@ class UI(QMainWindow):
         # Odświeżanie tabeli
         self.rt = self.findChild(QPushButton, "refreshtab")
         self.rt.clicked.connect(
-            lambda: (self.tab.setRowCount(int(self.nr_field.text())), self.zap.setRowCount(len(self.ch_types) + 1),
-                     self.zap.setVerticalHeaderLabels(list(self.ch_types.values()) + ['']), self.grape_type_choice()))
+            lambda: (self.tab.setRowCount(int(self.nr_field.text())), self.grape_type_choice()))
 
         # Czyszczenie tabeli
         self.ct = self.findChild(QPushButton, "cleartab")
@@ -256,6 +255,12 @@ class UI(QMainWindow):
         # Koszt butelkowania
         self.botcost = self.findChild(QDoubleSpinBox, "botcost")
         self.bottling_cost = float(self.botcost.text())
+
+        # Odświeżanie tabeli
+        self.rt2 = self.findChild(QPushButton, "refreshtab_2")
+        self.rt2.clicked.connect(
+            lambda: (self.zap.setRowCount(len(self.ch_types) + 1),
+                     self.zap.setVerticalHeaderLabels(list(self.ch_types.values()) + ['']), self.grape_type_choice()))
 
         ## Ustawienia - ustawienia algorytmu
 
@@ -428,6 +433,8 @@ class UI(QMainWindow):
                            plants_per_bottle, transport_cost,
                            vineprice, magazine_cost, magazine_capacity, store_needs)
 
+        self.beg = sum(gain) - sum(loss)
+
         self.c2.plot_main(gain, loss,'beginning_main_linear_plot')
         self.c2.setVisible(True)
 
@@ -446,7 +453,7 @@ class UI(QMainWindow):
         streak = 0
         streaknum = -1
 
-        solution = beg_sol
+        solution = beg_sol.copy()
         past_sol = sum(gain) - sum(loss)
 
         # Najlepsze
@@ -509,6 +516,8 @@ class UI(QMainWindow):
                 streak = 1
             if streak > 99999:
                 # wybralismy 9999 to smao rozw zróbmy coś dzikiego
+                # Bardziej chodzi że jak spada przez x iteracji to reset robimy
+                print('Uwaga')
                 pass
             limsta.append(value)
 
@@ -516,15 +525,14 @@ class UI(QMainWindow):
                 solution = mapa[n_rem].copy()
             else:
                 solution = mapa[n_rem].copy()
-            print(TL)
+
+            print("pawel:", len(TL), tabu_length)
 
             if len(TL) < tabu_length:
                 TL.append(generateAntiNum(n_rem))
             else:
                 TL.pop(0)
                 TL.append(generateAntiNum(n_rem))
-            if counter > max_iter:
-                stop_iter = True
 
             if abs(past_sol - maxval) <= epsilon:
                 stop_eps = True
@@ -559,6 +567,8 @@ class UI(QMainWindow):
         self.t.setColumnCount(len(dane[0]))
         self.t.setHorizontalHeaderLabels(["Iteracja", "zysk", "strata", "bilans", "Aktualna długość TL", "Opis"])
 
+        self.best = None
+        self.actual = None
         for k in range(len(dane)):
             for i in range(len(dane[0])):
                 self.t.setItem(k, i, QTableWidgetItem(str(dane[k][i])))
