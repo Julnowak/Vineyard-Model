@@ -468,11 +468,11 @@ class UI(QMainWindow):
 
         #flagi
 
-        LongTermMem=True
-        SolutionSpaceCoverage=1
-        MidTermMem=True#non implemented
-        tabulist=True
-        midtemmemTreshold=30
+        LongTermMem=self.LongTermMem
+        SolutionSpaceCoverage=self.SolutionSpaceCoverage
+        MidTermMem=self.MidTermMem#non implemented
+        tabulist=self.tabulist
+        midtemmemTreshold=self.midtemmemTreshold
 
         gain, loss = ocena(beg_sol, planting_cost,
                            IsFertilized, soil_quality,
