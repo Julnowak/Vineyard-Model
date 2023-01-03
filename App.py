@@ -484,6 +484,7 @@ class UI(QMainWindow):
 
     def start_tabu(self):
         try:
+            print('k')
             self.warn2.setVisible(False)
             self.show_yourself()
 
@@ -495,7 +496,7 @@ class UI(QMainWindow):
                 df0.to_excel(writer, sheet_name=f'Miesiac {i + 1}',
                              header=['Pole'] + list(self.ch_types.values()), index=False)
             writer.close()
-            print('k')
+
 
             planting_cost = plant_price_generator(self.ch_types)
             df1 = pd.DataFrame(data={'Typ':list(self.ch_types.values()), 'Cena': planting_cost.astype(float)})
@@ -543,13 +544,11 @@ class UI(QMainWindow):
                     vineprice, magazine_cost, magazine_capacity, store_needs, ch_types,
                     tabu_length=10, max_iter=50, epsilon=0.1):
 
-
-
         #flagi
         constval=20
         minrand=5
         maxrand=40
-        rand=false
+        rand=False
 
         LongTermMem=self.LongTermMem
         SolutionSpaceCoverage=self.SolutionSpaceCoverage
@@ -578,6 +577,8 @@ class UI(QMainWindow):
 
         self.t.setVisible(True)
         # sol_present_yourself(gain, loss, beg_sol, ch_types)
+
+        TL_everysol = dict()
 
         TL = []
         avgMemory = np.zeros((2 * beg_sol.shape[0] * beg_sol.shape[1] * beg_sol.shape[2]))  # pamiec srednioteminowa zlicza rozwiazania dane
@@ -615,11 +616,9 @@ class UI(QMainWindow):
         while not (self.stop_iter or self.stop_eps):
             if counter == 0:
                 past_sol = 0
+
             self.pb.setValue(counter)
-            mapa = generateAllsolutions(solution,SolutionSpaceCoverage,[800,800,800],rand,minrand,maxrand,constval)
-            print('--------------------------------')
-            print(mapa)
-            print('--------------------------------')
+            mapa = generateAllsolutions(solution,[800,800,800],SolutionSpaceCoverage,rand,minrand,maxrand,constval)
             neigh = [k for k, _ in mapa.items()]
 
             n_rem = None
@@ -639,8 +638,8 @@ class UI(QMainWindow):
                 # TODO - dodać krok - randomowy albo i nie
                 # TODO - dodać licznik użyć kryterium aspiracji
                 value = sum(gain) - sum(loss)
-                if n not in TL and value - avgMemory[n] * 2> maxi:
-                    maxi = value - avgMemory[n] * 2  # no jak było wybierane to mniej
+                if n not in TL and value - avgMemory[n] * 50> maxi:
+                    maxi = value - avgMemory[n] * 50  # no jak było wybierane to mniej
                     maxval = value
                     gain_rem = gain
                     loss_rem = loss
@@ -690,9 +689,9 @@ class UI(QMainWindow):
             if abs(past_sol - maxval) <= epsilon:
                 self.stop_eps = True
 
-
             counter += 1
 
+            print(TL_everysol)
             if abs(past_sol - maxval) <= minieps:
                 minieps = round(abs(past_sol - maxval), len(str(self.epsilon)))
                 self.stat6.setText(str(minieps)+'/i'+str(counter))
