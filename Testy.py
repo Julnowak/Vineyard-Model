@@ -153,47 +153,49 @@ gain, loss = ocena(testowe, planting_cost,
 
 
 
-c = 0
-if len(ch_types) > 4:
-    k = 2
-else:
-    k = 1
-months = num_of_years * 12
-
-fig = plt.figure()
-for _, v in ch_types.items():
-    if k > 2:
-        ax = fig.add_subplot(len(ch_types)- len(ch_types)//2, k, c + 1)
-    else:
-        ax = fig.add_subplot(len(ch_types), k, c + 1)
-
-    if num_of_years <= 2:
-        ax.plot(range(1, months + 1), bottle_prices[c], linestyle='--', marker='o', c=colors[c])
-    else:
-        ax.plot(range(1, months + 1), bottle_prices[c], c=colors[c])
-    ax.grid()
-    ax.legend((v,), loc='best')
-
-    c += 1
-
-fig.suptitle(f"Zmiana ceny wina na przestrzeni {months} miesięcy", y=0.97)
-fig.supylabel('Aktualna cena wina')
-
-if months == 12:
-    month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    plt.xticks(range(1, months + 1), month)
-    fig.supxlabel('Miesiąc')
-else:
-    fig.supxlabel('Nr.miesiąca')
-fig.tight_layout()
+# c = 0
+# if len(ch_types) > 4:
+#     k = 2
+# else:
+#     k = 1
+# months = num_of_years * 12
+#
+# fig = plt.figure()
+# for _, v in ch_types.items():
+#     if k > 2:
+#         ax = fig.add_subplot(len(ch_types)- len(ch_types)//2, k, c + 1)
+#     else:
+#         ax = fig.add_subplot(len(ch_types), k, c + 1)
+#
+#     if num_of_years <= 2:
+#         ax.plot(range(1, months + 1), bottle_prices[c], linestyle='--', marker='o', c=colors[c])
+#     else:
+#         ax.plot(range(1, months + 1), bottle_prices[c], c=colors[c])
+#     ax.grid()
+#     ax.legend((v,), loc='best')
+#
+#     c += 1
+#
+# fig.suptitle(f"Zmiana ceny wina na przestrzeni {months} miesięcy", y=0.97)
+# fig.supylabel('Aktualna cena wina')
+#
+# if months == 12:
+#     month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+#     plt.xticks(range(1, months + 1), month)
+#     fig.supxlabel('Miesiąc')
+# else:
+#     fig.supxlabel('Nr.miesiąca')
+# fig.tight_layout()
 
 plt.show()
 import pandas as pd
+fields = 5
 
-# soil_quality = soil_quality_generator(len(ch_types), num_of_years, ch_types)
-# writer = pd.ExcelWriter('Wyniki/Tabele/jakosc_gleby.xlsx', engine='xlsxwriter')
-# for i in range(num_of_years * 12):
-#     df2 = pd.DataFrame(data=soil_quality[i, :, :].astype(float))
-#     df2.insert(loc=0, column='Pole', value=list(range(2)))
-#     df2.to_excel('Wyniki/Tabele/jakosc_gleby.xlsx', sheet_name=f'Miesiac {i + 1}',
-#                  header=['Pole']+list(ch_types.values()), index=False)
+soil_quality = soil_quality_generator(fields, num_of_years, ch_types)
+writer = pd.ExcelWriter('Wyniki/Tabele/jakosc_gleby.xlsx', engine='xlsxwriter')
+for i in range(num_of_years * 12):
+    df2 = pd.DataFrame(data=soil_quality[i, :, :].astype(float))
+    df2.insert(loc=0, column='Pole', value=list(range(fields)))
+    df2.to_excel('Wyniki/Tabele/jakosc_gleby.xlsx', sheet_name=f'Miesiac {i + 1}',
+                 header=['Pole']+list(ch_types.values()), index=False)
+writer.close()

@@ -2,7 +2,7 @@
 ###KTOŚ
 # TODO - trzeba sprawdzić magazynowanie, naprawić, żeby nie zależało od ograniczenia dolnego
 # TODO - kryterium aspiracji wygląda, jakby nie działało
-# TODO
+# TODO - nie działa dla większej ilości pól - naprawić!!
 
 
 

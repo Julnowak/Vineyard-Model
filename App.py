@@ -221,8 +221,7 @@ class UI(QMainWindow):
 
         # Odświeżanie tabeli
         self.rt = self.findChild(QPushButton, "refreshtab")
-        self.rt.clicked.connect(
-            lambda: (self.tab.setRowCount(int(self.nr_field.text())), self.grape_type_choice()))
+        self.rt.clicked.connect(lambda: self.refresh_fieldnum())
 
         # Czyszczenie tabeli
         self.ct = self.findChild(QPushButton, "cleartab")
@@ -285,8 +284,8 @@ class UI(QMainWindow):
         # Odświeżanie tabeli
         self.rt2 = self.findChild(QPushButton, "refreshtab_2")
         self.rt2.clicked.connect(
-            lambda: (self.zap.setRowCount(len(self.ch_types) + 1),
-                     self.zap.setVerticalHeaderLabels(list(self.ch_types.values()) + ['']), self.grape_type_choice()))
+            lambda: (self.grape_type_choice(), self.zap.setRowCount(len(self.ch_types) + 1),
+                     self.zap.setVerticalHeaderLabels(list(self.ch_types.values()) + [''])))
 
         ## Ustawienia - ustawienia algorytmu
 
@@ -347,6 +346,23 @@ class UI(QMainWindow):
         self.button2.clicked.connect(lambda: self.input.setValue(0.10))
         self.button2.clicked.connect(lambda: self.input2.setValue(50))
 
+        ### DO STATYSTYK
+        # Kryteria stopu
+        self.stop_iter = False
+        self.stop_eps = False
+
+        # Wyświetlanie
+        self.stat = self.findChild(QLabel, "stat")
+        self.stat2 = self.findChild(QLabel, "stat_2")
+        self.stat3 = self.findChild(QLabel, "stat_3")
+        self.stat4 = self.findChild(QLabel, "stat_4")
+        self.stat5 = self.findChild(QLabel, "stat_5")
+        self.stat6 = self.findChild(QLabel, "stat_6")
+        self.stat7 = self.findChild(QLabel, "stat_7")
+        self.stat8 = self.findChild(QLabel, "stat_8")
+        self.stat9 = self.findChild(QLabel, "stat_9")
+
+        ### WARNINGI
         self.warn = self.findChild(QLabel, 'warnin')
         self.warn1 = self.findChild(QLabel, 'warn1')
         self.warn2 = self.findChild(QLabel, 'warn2')
@@ -363,14 +379,21 @@ class UI(QMainWindow):
         self.warnin4 = self.findChild(QLabel, 'warnin_4')
         self.warnin4.setVisible(False)
 
+        ### PARAMSY
         self.upper = [800, 800, 800]
         self.lower = [100, 100, 100]
+
         self.show_yourself()
         self.set()
 
+
+    def refresh_fieldnum(self):
+        self.fields = int(self.nr_field.text())
+        self.tab.setRowCount(self.fields)
+
     def set(self):
         self.text.setText(str(self.num_of_years))
-        self.text2.setText(str(self.nr_field.text()))
+        self.text2.setText(str(self.fields))
         self.text3.setText(str(self.max_iter))
         self.text4.setText(str(self.epsilon))
         self.text5.setText(str(self.tabu_length))
@@ -432,13 +455,17 @@ class UI(QMainWindow):
             self.harvest_cost = float(self.zbior.text())
             self.acctab()
             self.acczap()
-            self.tab.setRowCount(int(self.nr_field.text()))
+            self.fields = int(self.nr_field.text())
+            self.tab.setRowCount(self.fields)
             self.zap.setRowCount(len(self.ch_types) + 1)
             self.zap.setVerticalHeaderLabels(list(self.ch_types.values()) + [''])
+            self.tabu_length = int(self.tl.text())
+
 
             self.tabulist = self.smol.isChecked()
             self.MidTermMem = self.med.isChecked()
             self.LongTermMem = self.lon.isChecked()
+
             self.SolutionSpaceCoverage = float(self.som.text())
             self.aspicheck = self.aspik.isChecked()
             self.midtemmemTreshold = int(self.aspinum.text())
@@ -455,21 +482,20 @@ class UI(QMainWindow):
 
         self.set()
 
-
     def start_tabu(self):
         try:
-
+            self.warn2.setVisible(False)
             self.show_yourself()
-            
+
             sol = generate_solution(self.magazine_capacity, self.upper, self.lower, self.num_of_years, len(self.ch_types))
             writer = pd.ExcelWriter('Wyniki/Tabele/rozwiazanie_pocz.xlsx', engine='xlsxwriter')
             for i in range(self.num_of_years * 12):
                 df0 = pd.DataFrame(data=sol[i, :, :].astype(int))
-                df0.insert(loc=0, column='Pole', value=list(range(1,self.fields+1)))
+                df0.insert(loc=0, column='Pole', value=list(range(1, self.fields+1)))
                 df0.to_excel(writer, sheet_name=f'Miesiac {i + 1}',
                              header=['Pole'] + list(self.ch_types.values()), index=False)
             writer.close()
-
+            print('k')
 
             planting_cost = plant_price_generator(self.ch_types)
             df1 = pd.DataFrame(data={'Typ':list(self.ch_types.values()), 'Cena': planting_cost.astype(float)})
@@ -479,7 +505,7 @@ class UI(QMainWindow):
             writer = pd.ExcelWriter('Wyniki/Tabele/jakosc_gleby.xlsx', engine='xlsxwriter')
             for i in range(self.num_of_years * 12):
                 df2 = pd.DataFrame(data=soil_quality[i, :, :].astype(float))
-                df2.insert(loc=0, column='Pole', value=list(range(1,self.fields+1)))
+                df2.insert(loc=0, column='Pole', value=list(range(1, self.fields+1)))
                 df2.to_excel(writer, sheet_name=f'Miesiac {i + 1}',
                              header=['Pole'] + list(self.ch_types.values()), index=False)
             writer.close()
@@ -506,6 +532,8 @@ class UI(QMainWindow):
 
         except:
             print('Coś poszło nie tak!')
+            self.warn2.setVisible(True)
+            self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
 
     def tabu_search(self, beg_sol, planting_cost,
                     IsFertilized, soil_quality,
@@ -532,7 +560,8 @@ class UI(QMainWindow):
                            plants_per_bottle, transport_cost,
                            vineprice, magazine_cost, magazine_capacity, store_needs)
 
-        self.beg = sum(gain) - sum(loss)
+        beg = round(sum(gain) - sum(loss),2)
+        self.stat.setText(str(beg))
 
         self.c2.plot_main(gain, loss,'beginning_main_linear_plot')
         self.c2.setVisible(True)
@@ -551,22 +580,27 @@ class UI(QMainWindow):
             2]))  # pamiec srednioteminowa zlicza rozwiazania dane
         streak = 0
 
+        # Aktualne
         solution = beg_sol.copy()
-        past_sol = sum(gain) - sum(loss)
+        past_sol = None
 
         # Najlepsze
         bs_solution = solution.copy()
         bs = sum(gain) - sum(loss)
+        bs_gain_rem = gain
+        bs_loss_rem = loss
 
+        # Aktualne REM????
         gain_rem = 0
         loss_rem = 0
 
-        stop_iter = False
-        stop_eps = False
+        self.stop_iter = False
+        self.stop_eps = False
         counter = 0
         self.pb.setTextVisible(True)
         self.pb.setMaximum(max_iter)
 
+        minieps = np.inf
         # DANE
         dane = [[counter, round(sum(gain), 2), round(sum(loss), 2), round(sum(gain) - sum(loss), 2), len(TL),
                  wypisz(beg_sol, ch_types)]]
@@ -574,14 +608,13 @@ class UI(QMainWindow):
         limsta = []
         # print(solution)
         print('----------------------------------------------------')
-        while not (stop_iter or stop_eps):
+        while not (self.stop_iter or self.stop_eps):
             self.pb.setValue(counter)
             mapa = generateAllsolutions(solution,numberofsolutions=SolutionSpaceCoverage)
             # print(mapa)
             neigh = [k for k, _ in mapa.items()]
 
             n_rem = None
-            value = None
             maxi = -np.inf
             maxval = -np.inf
 
@@ -595,31 +628,35 @@ class UI(QMainWindow):
                                    vineprice, magazine_cost, magazine_capacity, store_needs)
 
                 # + funkcja aspiracji
+                # TODO - dodać krok - randomowy albo i nie
+                # TODO - dodać licznik użyć kryterium aspiracji
                 value = sum(gain) - sum(loss)
-                if n not in TL and value - avgMemory[n] * 2 > maxi:
+                if n not in TL and value > maxval:
                     maxi = sum(gain) - sum(loss) - avgMemory[n] * 2  # no jak było wybierane to mniej
                     maxval = sum(gain) - sum(loss)
                     gain_rem = gain
                     loss_rem = loss
                     n_rem = n
             # print(n_rem)
-
+            # TODO - nie pamięta rozwiązania najlepszego, tylko aktualne
+            # TODO - czm tu są 2 listy??? Jedna idzie do wywalenia
             limsta.append(maxval)
             if LongTermMem:
                 avgMemory[n_rem] = avgMemory[n_rem] + 1
 
-
-
-
-            limsta.append(value)
+            # TODO - czm tu są 2 listy???
+            # limsta.append(value)
 
             if maxval >= bs:
-                solution = mapa[n_rem].copy()
-                streak = 0
+                bs_solution = mapa[n_rem].copy()
+                bs_gain_rem = gain_rem
+                bs_loss_rem = loss_rem
+                bs = maxval
+                streak = 0      # TO JEST ŻLE
             else:
                 if MidTermMem:
                     streak = streak + 1
-                solution = mapa[n_rem].copy()
+            solution = mapa[n_rem].copy()
 
             if(tabulist):
                 if len(TL) < tabu_length:
@@ -628,49 +665,77 @@ class UI(QMainWindow):
                     TL.pop(0)
                     TL.append(generateAntiNum(n_rem))
 
-            if streak > midtemmemTreshold:
+            # TODO Wieczna pętla i kij wie
+            if streak >= midtemmemTreshold:
                 print('--------------------------------yuk')
-                solution = beg_sol
-                counter = 0
+                solution = beg_sol # Tutaj dajemy możliwość wyboru z tabu listy i mamy kryterium aspiracji
+                streak = 0
                 #tutaj ten reset ale nei wiem jak to zrobić
                 #nalepiej sol=gennewcompletlynewsol()
 
+            if counter == 0:
+                past_sol = 0
 
             if abs(past_sol - maxval) <= epsilon:
-                stop_eps = True
+                self.stop_eps = True
 
-            past_sol = maxval
 
             counter += 1
+
+            if abs(past_sol - maxval) <= minieps:
+                minieps = round(abs(past_sol - maxval), len(str(self.epsilon)))
+                self.stat6.setText(str(minieps)+'/i'+str(counter))
             dane.append(
                 [counter, round(sum(gain_rem), 2), round(sum(loss_rem), 2), round(sum(gain_rem) - sum(loss_rem), 2),
                  len(TL), wypisz(solution, ch_types)])
             print(counter)
             if counter >= max_iter:
-                stop_iter = True
+                self.stop_iter = True
+
+            past_sol = maxval
+
+        self.stat5.setText(str(counter)+'/'+str(max_iter))
+
+        ac = limsta[0]
+        better_counter = 0
+        worse_counter = 0
+        eq_counter = 0
+        for i in limsta[1:]:
+            if i < ac:
+                worse_counter +=1
+            elif i > ac:
+                better_counter += 1
+            else:
+                eq_counter+=1
+            ac = i
+
+        self.stat7.setText(str(better_counter))
+        self.stat8.setText(str(worse_counter))
+        self.stat9.setText(str(eq_counter))
+
 
         self.pb.setValue(max_iter)
 
         self.c.plotting(limsta)
         self.c.setVisible(True)
 
+        self.stat3.setText(str(round(limsta[-1],2)))
+        self.stat2.setText(str(round(sum(bs_gain_rem)-sum(bs_loss_rem),2)))
         # sol_present_yourself(gain_rem, loss_rem, bs_solution, ch_types)
 
-        self.c5.plot_main(gain_rem, loss_rem,'ending_main_linear_plot')
+        self.c5.plot_main(bs_gain_rem, bs_loss_rem,'ending_main_linear_plot')
         self.c5.setVisible(True)
 
-        self.c6.plot_bar(gain_rem, loss_rem,'ending_bar_plot')
+        self.c6.plot_bar(bs_gain_rem, bs_loss_rem,'ending_bar_plot')
         self.c6.setVisible(True)
 
-        self.c7.plot_bar2(gain_rem, loss_rem, bs_solution.shape[0],'ending_detailed_bar_plot')
+        self.c7.plot_bar2(bs_gain_rem, bs_loss_rem, bs_solution.shape[0],'ending_detailed_bar_plot')
         self.c7.setVisible(True)
 
         self.t.setRowCount(len(dane))
         self.t.setColumnCount(len(dane[0]))
         self.t.setHorizontalHeaderLabels(["Iteracja", "zysk", "strata", "bilans", "Aktualna długość TL", "Opis"])
 
-        self.best = None
-        self.actual = None
         for k in range(len(dane)):
             for i in range(len(dane[0])):
                 self.t.setItem(k, i, QTableWidgetItem(str(dane[k][i])))

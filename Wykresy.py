@@ -74,7 +74,7 @@ def sol_present_yourself(gain, loss, sol, ch_types):
     plot_2_bar_gain_and_loss(gain, loss)
 
 
-def wypisz(sol,ch_types):
+def wypisz(sol, ch_types):
     months = sol.shape[0]
     fields = sol.shape[1]
     grape_types = sol.shape[2]
@@ -91,6 +91,6 @@ def wypisz(sol,ch_types):
 
                     text += f'   \nNa polu {f+1} zasadzono {int(sol[m][f][t])} jednostek winogron typu {ch_types[list(ch_types)[t]]}.'
                     mi += 1
-        if mi == 3:
+        if mi == fields:
             text += '\n\n'
     return text
