@@ -13,8 +13,9 @@
 # Zerujemy miesiące spoza listy [2,6,10]
 # TODO - ogarnąć tabu list
 
+#
 # PAWEŁ
-
+#counter skuteczniosc zabronienia licznil
 # TODO lista długoterminowa - częstotliwość wystąpień zmian
 # Lista Tabu już działa, jakbyś mógł to proszę dodaj flagi do kryterium aspiracji i list
 # TODO - where random flaga
@@ -31,6 +32,6 @@
 # Julia
 # TODO - zrób Statystyki, dokończ pliki, poprintuj wszystko i będzie the end
 # TODO Zrobić pliki - po części są
-
+# list lt zawartosc zmiany
 # FILIP
 # TODO - oflagować i przetestować
