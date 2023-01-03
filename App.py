@@ -10,9 +10,9 @@ import os
 cur = os.path.abspath(os.getcwd())
 
 
-# import sys
-# f = open("Wyniki/Tabele/algorytm.txt", 'w')
-# sys.stdout = f
+import sys
+f = open("Wyniki/Tabele/algorytm.txt", 'w')
+sys.stdout = f
 
 class UI(QMainWindow):
 
@@ -576,9 +576,9 @@ class UI(QMainWindow):
         # sol_present_yourself(gain, loss, beg_sol, ch_types)
 
         TL = []
-        avgMemory = np.zeros((2 * beg_sol.shape[0] * beg_sol.shape[1] * beg_sol.shape[
-            2]))  # pamiec srednioteminowa zlicza rozwiazania dane
-        streak = 0
+        avgMemory = np.zeros((2 * beg_sol.shape[0] * beg_sol.shape[1] * beg_sol.shape[2]))  # pamiec srednioteminowa zlicza rozwiazania dane
+
+        streak = 0 # Do kryterium aspiracji
 
         # Aktualne
         solution = beg_sol.copy()
@@ -609,9 +609,14 @@ class UI(QMainWindow):
         # print(solution)
         print('----------------------------------------------------')
         while not (self.stop_iter or self.stop_eps):
+            if counter == 0:
+                past_sol = 0
             self.pb.setValue(counter)
+
             mapa = generateAllsolutions(solution,numberofsolutions=SolutionSpaceCoverage)
-            # print(mapa)
+            print('--------------------------------')
+            print(mapa)
+            print('--------------------------------')
             neigh = [k for k, _ in mapa.items()]
 
             n_rem = None
@@ -632,30 +637,34 @@ class UI(QMainWindow):
                 # TODO - dodać licznik użyć kryterium aspiracji
                 value = sum(gain) - sum(loss)
                 if n not in TL and value > maxval:
-                    maxi = sum(gain) - sum(loss) - avgMemory[n] * 2  # no jak było wybierane to mniej
+                    # maxi = sum(gain) - sum(loss) - avgMemory[n] * 2  # no jak było wybierane to mniej
                     maxval = sum(gain) - sum(loss)
                     gain_rem = gain
                     loss_rem = loss
                     n_rem = n
             # print(n_rem)
-            # TODO - nie pamięta rozwiązania najlepszego, tylko aktualne
-            # TODO - czm tu są 2 listy??? Jedna idzie do wywalenia
+
             limsta.append(maxval)
+
             if LongTermMem:
                 avgMemory[n_rem] = avgMemory[n_rem] + 1
 
-            # TODO - czm tu są 2 listy???
-            # limsta.append(value)
+            if maxval <= past_sol:
+                streak += 1
+                print(maxval-past_sol)
+            else:
+                streak = 0
 
             if maxval >= bs:
                 bs_solution = mapa[n_rem].copy()
                 bs_gain_rem = gain_rem
                 bs_loss_rem = loss_rem
                 bs = maxval
-                streak = 0      # TO JEST ŻLE
-            else:
-                if MidTermMem:
-                    streak = streak + 1
+            # else:
+            #     if MidTermMem:
+            #         streak = streak + 1
+
+            # Obecne rozwiązanie
             solution = mapa[n_rem].copy()
 
             if(tabulist):
@@ -665,7 +674,7 @@ class UI(QMainWindow):
                     TL.pop(0)
                     TL.append(generateAntiNum(n_rem))
 
-            # TODO Wieczna pętla i kij wie
+            # Kryterium aspiracji tu ma być
             if streak >= midtemmemTreshold:
                 print('--------------------------------yuk')
                 solution = beg_sol # Tutaj dajemy możliwość wyboru z tabu listy i mamy kryterium aspiracji
@@ -673,8 +682,7 @@ class UI(QMainWindow):
                 #tutaj ten reset ale nei wiem jak to zrobić
                 #nalepiej sol=gennewcompletlynewsol()
 
-            if counter == 0:
-                past_sol = 0
+
 
             if abs(past_sol - maxval) <= epsilon:
                 self.stop_eps = True
@@ -685,15 +693,18 @@ class UI(QMainWindow):
             if abs(past_sol - maxval) <= minieps:
                 minieps = round(abs(past_sol - maxval), len(str(self.epsilon)))
                 self.stat6.setText(str(minieps)+'/i'+str(counter))
+
             dane.append(
                 [counter, round(sum(gain_rem), 2), round(sum(loss_rem), 2), round(sum(gain_rem) - sum(loss_rem), 2),
                  len(TL), wypisz(solution, ch_types)])
+
             print(counter)
             if counter >= max_iter:
                 self.stop_iter = True
 
             past_sol = maxval
 
+        # print(avgMemory)
         self.stat5.setText(str(counter)+'/'+str(max_iter))
 
         ac = limsta[0]
@@ -941,4 +952,4 @@ window = UI()
 window.show()
 app.exec()
 
-# f.close()
+f.close()
