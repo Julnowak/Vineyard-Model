@@ -88,8 +88,8 @@ class UI(QMainWindow):
         ## TABELE
         self.lik = self.findChild(QLabel, 'p_1')
         txt = cur + r'\Wyniki\Tabele\ceny_wina.csv'
-        print(txt)
-        self.lik.setText(f"<a href={txt} >Ceny win</a>" )
+        self.lik.setText(f'<a href="{txt}" style="color: white;">Ceny win</a>' )
+
 
 
 
@@ -460,7 +460,16 @@ class UI(QMainWindow):
         try:
 
             self.show_yourself()
+            
             sol = generate_solution(self.magazine_capacity, self.upper, self.lower, self.num_of_years, len(self.ch_types))
+            writer = pd.ExcelWriter('Wyniki/Tabele/rozwiazanie_pocz.xlsx', engine='xlsxwriter')
+            for i in range(self.num_of_years * 12):
+                df0 = pd.DataFrame(data=sol[i, :, :].astype(int))
+                df0.insert(loc=0, column='Pole', value=list(range(1,self.fields+1)))
+                df0.to_excel(writer, sheet_name=f'Miesiac {i + 1}',
+                             header=['Pole'] + list(self.ch_types.values()), index=False)
+            writer.close()
+
 
             planting_cost = plant_price_generator(self.ch_types)
             df1 = pd.DataFrame(data={'Typ':list(self.ch_types.values()), 'Cena': planting_cost.astype(float)})
@@ -620,11 +629,12 @@ class UI(QMainWindow):
                     TL.append(generateAntiNum(n_rem))
 
             if streak > midtemmemTreshold:
-                print('yuk')
+                print('--------------------------------yuk')
                 solution = beg_sol
+                counter = 0
                 #tutaj ten reset ale nei wiem jak to zrobić
                 #nalepiej sol=gennewcompletlynewsol()
-                pass
+
 
             if abs(past_sol - maxval) <= epsilon:
                 stop_eps = True

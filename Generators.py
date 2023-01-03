@@ -254,7 +254,7 @@ def generateAllsolutions(sol,gorne=[800,800,800],numberofsolutions=1):
     res={}
     randTable=np.random.rand(2*sol.shape[0]*sol.shape[1]*sol.shape[2])
     for i in range(len(randTable)):
-        if randTable[i]>numberofsolutions:
+        if randTable[i]>=numberofsolutions:
             continue
         buff = generateSolutionFromNumber(i, sol,gorne)
         if not (buff==sol).all():

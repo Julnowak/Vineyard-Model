@@ -4652,7 +4652,7 @@ background-color: rgb(71, 71, 71);</string>
 background-color: rgb(71, 71, 71);</string>
                  </property>
                  <property name="text">
-                  <string>&lt;a href=&quot;../Wyniki/Tabele/ceny_wina.csv &quot;style=&quot;color: white;&quot;&gt;Ceny wina&lt;/a&gt;</string>
+                  <string>&lt;a href=&quot;C:\Users\Julia\Documents\GitHub\Model_prowadzenia_winnicy\Model_prowadzenia_winnicy\Wyniki\Tabele\ceny_wina.csv&quot;&gt;Ceny wina&lt;/a&gt;</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
