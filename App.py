@@ -546,6 +546,10 @@ class UI(QMainWindow):
 
 
         #flagi
+        constval=20
+        minrand=5
+        maxrand=40
+        rand=false
 
         LongTermMem=self.LongTermMem
         SolutionSpaceCoverage=self.SolutionSpaceCoverage
@@ -612,8 +616,7 @@ class UI(QMainWindow):
             if counter == 0:
                 past_sol = 0
             self.pb.setValue(counter)
-
-            mapa = generateAllsolutions(solution,numberofsolutions=SolutionSpaceCoverage)
+            mapa = generateAllsolutions(solution,SolutionSpaceCoverage,[800,800,800],rand,minrand,maxrand,constval)
             print('--------------------------------')
             print(mapa)
             print('--------------------------------')
@@ -636,9 +639,9 @@ class UI(QMainWindow):
                 # TODO - dodać krok - randomowy albo i nie
                 # TODO - dodać licznik użyć kryterium aspiracji
                 value = sum(gain) - sum(loss)
-                if n not in TL and value > maxval:
-                    # maxi = sum(gain) - sum(loss) - avgMemory[n] * 2  # no jak było wybierane to mniej
-                    maxval = sum(gain) - sum(loss)
+                if n not in TL and value - avgMemory[n] * 2> maxi:
+                    maxi = value - avgMemory[n] * 2  # no jak było wybierane to mniej
+                    maxval = value
                     gain_rem = gain
                     loss_rem = loss
                     n_rem = n

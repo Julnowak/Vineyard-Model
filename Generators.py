@@ -217,7 +217,7 @@ def generateAntiNum(num):
 
 #num should be in range from 0 to shape[0]*shape[1]*shape[2]*2
 #num defines direction of solution but value can be random
-def generateSolutionFromNumber(num,solution,gorne,randomFlag=True):
+def generateSolutionFromNumber(num,solution,gorne,randomFlag,min,max,norm):
     plusmin=num%2
     buff=num//2
 
@@ -230,9 +230,9 @@ def generateSolutionFromNumber(num,solution,gorne,randomFlag=True):
     val=np.sum(res[posx,posy,:])
     res[posx, posy, :]=0
     if  not randomFlag:
-        addNum=20
+        addNum=norm
     else:
-        addNum=random.randint(5, 30)
+        addNum=random.randint(min, max)
     if plusmin == 0 and posx not in [0,1,3,4,5,7,8,9,11]:
         res[posx][posy][posz]=val + addNum
     elif posx not in [0,1,3,4,5,7,8,9,11]:
@@ -250,13 +250,13 @@ def generateSolutionFromNumber(num,solution,gorne,randomFlag=True):
     return res
 
 # number of solutions should be between 0.1 and 1
-def generateAllsolutions(sol,gorne=[800,800,800],numberofsolutions=1):
+def generateAllsolutions(sol,gorne,numberofsolutions,rand,min,max,norm):
     res={}
     randTable=np.random.rand(2*sol.shape[0]*sol.shape[1]*sol.shape[2])
     for i in range(len(randTable)):
         if randTable[i]>=numberofsolutions:
             continue
-        buff = generateSolutionFromNumber(i, sol,gorne)
+        buff = generateSolutionFromNumber(i, sol,gorne,rand,min,max,norm)
         if not (buff==sol).all():
             res[i]=buff
     return res
