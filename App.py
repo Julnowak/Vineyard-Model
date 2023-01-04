@@ -10,9 +10,9 @@ import os
 cur = os.path.abspath(os.getcwd())
 
 
-import sys
-f = open("Wyniki/Tabele/algorytm.txt", 'w')
-sys.stdout = f
+# import sys
+# f = open("Wyniki/Tabele/algorytm.txt", 'w')
+# sys.stdout = f
 
 class UI(QMainWindow):
 
@@ -381,6 +381,7 @@ class UI(QMainWindow):
         self.stat7 = self.findChild(QLabel, "stat_7")
         self.stat8 = self.findChild(QLabel, "stat_8")
         self.stat9 = self.findChild(QLabel, "stat_9")
+        self.stat10 = self.findChild(QLabel, "stat_10")
 
         ### WARNINGI
         self.warn = self.findChild(QLabel, 'warnin')
@@ -658,6 +659,7 @@ class UI(QMainWindow):
         bs = sum(gain) - sum(loss)
         bs_gain_rem = gain
         bs_loss_rem = loss
+        bs_counter_rem = 0
 
         # Aktualne REM????
         gain_rem = 0
@@ -666,6 +668,7 @@ class UI(QMainWindow):
         self.stop_iter = False
         self.stop_eps = False
         counter = 0
+        aspi_counter = 0
         self.pb.setTextVisible(True)
         self.pb.setMaximum(max_iter)
 
@@ -709,7 +712,7 @@ class UI(QMainWindow):
                     loss_rem = loss
                     n_rem = n
             # print(n_rem)
-
+            # TODO - Przy długich tabu listach jest problem - maxval = -np.inf
             limsta.append(maxval)
 
             if LongTermMem:
@@ -726,29 +729,36 @@ class UI(QMainWindow):
                 bs_gain_rem = gain_rem
                 bs_loss_rem = loss_rem
                 bs = maxval
-            # else:
-            #     if MidTermMem:
-            #         streak = streak + 1
+                bs_counter_rem = counter + 1
 
             # Obecne rozwiązanie
             solution = mapa[n_rem].copy()
 
             if(tabulist):
-                if len(TL) < tabu_length:
-                    TL.append(generateAntiNum(n_rem))
-                else:
+                nik = generateAntiNum(n_rem)
+                if len(TL) < tabu_length and nik not in TL:
+                    TL.append(nik)
+                elif len(TL) < tabu_length and nik in TL:
+                    idx = TL.index(nik)
+                    TL.pop(idx)
+                    TL.append(nik)
+                elif len(TL) >= tabu_length and nik in TL:
+                    idx = TL.index(nik)
+                    TL.pop(idx)
+                    TL.append(nik)
+                elif len(TL) >= tabu_length and nik not in TL:
                     TL.pop(0)
-                    TL.append(generateAntiNum(n_rem))
+                    TL.append(nik)
+
             print(TL)
             # Kryterium aspiracji tu ma być
             if streak >= midtemmemTreshold:
                 print('--------------------------------yuk')
                 solution = beg_sol # Tutaj dajemy możliwość wyboru z tabu listy i mamy kryterium aspiracji
                 streak = 0
+                aspi_counter += 1
                 #tutaj ten reset ale nei wiem jak to zrobić
                 #nalepiej sol=gennewcompletlynewsol()
-
-
 
             if abs(past_sol - maxval) <= epsilon:
                 self.stop_eps = True
@@ -757,7 +767,7 @@ class UI(QMainWindow):
 
             if abs(past_sol - maxval) <= minieps:
                 minieps = round(abs(past_sol - maxval), len(str(self.epsilon)))
-                self.stat6.setText(str(minieps)+'/i'+str(counter))
+                self.stat6.setText(str(minieps)+'/ it: '+str(counter))
 
             dane.append(
                 [counter, round(sum(gain_rem), 2), round(sum(loss_rem), 2), round(sum(gain_rem) - sum(loss_rem), 2),
@@ -795,16 +805,17 @@ class UI(QMainWindow):
         self.stat7.setText(str(better_counter))
         self.stat8.setText(str(worse_counter))
 
-
-
         self.pb.setValue(max_iter)
 
         self.c.plotting(limsta)
         self.c.setVisible(True)
 
-        self.stat3.setText(str(round(limsta[-1],2)))
-        self.stat2.setText(str(round(sum(bs_gain_rem)-sum(bs_loss_rem),2)))
+        self.stat3.setText(str(round(limsta[-1],2)) + f'/ it: {counter}')
+        self.stat2.setText(str(round(sum(bs_gain_rem)-sum(bs_loss_rem),2)) + f'/ it: {bs_counter_rem}')
         # sol_present_yourself(gain_rem, loss_rem, bs_solution, ch_types)
+        self.stat10.setText(wypisz(bs_solution,self.ch_types))
+
+        self.stat4.setText(str(aspi_counter))
 
         self.c5.plot_main(bs_gain_rem, bs_loss_rem,'ending_main_linear_plot')
         self.c5.setVisible(True)
@@ -1024,4 +1035,4 @@ window = UI()
 window.show()
 app.exec()
 
-f.close()
+# f.close()

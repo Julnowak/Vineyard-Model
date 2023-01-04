@@ -39,7 +39,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
                 # Funkcja kary od pól
                 if sol[m][f][t] != 0 and m%12 in [2,6,10]:
                    if sol[m][f][t] < lower[f]:
-                       plant_cost += sol[m][f][t]*10.00
+                       plant_cost += sol[m][f][t]*50.00
                    elif sol[m][f][t] > upper[f]:
                        plant_cost += sol[m][f][t] * 99.00
                     # print('------',m,' ',f, ' ',t,'------' )
@@ -65,6 +65,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
                 # Ilość butelek, które powstały
                 bottles = int(gathering // plants_per_bottle) + remains[t]
                 bottling_expenses = int(gathering // plants_per_bottle) * bottling_cost
+                print(bottles)
 
                 # print('koszt butelkowania:', bottling_expenses)
                 # print('Nowe butelki:', int(gathering // plants_per_bottle))
@@ -104,7 +105,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
         if magazine_capacity < sum(remains):
             remains[remains.index(max(remains))] = max(remains) - (sum(remains) - magazine_capacity)
             month_gain += (sum(remains) - magazine_capacity) * 0.5 * bottle_price[remains.index(max(remains))][m]
-            month_cost += (sum(remains) - magazine_capacity) * 99.00
+            month_cost += (sum(remains) - magazine_capacity) * 0.8 * bottle_price[remains.index(max(remains))][m]
         # Sprzedajemy po połowie ceny
 
         # Kara

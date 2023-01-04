@@ -544,7 +544,7 @@ QPushButton:hover {
              <enum>Qt::StrongFocus</enum>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>4</number>
             </property>
             <widget class="QWidget" name="page">
              <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0,0,0">
@@ -2408,7 +2408,7 @@ QPushButton:pressed {
                        <x>20</x>
                        <y>30</y>
                        <width>391</width>
-                       <height>170</height>
+                       <height>151</height>
                       </rect>
                      </property>
                      <layout class="QVBoxLayout" name="verticalLayout_29">
@@ -5808,6 +5808,25 @@ QPushButton:pressed {
             </widget>
             <widget class="QWidget" name="page_4">
              <layout class="QGridLayout" name="gridLayout_20">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_51">
+                <property name="font">
+                 <font>
+                  <family>Tw Cen MT Condensed</family>
+                  <pointsize>18</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(255, 255, 255);</string>
+                </property>
+                <property name="text">
+                 <string>Statystyki</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
               <item row="1" column="0">
                <widget class="QTabWidget" name="tabWidget">
                 <property name="font">
@@ -5823,7 +5842,7 @@ color: rgb(255, 255, 255);
 }</string>
                 </property>
                 <property name="currentIndex">
-                 <number>0</number>
+                 <number>1</number>
                 </property>
                 <widget class="QWidget" name="tab">
                  <attribute name="title">
@@ -6227,7 +6246,7 @@ background-color: rgb(30, 30, 30);</string>
                    </item>
                   </layout>
                  </widget>
-                 <widget class="QLabel" name="text_18">
+                 <widget class="QLabel" name="stat_10">
                   <property name="geometry">
                    <rect>
                     <x>380</x>
@@ -6335,25 +6354,6 @@ background-color: rgb(30, 30, 30);</string>
                   </property>
                  </widget>
                 </widget>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_51">
-                <property name="font">
-                 <font>
-                  <family>Tw Cen MT Condensed</family>
-                  <pointsize>18</pointsize>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">color: rgb(255, 255, 255);</string>
-                </property>
-                <property name="text">
-                 <string>Statystyki</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
                </widget>
               </item>
              </layout>

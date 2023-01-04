@@ -254,8 +254,8 @@ def generateSolutionFromNumber(num,solution,gorne,randomFlag,min,max,norm):
     buff=buff//solution.shape[0]
     posy = buff % solution.shape[1]
     buff = buff // solution.shape[1]
-    posz = buff
     res=solution.copy()
+    posz = buff
     val=np.sum(res[posx,posy,:])
     res[posx, posy, :]=0
     if  not randomFlag:
@@ -277,6 +277,17 @@ def generateSolutionFromNumber(num,solution,gorne,randomFlag,min,max,norm):
     # invaild solution we return basic solution
 
     return res
+
+def przelicz(num,s0,s1):
+    plusmin = num % 2
+    buff = num // 2
+
+    posx = buff % s0
+    buff = buff // s0
+    posy = buff % s1
+    buff = buff // s1
+    posz = buff
+    return plusmin,posx,posy,posz
 
 # number of solutions should be between 0.1 and 1
 def generateAllsolutions(sol,gorne,numberofsolutions,rand,min,max,norm):
