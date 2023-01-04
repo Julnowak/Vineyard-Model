@@ -675,7 +675,7 @@ class UI(QMainWindow):
                 else:
                     TL.pop(0)
                     TL.append(generateAntiNum(n_rem))
-
+            print(TL)
             # Kryterium aspiracji tu ma być
             if streak >= midtemmemTreshold:
                 print('--------------------------------yuk')
