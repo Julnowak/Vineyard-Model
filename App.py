@@ -75,6 +75,13 @@ class UI(QMainWindow):
         self.text4 = self.findChild(QLabel, 'text_4')
         self.text5 = self.findChild(QLabel, 'text_5')
         self.text6 = self.findChild(QLabel, 'text_6')
+        self.text7 = self.findChild(QLabel, 'text_7')
+        self.text8 = self.findChild(QLabel, 'text_8')
+        self.text9 = self.findChild(QLabel, 'text_9')
+        self.text10 = self.findChild(QLabel, 'text_10')
+        self.text11 = self.findChild(QLabel, 'text_11')
+        self.text12 = self.findChild(QLabel, 'text_12')
+
 
         self.mn = self.findChild(QPushButton, "mn")
         self.mn.clicked.connect(lambda: self.st4.setCurrentIndex(1))
@@ -398,6 +405,12 @@ class UI(QMainWindow):
         self.text4.setText(str(self.epsilon))
         self.text5.setText(str(self.tabu_length))
         self.text6.setText(str(self.magazine_capacity))
+        self.text7.setText(str(self.aspicheck))
+        self.text8.setText(str(self.midtemmemTreshold))
+        self.text9.setText(str(self.SolutionSpaceCoverage))
+        self.text10.setText(str(self.num_of_years))
+        self.text11.setText(str(self.num_of_years))
+        self.text12.setText(str(len(self.ch_types)))
 
     def shader(self, cur):
         for d in [self.d, self.d1, self.d2, self.d3, self.d4, self.d5, self.d6, self.d7]:
@@ -578,8 +591,12 @@ class UI(QMainWindow):
         self.t.setVisible(True)
         # sol_present_yourself(gain, loss, beg_sol, ch_types)
 
+<<<<<<< Updated upstream
         TL_everysol = dict()
 
+=======
+        TL_everysol =[]
+>>>>>>> Stashed changes
         TL = []
         avgMemory = np.zeros((2 * beg_sol.shape[0] * beg_sol.shape[1] * beg_sol.shape[2]))  # pamiec srednioteminowa zlicza rozwiazania dane
 
@@ -624,7 +641,7 @@ class UI(QMainWindow):
             n_rem = None
             maxi = -np.inf
             maxval = -np.inf
-
+            
             for n in neigh:
 
                 gain, loss = ocena(mapa[n], planting_cost,
@@ -638,9 +655,15 @@ class UI(QMainWindow):
                 # TODO - dodać krok - randomowy albo i nie
                 # TODO - dodać licznik użyć kryterium aspiracji
                 value = sum(gain) - sum(loss)
+<<<<<<< Updated upstream
                 if n not in TL and value - avgMemory[n] * 50> maxi:
                     maxi = value - avgMemory[n] * 50  # no jak było wybierane to mniej
                     maxval = value
+=======
+                if n not in TL and value - avgMemory[n] * 2  > maxi:
+                    maxi = sum(gain) - sum(loss) - avgMemory[n] * 2  # no jak było wybierane to mniej
+                    maxval = sum(gain) - sum(loss)
+>>>>>>> Stashed changes
                     gain_rem = gain
                     loss_rem = loss
                     n_rem = n
