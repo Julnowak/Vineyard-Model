@@ -319,18 +319,31 @@ class UI(QMainWindow):
         self.LongTermMem = self.lon.isChecked()
 
         # Typy sąsiedztwa
-        self.sasiad = self.findChild(QCheckBox, "sasiedztwo")
-        self.sasiad2 = self.findChild(QCheckBox, "sasiedztwo_2")
-        self.sasiad3 = self.findChild(QCheckBox, "sasiedztwo_3")
-        self.sasiad4 = self.findChild(QCheckBox, "sasiedztwo_4")
+        self.sasiad = self.findChild(QRadioButton, "sasiedztwo")
+        self.sasiad2 = self.findChild(QRadioButton, "sasiedztwo_2")
+        self.rand = self.sasiad2.isChecked()
+
+        self.staly = self.findChild(QSpinBox, "staly")
+        self.constval = int(self.staly.text())
+
+        self.minlos = self.findChild(QSpinBox, "minlos")
+        self.minrand = int(self.minlos.text())
+
+        self.maxlos = self.findChild(QSpinBox, "maxlos")
+        self.maxrand = int(self.maxlos.text())
+
+        # część sąsiedztwa
         self.som = self.findChild(QDoubleSpinBox, "som")
         self.SolutionSpaceCoverage = float(self.som.text())
 
         # Typy rozwiązania początkowego
-        self.pocz = self.findChild(QCheckBox, "roz_beg")
-        self.pocz2 = self.findChild(QCheckBox, "roz_beg_2")
-        self.pocz3 = self.findChild(QCheckBox, "roz_beg_3")
-        self.pocz4 = self.findChild(QCheckBox, "roz_beg_4")
+        self.typ = self.findChild(QRadioButton, "typ")
+        self.typ2 = self.findChild(QRadioButton, "typ_2")
+        self.typ3 = self.findChild(QRadioButton, "typ_3")
+        self.typ4= self.findChild(QRadioButton, "typ_4")
+
+        self.ch_typ_list = [self.typ.isChecked(),self.typ2.isChecked(),
+                            self.typ3.isChecked(),self.typ4.isChecked()]
 
         # Kryterium aspiracji - tak/nie
         self.aspik= self.findChild(QCheckBox, "aspi")
@@ -408,8 +421,27 @@ class UI(QMainWindow):
         self.text7.setText(str(self.aspicheck))
         self.text8.setText(str(self.midtemmemTreshold))
         self.text9.setText(str(self.SolutionSpaceCoverage))
-        self.text10.setText(str(self.num_of_years))
-        self.text11.setText(str(self.num_of_years))
+
+        if self.rand:
+            self.text10.setText(f'Losowy\n{self.minrand}-{self.maxrand}')
+        else:
+            self.text10.setText(f'Stały\n{self.constval}')
+
+        if self.rand:
+            self.text10.setText(f'Losowy\n{self.minrand}-{self.maxrand}')
+        else:
+            self.text10.setText(f'Stały\n{self.constval}')
+
+        if self.ch_typ_list[0]:
+            txt = 'I typ'
+        elif self.ch_typ_list[1]:
+            txt = 'II typ'
+        elif self.ch_typ_list[2]:
+            txt = 'III typ'
+        else:
+            txt = 'IV typ'
+
+        self.text11.setText(txt)
         self.text12.setText(str(len(self.ch_types)))
 
     def shader(self, cur):
@@ -482,6 +514,8 @@ class UI(QMainWindow):
             self.SolutionSpaceCoverage = float(self.som.text())
             self.aspicheck = self.aspik.isChecked()
             self.midtemmemTreshold = int(self.aspinum.text())
+            self.ch_typ_list = [self.typ.isChecked(), self.typ2.isChecked(),
+                                self.typ3.isChecked(), self.typ4.isChecked()]
 
             if self.nawoz.currentText() == 'Standardowy (+5%) - 2zł/szt':
                 self.fertilizer_bonus = 0.05
@@ -493,6 +527,14 @@ class UI(QMainWindow):
                 self.fertilizer_bonus = 0.17
                 self.fertilizer_cost = 7.00
 
+            self.rand = self.sasiad2.isChecked()
+            if self.rand is True:
+                self.minrand = int(self.minlos.text())
+                self.maxrand = int(self.maxlos.text())
+            else:
+                self.constval = int(self.staly.text())
+
+
         self.set()
 
     def start_tabu(self):
@@ -501,7 +543,18 @@ class UI(QMainWindow):
             self.warn2.setVisible(False)
             self.show_yourself()
 
-            sol = generate_solution(self.magazine_capacity, self.upper, self.lower, self.num_of_years, len(self.ch_types))
+            if self.ch_typ_list[0]:
+                sol_flag = 1
+            elif self.ch_typ_list[1]:
+                sol_flag = 2
+            elif self.ch_typ_list[2]:
+                sol_flag = 3
+            else:
+                sol_flag = 4
+
+            sol = generate_solution(self.magazine_capacity, self.upper, self.lower, self.num_of_years,
+                                    len(self.ch_types), self.store_need, sol_flag)
+
             writer = pd.ExcelWriter('Wyniki/Tabele/rozwiazanie_pocz.xlsx', engine='xlsxwriter')
             for i in range(self.num_of_years * 12):
                 df0 = pd.DataFrame(data=sol[i, :, :].astype(int))
@@ -540,7 +593,7 @@ class UI(QMainWindow):
                              self.harvest_cost, self.bottling_cost,
                              self.plants_per_bottle, self.transport_cost,
                              vineprice, self.magazine_cost, self.magazine_capacity, self.store_need, self.ch_types,
-                             self.tabu_length, self.max_iter, self.epsilon)
+                             self.tabu_length, self.max_iter, self.epsilon,self.upper, self.lower)
             self.pb.setValue(0)
             self.pb.setTextVisible(False)
 
@@ -555,13 +608,13 @@ class UI(QMainWindow):
                     harvest_cost, bottling_cost,
                     plants_per_bottle, transport_cost,
                     vineprice, magazine_cost, magazine_capacity, store_needs, ch_types,
-                    tabu_length=10, max_iter=50, epsilon=0.1):
+                    tabu_length=10, max_iter=50, epsilon=0.1,upper=[800,800,800],lower=[100,100,100]):
 
         #flagi
-        constval=20
-        minrand=5
-        maxrand=40
-        rand=False
+        constval=self.constval
+        minrand=self.minrand
+        maxrand=self.maxrand
+        rand=self.rand
 
         LongTermMem=self.LongTermMem
         SolutionSpaceCoverage=self.SolutionSpaceCoverage
@@ -574,7 +627,7 @@ class UI(QMainWindow):
                            fertilizer_bonus, fertilizer_cost,
                            harvest_cost, bottling_cost,
                            plants_per_bottle, transport_cost,
-                           vineprice, magazine_cost, magazine_capacity, store_needs)
+                           vineprice, magazine_cost, magazine_capacity, store_needs, upper,lower )
 
         beg = round(sum(gain) - sum(loss),2)
         self.stat.setText(str(beg))
@@ -591,12 +644,6 @@ class UI(QMainWindow):
         self.t.setVisible(True)
         # sol_present_yourself(gain, loss, beg_sol, ch_types)
 
-<<<<<<< Updated upstream
-        TL_everysol = dict()
-
-=======
-        TL_everysol =[]
->>>>>>> Stashed changes
         TL = []
         avgMemory = np.zeros((2 * beg_sol.shape[0] * beg_sol.shape[1] * beg_sol.shape[2]))  # pamiec srednioteminowa zlicza rozwiazania dane
 
@@ -635,7 +682,7 @@ class UI(QMainWindow):
                 past_sol = 0
 
             self.pb.setValue(counter)
-            mapa = generateAllsolutions(solution,[800,800,800],SolutionSpaceCoverage,rand,minrand,maxrand,constval)
+            mapa = generateAllsolutions(solution,upper,SolutionSpaceCoverage,rand,minrand,maxrand,constval)
             neigh = [k for k, _ in mapa.items()]
 
             n_rem = None
@@ -649,21 +696,15 @@ class UI(QMainWindow):
                                    fertilizer_bonus, fertilizer_cost,
                                    harvest_cost, bottling_cost,
                                    plants_per_bottle, transport_cost,
-                                   vineprice, magazine_cost, magazine_capacity, store_needs)
+                                   vineprice, magazine_cost, magazine_capacity, store_needs, upper,lower )
 
                 # + funkcja aspiracji
-                # TODO - dodać krok - randomowy albo i nie
+
                 # TODO - dodać licznik użyć kryterium aspiracji
                 value = sum(gain) - sum(loss)
-<<<<<<< Updated upstream
                 if n not in TL and value - avgMemory[n] * 50> maxi:
                     maxi = value - avgMemory[n] * 50  # no jak było wybierane to mniej
                     maxval = value
-=======
-                if n not in TL and value - avgMemory[n] * 2  > maxi:
-                    maxi = sum(gain) - sum(loss) - avgMemory[n] * 2  # no jak było wybierane to mniej
-                    maxval = sum(gain) - sum(loss)
->>>>>>> Stashed changes
                     gain_rem = gain
                     loss_rem = loss
                     n_rem = n
@@ -714,7 +755,6 @@ class UI(QMainWindow):
 
             counter += 1
 
-            print(TL_everysol)
             if abs(past_sol - maxval) <= minieps:
                 minieps = round(abs(past_sol - maxval), len(str(self.epsilon)))
                 self.stat6.setText(str(minieps)+'/i'+str(counter))
@@ -729,25 +769,32 @@ class UI(QMainWindow):
 
             past_sol = maxval
 
+        if self.stop_eps and self.stop_iter:
+            self.stat9.setText('Kryterium dokładności i maksymalnej liczby iteracji')
+        elif self.stop_eps:
+            self.stat9.setText('Kryterium dokładności')
+        elif self.stop_iter:
+            self.stat9.setText('Kryterium maksymalnej liczby iteracji')
+        else:
+            print("WARNING!")
+
         # print(avgMemory)
         self.stat5.setText(str(counter)+'/'+str(max_iter))
 
         ac = limsta[0]
         better_counter = 0
         worse_counter = 0
-        eq_counter = 0
+
         for i in limsta[1:]:
             if i < ac:
                 worse_counter +=1
             elif i > ac:
                 better_counter += 1
-            else:
-                eq_counter+=1
             ac = i
 
         self.stat7.setText(str(better_counter))
         self.stat8.setText(str(worse_counter))
-        self.stat9.setText(str(eq_counter))
+
 
 
         self.pb.setValue(max_iter)

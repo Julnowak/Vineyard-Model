@@ -7,7 +7,7 @@ import sys
 # Generator rozwiązania początkowego - działa
 def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[List, Dict],
                       min_fields_capacity: Union[List, Dict], number_of_years: int,
-                      number_of_grapetypes: int) -> np.ndarray:
+                      number_of_grapetypes: int,store_needs, sol_flag: int) -> np.ndarray:
 
     print(min_fields_capacity)
     print(max_fields_capacity)
@@ -33,14 +33,43 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
         if m in winter or m in planting_breaks:
             continue
         else:
-            flaga = True
-            typ = [random.randint(0, number_of_grapetypes - 1) for _ in range(fields_num)]
-            while flaga:
+            if sol_flag == 1:
+                flaga = True
+                typ = [random.randint(0, number_of_grapetypes - 1) for _ in range(fields_num)]
+                while flaga:
+                    for fnr in range(fields_num):
+                        gen = random.randint(min_fields_capacity[fnr], max_fields_capacity[fnr])
+                        solution[m, fnr, typ[fnr]] = gen
+                    if np.sum(solution[m, :, :]) <= max_magazine_capacity:
+                        flaga = False
+            elif sol_flag == 2: # 50% ograniczeń górnych
+                typ = [random.randint(0, number_of_grapetypes - 1) for _ in range(fields_num)]
                 for fnr in range(fields_num):
-                    gen = random.randint(min_fields_capacity[fnr], max_fields_capacity[fnr])
+                    gen = max_fields_capacity[fnr]
+                    if gen*0.5 < min_fields_capacity[fnr]:
+                        mamk = min_fields_capacity[fnr]
+                    else:
+                        mamk = int(gen*0.5)
+                    solution[m, fnr, typ[fnr]] = mamk
+            elif sol_flag == 3: # Tylko ograniczenia dolne
+                typ = [random.randint(0, number_of_grapetypes - 1) for _ in range(fields_num)]
+                for fnr in range(fields_num):
+                    gen = min_fields_capacity[fnr]
+                    if gen == 0:
+                        mamk = gen + np.ceil(max_fields_capacity[fnr]*0.1)
+                    else:
+                        mamk = gen
+                    solution[m, fnr, typ[fnr]] = mamk
+            elif sol_flag == 4: # Nakierowany na zapotrzebowanie
+                typ = list(range(number_of_grapetypes))
+                for fnr in range(fields_num):
+                    gen = store_needs[fnr]
+                    if gen < min_fields_capacity[fnr]:
+                        gen = min_fields_capacity[fnr]
+                    elif gen > max_fields_capacity[fnr]:
+                        gen = max_fields_capacity[fnr]
+
                     solution[m, fnr, typ[fnr]] = gen
-                if np.sum(solution[m, :, :]) <= max_magazine_capacity:
-                    flaga = False
     return np.array(solution, dtype=int)
 
 

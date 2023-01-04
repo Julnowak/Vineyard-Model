@@ -6,7 +6,7 @@ from typing import Union, List, Dict
 def ocena(sol: np.ndarray, planting_costs: np.ndarray,
           Isfertilized, soil_quality, fertilizer_bonus, fertilizer_cost,
           harvest_cost, bottling_cost, plants_per_bottle, transport_cost,
-          bottle_price, magazine_cost, magazine_capacity, store_needs=None):
+          bottle_price, magazine_cost, magazine_capacity, store_needs=None,upper=None,lower=None):
 
     if store_needs is None:
         store_needs = [np.inf] * sol.shape[2]
@@ -35,7 +35,14 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
                     plant_cost = sol[m][f][t] * planting_costs[t] + Isfertilized * fertilizer_cost*sol[m][f][t]
                 else:
                     plant_cost = 0
-                # print('------',m,' ',f, ' ',t,'------' )
+
+                # Funkcja kary od pól
+                if sol[m][f][t] != 0 and m%12 in [2,6,10]:
+                   if sol[m][f][t] < lower[f]:
+                       plant_cost += sol[m][f][t]*10.00
+                   elif sol[m][f][t] > upper[f]:
+                       plant_cost += sol[m][f][t] * 99.00
+                    # print('------',m,' ',f, ' ',t,'------' )
                 # print('zasadzono:',sol[m][f][t])
                 # print('koszt obsadzenia',plant_cost)
 
@@ -97,6 +104,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
         if magazine_capacity < sum(remains):
             remains[remains.index(max(remains))] = max(remains) - (sum(remains) - magazine_capacity)
             month_gain += (sum(remains) - magazine_capacity) * 0.5 * bottle_price[remains.index(max(remains))][m]
+            month_cost += (sum(remains) - magazine_capacity) * 99.00
         # Sprzedajemy po połowie ceny
 
         # Kara
