@@ -499,6 +499,7 @@ class UI(QMainWindow):
         self.text7.setText(str(self.aspicheck))
         self.text8.setText(str(self.aspithresh))
         self.text9.setText(str(self.SolutionSpaceCoverage))
+        self.fields = int(self.nr_field.text())
 
         if self.rand:
             self.text10.setText(f'Losowy\n{self.minrand}-{self.maxrand}')
@@ -530,59 +531,60 @@ class UI(QMainWindow):
             self.test_icon.setVisible(False)
             self.takak.setVisible(False)
         else:
-            self.tryb_programu = 'testowanie'
-            self.test_icon.setVisible(True)
-            self.takak.setVisible(True)
+            try:
+                self.tryb_programu = 'testowanie'
+                self.test_icon.setVisible(True)
+                self.takak.setVisible(True)
 
-            if self.ch_typ_list[0]:
-                sol_flag = 1
-            elif self.ch_typ_list[1]:
-                sol_flag = 2
-            elif self.ch_typ_list[2]:
-                sol_flag = 3
-            else:
-                sol_flag = 4
+                if self.ch_typ_list[0]:
+                    sol_flag = 1
+                elif self.ch_typ_list[1]:
+                    sol_flag = 2
+                elif self.ch_typ_list[2]:
+                    sol_flag = 3
+                else:
+                    sol_flag = 4
 
-            # Fragment, gdyby pliki nie istniały - NIE USUWAĆ
-            # sol = generate_solution(self.magazine_capacity, self.upper, self.lower, self.num_of_years,
-            #                         len(self.ch_types), self.store_need, sol_flag)
-            #
-            # with open('Do_trybu_testowego/beg_sol.txt', 'w') as my_file:
-            #     c = 0
-            #     for i in sol:
-            #         if c%12 in [2,6,10]:
-            #             np.savetxt(my_file, i,fmt='%.d',header=f'Miesiac {c+1} - tu sadzimy',footer='\n',comments='')
-            #         else:
-            #             np.savetxt(my_file, i, fmt='%.d', header=f'Miesiac {c + 1}',footer='\n',comments='')
-            #         c+=1
-            #
-            #
-            # planting_cost = plant_price_generator(self.ch_types)
-            # with open('Do_trybu_testowego/planting_cost.txt', 'w') as my_file:
-            #     planting_cost = planting_cost.reshape((1,len(planting_cost)))
-            #     for i in planting_cost:
-            #         np.savetxt(my_file, i, fmt='%.2f',header='Rodzaje - '+', '.join(list(self.ch_types.values())),comments='')
-            #
-            #
-            #
-            # soil_quality = soil_quality_generator(self.fields, self.num_of_years, self.ch_types, self.trojka)
-            # with open('Do_trybu_testowego/soil_quality.txt', 'w') as my_file:
-            #     c = 0
-            #     for i in soil_quality:
-            #         if c % 12 in [2, 6, 10]:
-            #             np.savetxt(my_file, i, fmt='%.2f', header=f'Miesiac {c + 1} - tu sadzimy',footer='\n',comments='')
-            #         else:
-            #             np.savetxt(my_file, i, fmt='%.2f', header=f'Miesiac {c + 1}',footer='\n',comments='')
-            #         c += 1
-            #
-            # vineprice = vine_price_generator(self.ch_types, self.num_of_years)
-            #
-            # with open('Do_trybu_testowego/vineprice.txt', 'w') as my_file:
-            #     c=0
-            #     for i in vineprice:
-            #         np.savetxt(my_file, i,fmt='%.2f', header=f'{list(self.ch_types.values())[c]}',footer='\n',comments='')
-            #         c+=1
 
+                # Fragment, gdyby pliki nie istniały - NIE USUWAĆ
+                sol = generate_solution(self.magazine_capacity, self.upper, self.lower, self.num_of_years,
+                                        len(self.ch_types), self.store_need, sol_flag,self.fields)
+
+                with open('Do_trybu_testowego/beg_sol.txt', 'w') as my_file:
+                    c = 0
+                    for i in sol:
+                        if c%12 in [2,6,10]:
+                            np.savetxt(my_file, i,fmt='%.d',header=f'Miesiac {c+1} - tu sadzimy',footer='\n',comments='')
+                        else:
+                            np.savetxt(my_file, i, fmt='%.d', header=f'Miesiac {c + 1}',footer='\n',comments='')
+                        c+=1
+
+                print('kdddd')
+                planting_cost = plant_price_generator(self.ch_types)
+                with open('Do_trybu_testowego/planting_cost.txt', 'w') as my_file:
+                    planting_cost = planting_cost.reshape((1,len(planting_cost)))
+                    for i in planting_cost:
+                        np.savetxt(my_file, i, fmt='%.2f',header='Rodzaje - '+', '.join(list(self.ch_types.values())),comments='')
+
+                soil_quality = soil_quality_generator(self.fields, self.num_of_years, self.ch_types, self.trojka)
+                with open('Do_trybu_testowego/soil_quality.txt', 'w') as my_file:
+                    c = 0
+                    for i in soil_quality:
+                        if c % 12 in [2, 6, 10]:
+                            np.savetxt(my_file, i, fmt='%.2f', header=f'Miesiac {c + 1} - tu sadzimy',footer='\n',comments='')
+                        else:
+                            np.savetxt(my_file, i, fmt='%.2f', header=f'Miesiac {c + 1}',footer='\n',comments='')
+                        c += 1
+
+                vineprice = vine_price_generator(self.ch_types, self.num_of_years)
+
+                with open('Do_trybu_testowego/vineprice.txt', 'w') as my_file:
+                    c=0
+                    for i in vineprice:
+                        np.savetxt(my_file, i,fmt='%.2f', header=f'{list(self.ch_types.values())[c]}',footer='\n',comments='')
+                        c+=1
+            except:
+                print('TESTOWANIE')
 
 
     def shader(self, cur):
@@ -679,6 +681,8 @@ class UI(QMainWindow):
         self.helpik.setVisible(False)
 
     def start_tabu(self):
+        self.get()
+        self.set()
         try:
             print('k')
             self.warn2.setVisible(False)
@@ -772,7 +776,7 @@ class UI(QMainWindow):
                     l = np.array(np.array(l))
                     a = 0
                     b = self.fields
-                    for i in range(12):
+                    for i in range(self.num_of_years*12):
                         soil_quality[i, :, :] = l[a:b, :]
                         a += self.fields
                         b += self.fields
@@ -786,8 +790,8 @@ class UI(QMainWindow):
                     l = np.array(np.array(l))
 
                     c = 0
-                    for i in range(3):
-                        for x in range(12):
+                    for i in range(len(self.ch_types)):
+                        for x in range(self.num_of_years*12):
                             vineprice[i][x] = l[c]
                             c += 1
                 print(vineprice)
@@ -962,7 +966,7 @@ class UI(QMainWindow):
                 # print(maxval-past_sol)
 
             # print(TL)
-            # Kryterium aspiracji tu ma być
+
             if streak >= self.tabu_med_thresh:#jak spadki duże robimy reset
                 buff=sollist[random.random.randint(0, len(sollist))].copy()
                 solbuff=buff[0]
@@ -1136,11 +1140,9 @@ class UI(QMainWindow):
         self.pb.setMaximum(max_iter)
 
         minieps = np.inf
-        # DANE
-        dane = [[counter, round(sum(gain), 2), round(sum(loss), 2), round(sum(gain) - sum(loss), 2), len(TL),
-                 wypisz(beg_sol, ch_types)]]
 
         limsta = []
+        sollist = []
         # print(solution)
         print('----------------------------------------------------')
         while not (self.stop_iter or self.stop_eps):
@@ -1176,56 +1178,41 @@ class UI(QMainWindow):
                     n_rem = n
             # print(n_rem)
 
-            if n in TL:
-                licz_asp = licz_asp + 1
-            if maxval <= past_sol and self.MidTermMem:
+            if n_rem in TL:
+                licz_asp = licz_asp + 1  # to nam mówi ile razy wybraliśmy rozwiązanie z tabu lsity z kryterium aspiracji
+            if maxval <= past_sol and self.MidTermMem:  # jak mamy midterm zliczamy spadki
                 streak += 1
+
                 # print(maxval-past_sol)
-            else:
-                streak = 0
 
             # print(TL)
             # Kryterium aspiracji tu ma być
-            if streak >= self.tabu_med_thresh:
-                print('--------------------------------yuk')
-
-                # for tabu in TL:
-                #     print('kfefefe')    # TODO - PAWEŁ weż ogarnij tutaj kierunki, bo to nie działa
-                #     gain_tabu, loss_tabu = ocena(mapa[generateAntiNum(tabu)], planting_cost,
-                #                        IsFertilized, soil_quality,
-                #                        fertilizer_bonus, fertilizer_cost,
-                #                        harvest_cost, bottling_cost,
-                #                        plants_per_bottle, transport_cost,
-                #                        vineprice, magazine_cost, magazine_capacity, store_needs, upper, lower)
-                #     print('l')
-                #     value_tabu = sum(gain_tabu) - sum(loss_tabu)
-                #     if value_tabu >= maxval:
-                #         maxval = value_tabu
-                #         gain_rem = gain_tabu
-                #         loss_rem = loss_tabu
-                #         n_rem = tabu
-                #          # Tutaj dajemy możliwość wyboru z tabu listy i mamy kryterium aspiracji
-                #     print(value_tabu)
+            if streak >= self.tabu_med_thresh:  # jak spadki duże robimy reset
+                buff = sollist[random.random.randint(0, len(sollist))].copy()
+                solbuff = buff[0]
+                TL = TL[0:len(TL)]
+                avgMemory = avgMemory // 2
+                limsta.append(buff[1])
                 streak = 0
+                maxval = buff[1]
+            else:
+                solbuff = mapa[n_rem].copy()
 
-                # TODO - do średnioterminowej, nie tu
-                # tutaj ten reset ale nei wiem jak to zrobić
-                # nalepiej sol=gennewcompletlynewsol()
+                limsta.append(maxval)
 
-            limsta.append(maxval)
+                if self.LongTermMem:
+                    avgMemory[n_rem] = avgMemory[n_rem] + 1
 
-            if self.LongTermMem:
-                avgMemory[n_rem] = avgMemory[n_rem] + 1
-
-            if maxval >= bs:
-                bs_solution = mapa[n_rem].copy()
-                bs_gain_rem = gain_rem
-                bs_loss_rem = loss_rem
-                bs = maxval
-                bs_counter_rem = counter + 1
+                if maxval >= bs:
+                    bs_solution = mapa[n_rem].copy()
+                    bs_gain_rem = gain_rem
+                    bs_loss_rem = loss_rem
+                    bs = maxval
+                    bs_counter_rem = counter + 1
 
             # Obecne rozwiązanie
-            solution = mapa[n_rem].copy()
+            solution = solbuff
+            sollist.append((solbuff.copy(), maxval))
 
             if (self.tabulist):
                 nik = generateAntiNum(n_rem)

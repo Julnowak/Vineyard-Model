@@ -7,16 +7,17 @@ import sys
 # Generator rozwiązania początkowego - działa
 def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[List, Dict],
                       min_fields_capacity: Union[List, Dict], number_of_years: int,
-                      number_of_grapetypes: int,store_needs, sol_flag: int) -> np.ndarray:
+                      number_of_grapetypes: int,store_needs, sol_flag: int,fields_num=None) -> np.ndarray:
+
+    if fields_num is None:
+        fields_num = len(min_fields_capacity)
 
     for x in range(len(min_fields_capacity)):
         if min_fields_capacity[x] > max_fields_capacity[x]:
+            print('TU PROBLEM - gensol')
             raise Exception('Cannot set minimum capacity of field greater than maximum capacity of field.')
 
-    if max_magazine_capacity < sum(min_fields_capacity):
-        raise Exception('Magazine capacity is too low or minimum field capacity is too high.')
 
-    fields_num = len(max_fields_capacity)
     solution = np.zeros((number_of_years * 12, fields_num, number_of_grapetypes))
 
     winter = []
@@ -34,11 +35,14 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
             if sol_flag == 1:
                 flaga = True
                 typ = [random.randint(0, number_of_grapetypes - 1) for _ in range(fields_num)]
+                print(typ)
+                it =0
                 while flaga:
                     for fnr in range(fields_num):
                         gen = random.randint(min_fields_capacity[fnr], max_fields_capacity[fnr])
-                        solution[m, fnr, typ[fnr]] = gen
-                    if np.sum(solution[m, :, :]) <= max_magazine_capacity:
+                        solution[m][ fnr][typ[fnr]] = gen
+                    it+=1
+                    if np.sum(solution[m, :, :]) <= max_magazine_capacity or it == 10:
                         flaga = False
             elif sol_flag == 2: # 50% ograniczeń górnych
                 typ = [random.randint(0, number_of_grapetypes - 1) for _ in range(fields_num)]

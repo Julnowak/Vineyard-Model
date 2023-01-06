@@ -574,7 +574,7 @@ QPushButton:hover {
            <enum>Qt::StrongFocus</enum>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="page">
            <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0,0,0">
@@ -3475,6 +3475,13 @@ QPushButton:pressed {
                       </widget>
                      </item>
                     </layout>
+                   </item>
+                   <item row="5" column="0">
+                    <widget class="QCheckBox" name="oldfiles">
+                     <property name="text">
+                      <string>Stare pliki?</string>
+                     </property>
+                    </widget>
                    </item>
                   </layout>
                  </widget>
