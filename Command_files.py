@@ -6,8 +6,9 @@ from typing import Union, List, Dict
 def ocena(sol: np.ndarray, planting_costs: np.ndarray,
           Isfertilized, soil_quality, fertilizer_bonus, fertilizer_cost,
           harvest_cost, bottling_cost, plants_per_bottle, transport_cost,
-          bottle_price, magazine_cost, magazine_capacity, store_needs=None):
+          bottle_price, magazine_cost, magazine_capacity, store_needs=None,upper=None,lower=None):
 
+    lim = 0
     if store_needs is None:
         store_needs = [np.inf] * sol.shape[2]
 
@@ -35,7 +36,14 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
                     plant_cost = sol[m][f][t] * planting_costs[t] + Isfertilized * fertilizer_cost*sol[m][f][t]
                 else:
                     plant_cost = 0
-                # print('------',m,' ',f, ' ',t,'------' )
+
+                # Funkcja kary od pól
+                if sol[m][f][t] != 0 and m%12 in [2,6,10]:
+                   if sol[m][f][t] < lower[f]:
+                       plant_cost += sol[m][f][t]*50.00
+                   elif sol[m][f][t] > upper[f]:
+                       plant_cost += sol[m][f][t] * 99.00
+                    # print('------',m,' ',f, ' ',t,'------' )
                 # print('zasadzono:',sol[m][f][t])
                 # print('koszt obsadzenia',plant_cost)
 
@@ -54,10 +62,11 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
                     ha_cost = 0
 
                 # print('koszt zbioru:', ha_cost)
-
+                lim += int(gathering // plants_per_bottle)
                 # Ilość butelek, które powstały
                 bottles = int(gathering // plants_per_bottle) + remains[t]
                 bottling_expenses = int(gathering // plants_per_bottle) * bottling_cost
+                # print(bottles)
 
                 # print('koszt butelkowania:', bottling_expenses)
                 # print('Nowe butelki:', int(gathering // plants_per_bottle))
@@ -96,7 +105,8 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
 
         if magazine_capacity < sum(remains):
             remains[remains.index(max(remains))] = max(remains) - (sum(remains) - magazine_capacity)
-            month_gain += (sum(remains) - magazine_capacity) * 0.5 * bottle_price[remains.index(max(remains))][m]
+
+            month_cost += (sum(remains) - magazine_capacity) * 0.8 * bottle_price[remains.index(max(remains))][m]
         # Sprzedajemy po połowie ceny
 
         # Kara
@@ -107,7 +117,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
         # Plus opłata utrzymania winnicy
         cost.append(round(month_cost + np.random.uniform(low=1600.00, high=2000.00), 2))
         gains.append(round(month_gain,2))
-
+    # print(lim)
     return gains, cost
 
 # Czy plony mieszczą się w zakresie ograniczeń
@@ -125,3 +135,23 @@ def isOK_size(sol, minimum, maximum, mag):
     return flaga
 
 
+def wypisz(sol, ch_types):
+    months = sol.shape[0]
+    fields = sol.shape[1]
+    grape_types = sol.shape[2]
+    text = ''
+
+    for m in range(months):
+        mi = 0
+        for f in range(fields):
+            for t in range(grape_types):
+                if sol[m][f][t] != 0:
+                    if mi == 0:
+                        text += f'W {m+1} miesiącu: '
+
+
+                    text += f'   \nNa polu {f+1} zasadzono {int(sol[m][f][t])} jednostek winogron typu {ch_types[list(ch_types)[t]]}.'
+                    mi += 1
+        if mi == fields:
+            text += '\n\n'
+    return text
