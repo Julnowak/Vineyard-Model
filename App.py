@@ -322,6 +322,13 @@ class UI(QMainWindow):
         self.tl = self.findChild(QSpinBox, "TL")
         self.tabu_length = int(self.tl.text())
 
+        # TL średnio i długo - wartości
+        self.tl_med = self.findChild(QSpinBox, "TL_2")
+        self.tabu_med_thresh = int(self.tl_med.text())
+
+        self.tl_long = self.findChild(QSpinBox, "TL_3")
+        self.tabu_long_num = int(self.tl_long.text())
+
         # Typy TL
         self.smol = self.findChild(QCheckBox, "smol")
         self.tabulist = self.smol.isChecked()
@@ -365,7 +372,7 @@ class UI(QMainWindow):
 
         # Długość do kryterium aspiracji
         self.aspinum = self.findChild(QSpinBox, "aspi_2")
-        self.midtemmemTreshold = int(self.aspinum.text())
+        self.aspithresh = int(self.aspinum.text())
 
         ## Ustawienia przyciski
 
@@ -405,6 +412,8 @@ class UI(QMainWindow):
         self.stat142 = self.findChild(QLabel, "stat_142")
         self.stat15 = self.findChild(QLabel, "stat_15")
         self.stat152 = self.findChild(QLabel, "stat_152")
+
+        self.stat16 = self.findChild(QLabel, "stat_16") # średnioterm w porównaniach
 
         self.stat17 = self.findChild(QLabel, "stat_17")
         self.stat18 = self.findChild(QLabel, "stat_18")
@@ -464,7 +473,7 @@ class UI(QMainWindow):
         self.text5.setText(str(self.tabu_length))
         self.text6.setText(str(self.magazine_capacity))
         self.text7.setText(str(self.aspicheck))
-        self.text8.setText(str(self.midtemmemTreshold))
+        self.text8.setText(str(self.aspithresh))
         self.text9.setText(str(self.SolutionSpaceCoverage))
 
         if self.rand:
@@ -498,6 +507,8 @@ class UI(QMainWindow):
             self.takak.setVisible(True)
 
         self.repeats = int(self.repeat_test.text())
+        self.tabu_med_thresh = int(self.tl_med.text())
+        self.tabu_long_num = int(self.tl_long.text())
 
 
     def shader(self, cur):
@@ -569,7 +580,7 @@ class UI(QMainWindow):
 
             self.SolutionSpaceCoverage = float(self.som.text())
             self.aspicheck = self.aspik.isChecked()
-            self.midtemmemTreshold = int(self.aspinum.text())
+            self.aspithresh = int(self.aspinum.text())
             self.ch_typ_list = [self.typ.isChecked(), self.typ2.isChecked(),
                                 self.typ3.isChecked(), self.typ4.isChecked()]
 
@@ -833,21 +844,6 @@ class UI(QMainWindow):
 
         licz_asp=0
         licz_mid=0
-        #flagi
-        aspiracja_treshold=4000
-        aspiracja_flag=true
-        longtemval=50
-
-        constval=self.constval
-        minrand=self.minrand
-        maxrand=self.maxrand
-        rand=self.rand
-
-        LongTermMem=self.LongTermMem
-        SolutionSpaceCoverage=self.SolutionSpaceCoverage
-        MidTermMem=self.MidTermMem#non implemented
-        tabulist=self.tabulist
-        midtemmemTreshold=self.midtemmemTreshold
 
         gain, loss = ocena(beg_sol, planting_cost,
                            IsFertilized, soil_quality,
@@ -869,7 +865,6 @@ class UI(QMainWindow):
         self.c4.setVisible(True)
 
         self.t.setVisible(True)
-        # sol_present_yourself(gain, loss, beg_sol, ch_types)
 
         TL = []
         avgMemory = np.zeros((2 * beg_sol.shape[0] * beg_sol.shape[1] * beg_sol.shape[2]))  # pamiec srednioteminowa zlicza rozwiazania dane
@@ -894,7 +889,7 @@ class UI(QMainWindow):
         self.stop_iter = False
         self.stop_eps = False
         counter = 0
-        aspi_counter = 0
+
         self.pb.setTextVisible(True)
         self.pb.setMaximum(max_iter)
 
@@ -911,7 +906,7 @@ class UI(QMainWindow):
                 past_sol = 0
 
             self.pb.setValue(counter)
-            mapa = generateAllsolutions(solution,upper,SolutionSpaceCoverage,rand,minrand,maxrand,constval)
+            mapa = generateAllsolutions(solution,upper,self.SolutionSpaceCoverage,self.rand,self.minrand,self.maxrand,self.constval)
             neigh = [k for k, _ in mapa.items()]
 
             n_rem = None
@@ -928,20 +923,18 @@ class UI(QMainWindow):
                                    vineprice, magazine_cost, magazine_capacity, store_needs, upper,lower )
 
 
-                # TODO - dodać licznik użyć kryterium aspiracji
                 value = sum(gain) - sum(loss)
-                if (n not in TL and value - avgMemory[n] * longtemval> maxi) or (aspiracja_flag and n in TL and value - avgMemory[n] * longtemval - maxi> aspiracja_treshold):
-                    maxi = value - avgMemory[n] * longtemval  # no jak było wybierane to mniej
+                if (n not in TL and value - avgMemory[n] * self.tabu_long_num> maxi) or (self.aspicheck and n in TL and value - avgMemory[n] * self.tabu_long_num - maxi> self.aspithresh):
+                    maxi = value - avgMemory[n] * self.tabu_long_num  # no jak było wybierane to mniej
                     maxval = value
                     gain_rem = gain
                     loss_rem = loss
                     n_rem = n
             # print(n_rem)
-            # TODO - Przy długich tabu listach jest problem - maxval = -np.inf
 
             if n in TL:
-                aspi_counter=aspi_counter+1
-            if maxval <= past_sol and MidTermMem:
+                licz_asp=licz_asp+1
+            if maxval <= past_sol and self.MidTermMem:
                 streak += 1
                 # print(maxval-past_sol)
             else:
@@ -949,7 +942,7 @@ class UI(QMainWindow):
 
             # print(TL)
             # Kryterium aspiracji tu ma być
-            if streak >= midtemmemTreshold:
+            if streak >= self.tabu_med_thresh:
                 print('--------------------------------yuk')
 
                 # for tabu in TL:
@@ -970,7 +963,6 @@ class UI(QMainWindow):
                 #          # Tutaj dajemy możliwość wyboru z tabu listy i mamy kryterium aspiracji
                 #     print(value_tabu)
                 streak = 0
-                aspi_counter += 1
 
                 # TODO - do średnioterminowej, nie tu
                 #tutaj ten reset ale nei wiem jak to zrobić
@@ -978,7 +970,7 @@ class UI(QMainWindow):
 
             limsta.append(maxval)
 
-            if LongTermMem:
+            if self.LongTermMem:
                 avgMemory[n_rem] = avgMemory[n_rem] + 1
 
             if maxval >= bs:
@@ -991,7 +983,7 @@ class UI(QMainWindow):
             # Obecne rozwiązanie
             solution = mapa[n_rem].copy()
 
-            if (tabulist):
+            if (self.tabulist):
                 nik = generateAntiNum(n_rem)
                 if len(TL) < tabu_length and nik not in TL:
                     TL.append(nik)
@@ -1061,7 +1053,8 @@ class UI(QMainWindow):
         self.stat2.setText(str(round(sum(bs_gain_rem)-sum(bs_loss_rem),2)) + f'/ it: {bs_counter_rem}')
         self.stat10.setText(wypisz(bs_solution,self.ch_types))
 
-        self.stat4.setText(str(aspi_counter))
+        self.stat4.setText(str(licz_asp))
+        self.stat16.setText(str(licz_mid))
 
         self.c5.plot_main(bs_gain_rem, bs_loss_rem,'ending_main_linear_plot')
         self.c5.setVisible(True)
@@ -1096,16 +1089,9 @@ class UI(QMainWindow):
 
         stop_type = True # To wtedy iteracje
         # flagi
-        constval = self.constval
-        minrand = self.minrand
-        maxrand = self.maxrand
-        rand = self.rand
 
-        LongTermMem = self.LongTermMem
-        SolutionSpaceCoverage = self.SolutionSpaceCoverage
-        MidTermMem = self.MidTermMem  # non implemented
-        tabulist = self.tabulist
-        midtemmemTreshold = self.midtemmemTreshold
+        licz_asp = 0
+        licz_mid = 0
 
         gain, loss = ocena(beg_sol, planting_cost,
                            IsFertilized, soil_quality,
@@ -1138,11 +1124,14 @@ class UI(QMainWindow):
         self.stop_iter = False
         self.stop_eps = False
         counter = 0
-        aspi_counter = 0
+
         self.pb.setTextVisible(True)
         self.pb.setMaximum(max_iter)
 
         minieps = np.inf
+        # DANE
+        dane = [[counter, round(sum(gain), 2), round(sum(loss), 2), round(sum(gain) - sum(loss), 2), len(TL),
+                 wypisz(beg_sol, ch_types)]]
 
         limsta = []
         # print(solution)
@@ -1152,7 +1141,8 @@ class UI(QMainWindow):
                 past_sol = 0
 
             self.pb.setValue(counter)
-            mapa = generateAllsolutions(solution, upper, SolutionSpaceCoverage, rand, minrand, maxrand, constval)
+            mapa = generateAllsolutions(solution, upper, self.SolutionSpaceCoverage, self.rand, self.minrand,
+                                        self.maxrand, self.constval)
             neigh = [k for k, _ in mapa.items()]
 
             n_rem = None
@@ -1169,16 +1159,19 @@ class UI(QMainWindow):
                                    vineprice, magazine_cost, magazine_capacity, store_needs, upper, lower)
 
                 value = sum(gain) - sum(loss)
-                if n not in TL and value - avgMemory[n] * 50 > maxi:
-                    maxi = value - avgMemory[n] * 50  # no jak było wybierane to mniej
+                if (n not in TL and value - avgMemory[n] * self.tabu_long_num > maxi) or (
+                        self.aspicheck and n in TL and value - avgMemory[
+                    n] * self.tabu_long_num - maxi > self.aspithresh):
+                    maxi = value - avgMemory[n] * self.tabu_long_num  # no jak było wybierane to mniej
                     maxval = value
                     gain_rem = gain
                     loss_rem = loss
                     n_rem = n
             # print(n_rem)
-            # TODO - Przy długich tabu listach jest problem - maxval = -np.inf
 
-            if maxval <= past_sol:
+            if n in TL:
+                licz_asp = licz_asp + 1
+            if maxval <= past_sol and self.MidTermMem:
                 streak += 1
                 # print(maxval-past_sol)
             else:
@@ -1186,7 +1179,7 @@ class UI(QMainWindow):
 
             # print(TL)
             # Kryterium aspiracji tu ma być
-            if streak >= midtemmemTreshold:
+            if streak >= self.tabu_med_thresh:
                 print('--------------------------------yuk')
 
                 # for tabu in TL:
@@ -1207,7 +1200,6 @@ class UI(QMainWindow):
                 #          # Tutaj dajemy możliwość wyboru z tabu listy i mamy kryterium aspiracji
                 #     print(value_tabu)
                 streak = 0
-                aspi_counter += 1
 
                 # TODO - do średnioterminowej, nie tu
                 # tutaj ten reset ale nei wiem jak to zrobić
@@ -1215,7 +1207,7 @@ class UI(QMainWindow):
 
             limsta.append(maxval)
 
-            if LongTermMem:
+            if self.LongTermMem:
                 avgMemory[n_rem] = avgMemory[n_rem] + 1
 
             if maxval >= bs:
@@ -1228,7 +1220,7 @@ class UI(QMainWindow):
             # Obecne rozwiązanie
             solution = mapa[n_rem].copy()
 
-            if (tabulist):
+            if (self.tabulist):
                 nik = generateAntiNum(n_rem)
                 if len(TL) < tabu_length and nik not in TL:
                     TL.append(nik)
@@ -1246,7 +1238,6 @@ class UI(QMainWindow):
 
             if abs(past_sol - maxval) <= epsilon:
                 self.stop_eps = True
-                stop_type = False
 
             counter += 1
 

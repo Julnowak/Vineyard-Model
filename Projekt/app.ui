@@ -562,7 +562,7 @@ QPushButton:hover {
              <enum>Qt::StrongFocus</enum>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>4</number>
             </property>
             <widget class="QWidget" name="page">
              <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0,0,0">
@@ -591,13 +591,6 @@ QPushButton:hover {
               </item>
               <item row="4" column="0">
                <layout class="QGridLayout" name="gridLayout_11">
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_25">
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
                 <item row="0" column="3" rowspan="2">
                  <widget class="QLabel" name="label_23">
                   <property name="text">
@@ -605,44 +598,10 @@ QPushButton:hover {
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="1">
-                 <widget class="QPushButton" name="pushButton">
-                  <property name="font">
-                   <font>
-                    <family>Tw Cen MT Condensed</family>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">QPushButton {
-    color: #333;
-    border: 2px solid #555;
-    border-radius: 20px;
-    border-style: outset;
-    background: qradialgradient(
-        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-        radius: 1.35, stop: 0 #fff, stop: 1 #888
-        );
-    padding: 5px;
-    }
-
-QPushButton:hover {
-    background: qradialgradient(
-        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
-        );
-    }
-
-QPushButton:pressed {
-    border-style: inset;
-    background: qradialgradient(
-        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
-        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
-        );
-    }</string>
-                  </property>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_25">
                   <property name="text">
-                   <string>Zatwierdź</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -687,6 +646,47 @@ QPushButton:pressed {
                   </property>
                  </widget>
                 </item>
+                <item row="1" column="1">
+                 <widget class="QPushButton" name="pushButton">
+                  <property name="font">
+                   <font>
+                    <family>Tw Cen MT Condensed</family>
+                    <pointsize>14</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+    color: #333;
+    border: 2px solid #555;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #888
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
+        );
+    }</string>
+                  </property>
+                  <property name="text">
+                   <string>Zatwierdź</string>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </item>
               <item row="1" column="0">
@@ -702,7 +702,7 @@ QPushButton:pressed {
                  <bool>true</bool>
                 </property>
                 <property name="currentIndex">
-                 <number>2</number>
+                 <number>0</number>
                 </property>
                 <widget class="QWidget" name="ust2">
                  <layout class="QGridLayout" name="gridLayout">
@@ -2088,153 +2088,147 @@ color: rgb(255, 255, 255);}</string>
                     <property name="title">
                      <string>Kwestie magazynowania</string>
                     </property>
-                    <widget class="QWidget" name="verticalLayoutWidget_7">
-                     <property name="geometry">
-                      <rect>
-                       <x>20</x>
-                       <y>30</y>
-                       <width>391</width>
-                       <height>144</height>
-                      </rect>
-                     </property>
-                     <layout class="QVBoxLayout" name="verticalLayout_28">
-                      <item>
-                       <widget class="QLabel" name="label_3">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Pojemność magazynu</string>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="buddy">
-                         <cstring>capacity</cstring>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QSpinBox" name="capacity">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="wrapping">
-                         <bool>false</bool>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                        </property>
-                        <property name="minimum">
-                         <number>1</number>
-                        </property>
-                        <property name="maximum">
-                         <number>999999999</number>
-                        </property>
-                        <property name="value">
-                         <number>600</number>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QLabel" name="label_10">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Koszt magazynowania (1 butelka)</string>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QDoubleSpinBox" name="magcost">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="locale">
-                         <locale language="English" country="UnitedStates"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                        </property>
-                        <property name="showGroupSeparator" stdset="0">
-                         <bool>false</bool>
-                        </property>
-                        <property name="decimals">
-                         <number>2</number>
-                        </property>
-                        <property name="minimum">
-                         <double>0.010000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>10000000000000000.000000000000000</double>
-                        </property>
-                        <property name="singleStep">
-                         <double>0.010000000000000</double>
-                        </property>
-                        <property name="value">
-                         <double>2.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QLabel" name="warnin_4">
-                        <property name="maximumSize">
-                         <size>
-                          <width>16777215</width>
-                          <height>30</height>
-                         </size>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>18</pointsize>
-                          <bold>true</bold>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 0, 4);</string>
-                        </property>
-                        <property name="text">
-                         <string/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="wordWrap">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
+                    <layout class="QGridLayout" name="gridLayout_15">
+                     <item row="0" column="0">
+                      <layout class="QVBoxLayout" name="verticalLayout_28">
+                       <item>
+                        <widget class="QLabel" name="label_3">
+                         <property name="font">
+                          <font>
+                           <family>Tw Cen MT Condensed</family>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="text">
+                          <string>Pojemność magazynu</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                         <property name="buddy">
+                          <cstring>capacity</cstring>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QSpinBox" name="capacity">
+                         <property name="font">
+                          <font>
+                           <family>Tw Cen MT Condensed</family>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="wrapping">
+                          <bool>false</bool>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                         </property>
+                         <property name="minimum">
+                          <number>1</number>
+                         </property>
+                         <property name="maximum">
+                          <number>999999999</number>
+                         </property>
+                         <property name="value">
+                          <number>600</number>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="label_10">
+                         <property name="font">
+                          <font>
+                           <family>Tw Cen MT Condensed</family>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="text">
+                          <string>Koszt magazynowania (1 butelka)</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QDoubleSpinBox" name="magcost">
+                         <property name="font">
+                          <font>
+                           <family>Tw Cen MT Condensed</family>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="locale">
+                          <locale language="English" country="UnitedStates"/>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                         </property>
+                         <property name="showGroupSeparator" stdset="0">
+                          <bool>false</bool>
+                         </property>
+                         <property name="decimals">
+                          <number>2</number>
+                         </property>
+                         <property name="minimum">
+                          <double>0.010000000000000</double>
+                         </property>
+                         <property name="maximum">
+                          <double>10000000000000000.000000000000000</double>
+                         </property>
+                         <property name="singleStep">
+                          <double>0.010000000000000</double>
+                         </property>
+                         <property name="value">
+                          <double>2.000000000000000</double>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="warnin_4">
+                         <property name="maximumSize">
+                          <size>
+                           <width>16777215</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <family>Tw Cen MT Condensed</family>
+                           <pointsize>18</pointsize>
+                           <bold>true</bold>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">color: rgb(255, 0, 4);</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                         <property name="wordWrap">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                    </layout>
                    </widget>
                   </item>
                   <item row="0" column="0" colspan="2">
@@ -2432,180 +2426,174 @@ QPushButton:pressed {
                     <property name="title">
                      <string>Produkcja i transport</string>
                     </property>
-                    <widget class="QWidget" name="verticalLayoutWidget_8">
-                     <property name="geometry">
-                      <rect>
-                       <x>20</x>
-                       <y>30</y>
-                       <width>391</width>
-                       <height>141</height>
-                      </rect>
-                     </property>
-                     <layout class="QVBoxLayout" name="verticalLayout_29">
-                      <item>
-                       <widget class="QLabel" name="label_4">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Ilość jednostek winogron na butelkę</string>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                        <property name="wordWrap">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QSpinBox" name="jperbot">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="wrapping">
-                         <bool>false</bool>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                        </property>
-                        <property name="minimum">
-                         <number>1</number>
-                        </property>
-                        <property name="maximum">
-                         <number>999999999</number>
-                        </property>
-                        <property name="value">
-                         <number>1</number>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QLabel" name="label_9">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Koszt transportu (1 butelka)</string>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QDoubleSpinBox" name="transcost">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="locale">
-                         <locale language="English" country="UnitedStates"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                        </property>
-                        <property name="showGroupSeparator" stdset="0">
-                         <bool>false</bool>
-                        </property>
-                        <property name="decimals">
-                         <number>2</number>
-                        </property>
-                        <property name="minimum">
-                         <double>0.010000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>9999999999999999455752309870428160.000000000000000</double>
-                        </property>
-                        <property name="singleStep">
-                         <double>0.010000000000000</double>
-                        </property>
-                        <property name="value">
-                         <double>3.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QLabel" name="label_6">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="text">
-                         <string>Koszt butelkowania (1 butelka)</string>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QDoubleSpinBox" name="botcost">
-                        <property name="font">
-                         <font>
-                          <family>Tw Cen MT Condensed</family>
-                          <pointsize>14</pointsize>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">color: rgb(255, 255, 255);</string>
-                        </property>
-                        <property name="locale">
-                         <locale language="English" country="UnitedStates"/>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                        </property>
-                        <property name="showGroupSeparator" stdset="0">
-                         <bool>false</bool>
-                        </property>
-                        <property name="decimals">
-                         <number>2</number>
-                        </property>
-                        <property name="minimum">
-                         <double>0.010000000000000</double>
-                        </property>
-                        <property name="maximum">
-                         <double>9999999999999999455752309870428160.000000000000000</double>
-                        </property>
-                        <property name="singleStep">
-                         <double>0.010000000000000</double>
-                        </property>
-                        <property name="value">
-                         <double>3.000000000000000</double>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
+                    <layout class="QGridLayout" name="gridLayout_4">
+                     <item row="0" column="0">
+                      <layout class="QVBoxLayout" name="verticalLayout_29">
+                       <item>
+                        <widget class="QLabel" name="label_4">
+                         <property name="font">
+                          <font>
+                           <family>Tw Cen MT Condensed</family>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="text">
+                          <string>Ilość jednostek winogron na butelkę</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                         <property name="wordWrap">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QSpinBox" name="jperbot">
+                         <property name="font">
+                          <font>
+                           <family>Tw Cen MT Condensed</family>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="wrapping">
+                          <bool>false</bool>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                         </property>
+                         <property name="minimum">
+                          <number>1</number>
+                         </property>
+                         <property name="maximum">
+                          <number>999999999</number>
+                         </property>
+                         <property name="value">
+                          <number>1</number>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="label_9">
+                         <property name="font">
+                          <font>
+                           <family>Tw Cen MT Condensed</family>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="text">
+                          <string>Koszt transportu (1 butelka)</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QDoubleSpinBox" name="transcost">
+                         <property name="font">
+                          <font>
+                           <family>Tw Cen MT Condensed</family>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="locale">
+                          <locale language="English" country="UnitedStates"/>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                         </property>
+                         <property name="showGroupSeparator" stdset="0">
+                          <bool>false</bool>
+                         </property>
+                         <property name="decimals">
+                          <number>2</number>
+                         </property>
+                         <property name="minimum">
+                          <double>0.010000000000000</double>
+                         </property>
+                         <property name="maximum">
+                          <double>9999999999999999455752309870428160.000000000000000</double>
+                         </property>
+                         <property name="singleStep">
+                          <double>0.010000000000000</double>
+                         </property>
+                         <property name="value">
+                          <double>3.000000000000000</double>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="label_6">
+                         <property name="font">
+                          <font>
+                           <family>Tw Cen MT Condensed</family>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="text">
+                          <string>Koszt butelkowania (1 butelka)</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QDoubleSpinBox" name="botcost">
+                         <property name="font">
+                          <font>
+                           <family>Tw Cen MT Condensed</family>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="locale">
+                          <locale language="English" country="UnitedStates"/>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                         </property>
+                         <property name="showGroupSeparator" stdset="0">
+                          <bool>false</bool>
+                         </property>
+                         <property name="decimals">
+                          <number>2</number>
+                         </property>
+                         <property name="minimum">
+                          <double>0.010000000000000</double>
+                         </property>
+                         <property name="maximum">
+                          <double>9999999999999999455752309870428160.000000000000000</double>
+                         </property>
+                         <property name="singleStep">
+                          <double>0.010000000000000</double>
+                         </property>
+                         <property name="value">
+                          <double>3.000000000000000</double>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                    </layout>
                    </widget>
                   </item>
                   <item row="1" column="1" rowspan="4">
@@ -3158,7 +3146,63 @@ QPushButton:pressed {
                           <number>999999999</number>
                          </property>
                          <property name="value">
-                          <number>10</number>
+                          <number>50</number>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="2" column="2">
+                        <widget class="QLabel" name="iteracje_9">
+                         <property name="font">
+                          <font>
+                           <family>Tw Cen MT Condensed</family>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="text">
+                          <string>Mnożnik zniechęcenia:</string>
+                         </property>
+                         <property name="textFormat">
+                          <enum>Qt::AutoText</enum>
+                         </property>
+                         <property name="scaledContents">
+                          <bool>false</bool>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                         <property name="buddy">
+                          <cstring>iter</cstring>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="2" column="3">
+                        <widget class="QSpinBox" name="TL_3">
+                         <property name="font">
+                          <font>
+                           <family>Tw Cen MT Condensed</family>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="wrapping">
+                          <bool>false</bool>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                         </property>
+                         <property name="minimum">
+                          <number>1</number>
+                         </property>
+                         <property name="maximum">
+                          <number>999999999</number>
+                         </property>
+                         <property name="value">
+                          <number>50</number>
                          </property>
                         </widget>
                        </item>
@@ -3606,7 +3650,7 @@ margin-left:50%; margin-right:50%;</string>
                         <string notr="true">color: rgb(255, 255, 255);</string>
                        </property>
                        <property name="text">
-                        <string>Liczba iteracji bez wzrostu</string>
+                        <string>Próg aspiracji:</string>
                        </property>
                        <property name="textFormat">
                         <enum>Qt::AutoText</enum>
@@ -3646,7 +3690,7 @@ margin-left:50%; margin-right:50%;</string>
                         <number>999999999</number>
                        </property>
                        <property name="value">
-                        <number>10</number>
+                        <number>4000</number>
                        </property>
                       </widget>
                      </item>
@@ -6257,7 +6301,7 @@ color: rgb(255, 255, 255);
 }</string>
                 </property>
                 <property name="currentIndex">
-                 <number>2</number>
+                 <number>1</number>
                 </property>
                 <widget class="QWidget" name="tab">
                  <attribute name="title">
@@ -6315,31 +6359,8 @@ color: rgb(255, 255, 255);
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_8">
-                   <item row="7" column="0">
-                    <widget class="QLabel" name="label_40">
-                     <property name="font">
-                      <font>
-                       <family>Tw Cen MT Condensed</family>
-                       <pointsize>14</pointsize>
-                      </font>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(30, 30, 30);</string>
-                     </property>
-                     <property name="text">
-                      <string>Ilość pogorszeń:</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                     <property name="wordWrap">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="2" column="1">
-                    <widget class="QLabel" name="stat_3">
+                   <item row="3" column="1">
+                    <widget class="QLabel" name="stat_4">
                      <property name="font">
                       <font>
                        <family>Tw Cen MT Condensed</family>
@@ -6378,8 +6399,8 @@ background-color: rgb(71, 71, 71);</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="2" column="0">
-                    <widget class="QLabel" name="label_29">
+                   <item row="2" column="1">
+                    <widget class="QLabel" name="stat_3">
                      <property name="font">
                       <font>
                        <family>Tw Cen MT Condensed</family>
@@ -6388,21 +6409,18 @@ background-color: rgb(71, 71, 71);</string>
                      </property>
                      <property name="styleSheet">
                       <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(30, 30, 30);</string>
+background-color: rgb(71, 71, 71);</string>
                      </property>
                      <property name="text">
-                      <string>Rozwiązanie aktualne:</string>
+                      <string>---</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignCenter</set>
                      </property>
-                     <property name="wordWrap">
-                      <bool>true</bool>
-                     </property>
                     </widget>
                    </item>
-                   <item row="6" column="1">
-                    <widget class="QLabel" name="stat_7">
+                   <item row="4" column="1">
+                    <widget class="QLabel" name="stat_5">
                      <property name="font">
                       <font>
                        <family>Tw Cen MT Condensed</family>
@@ -6441,69 +6459,6 @@ background-color: rgb(71, 71, 71);</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="1" column="1">
-                    <widget class="QLabel" name="stat_2">
-                     <property name="font">
-                      <font>
-                       <family>Tw Cen MT Condensed</family>
-                       <pointsize>14</pointsize>
-                      </font>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(71, 71, 71);</string>
-                     </property>
-                     <property name="text">
-                      <string>---</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="0">
-                    <widget class="QLabel" name="label_30">
-                     <property name="font">
-                      <font>
-                       <family>Tw Cen MT Condensed</family>
-                       <pointsize>14</pointsize>
-                      </font>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(30, 30, 30);</string>
-                     </property>
-                     <property name="text">
-                      <string>Rozwiązanie początkowe:</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                     <property name="wordWrap">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="4" column="1">
-                    <widget class="QLabel" name="stat_5">
-                     <property name="font">
-                      <font>
-                       <family>Tw Cen MT Condensed</family>
-                       <pointsize>14</pointsize>
-                      </font>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(71, 71, 71);</string>
-                     </property>
-                     <property name="text">
-                      <string>---</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
                    <item row="5" column="0">
                     <widget class="QLabel" name="label_38">
                      <property name="font">
@@ -6518,69 +6473,6 @@ background-color: rgb(30, 30, 30);</string>
                      </property>
                      <property name="text">
                       <string>Najmniejsza osięgnięta dokładność:</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                     <property name="wordWrap">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="7" column="1">
-                    <widget class="QLabel" name="stat_8">
-                     <property name="font">
-                      <font>
-                       <family>Tw Cen MT Condensed</family>
-                       <pointsize>14</pointsize>
-                      </font>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(71, 71, 71);</string>
-                     </property>
-                     <property name="text">
-                      <string>---</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="3" column="1">
-                    <widget class="QLabel" name="stat_4">
-                     <property name="font">
-                      <font>
-                       <family>Tw Cen MT Condensed</family>
-                       <pointsize>14</pointsize>
-                      </font>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(71, 71, 71);</string>
-                     </property>
-                     <property name="text">
-                      <string>---</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="0">
-                    <widget class="QLabel" name="label_28">
-                     <property name="font">
-                      <font>
-                       <family>Tw Cen MT Condensed</family>
-                       <pointsize>14</pointsize>
-                      </font>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(30, 30, 30);</string>
-                     </property>
-                     <property name="text">
-                      <string>Rozwiązanie najlepsze:</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignCenter</set>
@@ -6636,6 +6528,49 @@ background-color: rgb(30, 30, 30);</string>
                      </property>
                     </widget>
                    </item>
+                   <item row="6" column="1">
+                    <widget class="QLabel" name="stat_7">
+                     <property name="font">
+                      <font>
+                       <family>Tw Cen MT Condensed</family>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(71, 71, 71);</string>
+                     </property>
+                     <property name="text">
+                      <string>---</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_28">
+                     <property name="font">
+                      <font>
+                       <family>Tw Cen MT Condensed</family>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(30, 30, 30);</string>
+                     </property>
+                     <property name="text">
+                      <string>Rozwiązanie najlepsze:</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
                    <item row="4" column="0">
                     <widget class="QLabel" name="label_36">
                      <property name="font">
@@ -6656,6 +6591,158 @@ background-color: rgb(30, 30, 30);</string>
                      </property>
                      <property name="wordWrap">
                       <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="7" column="0">
+                    <widget class="QLabel" name="label_40">
+                     <property name="font">
+                      <font>
+                       <family>Tw Cen MT Condensed</family>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(30, 30, 30);</string>
+                     </property>
+                     <property name="text">
+                      <string>Ilość pogorszeń:</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLabel" name="stat_2">
+                     <property name="font">
+                      <font>
+                       <family>Tw Cen MT Condensed</family>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(71, 71, 71);</string>
+                     </property>
+                     <property name="text">
+                      <string>---</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_30">
+                     <property name="font">
+                      <font>
+                       <family>Tw Cen MT Condensed</family>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(30, 30, 30);</string>
+                     </property>
+                     <property name="text">
+                      <string>Rozwiązanie początkowe:</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="7" column="1">
+                    <widget class="QLabel" name="stat_8">
+                     <property name="font">
+                      <font>
+                       <family>Tw Cen MT Condensed</family>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(71, 71, 71);</string>
+                     </property>
+                     <property name="text">
+                      <string>---</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_29">
+                     <property name="font">
+                      <font>
+                       <family>Tw Cen MT Condensed</family>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(30, 30, 30);</string>
+                     </property>
+                     <property name="text">
+                      <string>Rozwiązanie aktualne:</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="8" column="0">
+                    <widget class="QLabel" name="label_53">
+                     <property name="font">
+                      <font>
+                       <family>Tw Cen MT Condensed</family>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(30, 30, 30);</string>
+                     </property>
+                     <property name="text">
+                      <string>Ilość wykorzystań listy średnioterminowej:</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="8" column="1">
+                    <widget class="QLabel" name="stat_16">
+                     <property name="font">
+                      <font>
+                       <family>Tw Cen MT Condensed</family>
+                       <pointsize>14</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(71, 71, 71);</string>
+                     </property>
+                     <property name="text">
+                      <string>---</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
                      </property>
                     </widget>
                    </item>
