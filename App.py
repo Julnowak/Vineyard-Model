@@ -777,9 +777,10 @@ class UI(QMainWindow):
                     count_eps_stops = 0
                     besties = []
                     actualies = []
+                    aspiracje = 0
                     for x in range(self.repeats):
                         # Na razie dla najlepszego
-                        best, actual, stop_type = self.testowy_tabu_search(sol, planting_cost,
+                        best, actual, stop_type, aspiracje = self.testowy_tabu_search(sol, planting_cost,
                                          self.IsFertilized, soil_quality,
                                          self.fertilizer_bonus, self.fertilizer_cost,
                                          self.harvest_cost, self.bottling_cost,
@@ -809,7 +810,7 @@ class UI(QMainWindow):
 
                     self.stat17.setText(str(count_iter_stops))
                     self.stat18.setText(str(count_eps_stops))
-                    self.stat19.setText(str(0))
+                    self.stat19.setText(str(aspiracje))
                 else:
                     self.c1.plot_vineprice(self.ch_types, self.num_of_years, vineprice)
                     self.c1.setVisible(True)
@@ -932,13 +933,13 @@ class UI(QMainWindow):
                     n_rem = n
             # print(n_rem)
 
-            if n in TL:
-                licz_asp=licz_asp+1
-            if maxval <= past_sol and self.MidTermMem:
+            if n in TL and self.MidTermMem:
                 streak += 1
+            if maxval <= past_sol and self.aspicheck:
+                licz_asp = licz_asp + 1
                 # print(maxval-past_sol)
             else:
-                streak = 0
+                licz_asp = 0
 
             # print(TL)
             # Kryterium aspiracji tu ma być
@@ -1104,7 +1105,7 @@ class UI(QMainWindow):
         avgMemory = np.zeros((2 * beg_sol.shape[0] * beg_sol.shape[1] * beg_sol.shape[
             2]))  # pamiec srednioteminowa zlicza rozwiazania dane
 
-        streak = 0  # Do kryterium aspiracji
+        streak = 0
 
         # Aktualne
         solution = beg_sol.copy()
@@ -1169,13 +1170,13 @@ class UI(QMainWindow):
                     n_rem = n
             # print(n_rem)
 
-            if n in TL:
-                licz_asp = licz_asp + 1
-            if maxval <= past_sol and self.MidTermMem:
+            if n in TL and self.MidTermMem:
                 streak += 1
+            if maxval <= past_sol and self.aspicheck:
+                licz_asp = licz_asp + 1
                 # print(maxval-past_sol)
             else:
-                streak = 0
+                licz_asp = 0
 
             # print(TL)
             # Kryterium aspiracji tu ma być
@@ -1257,7 +1258,7 @@ class UI(QMainWindow):
         # Licznik zakończeń na iteracji
         # Licznik zakończeń na epsilon
 
-        return round(sum(bs_gain_rem)-sum(bs_loss_rem),2),round(sum(gain_rem)-sum(loss_rem),2), stop_type
+        return round(sum(bs_gain_rem)-sum(bs_loss_rem),2),round(sum(gain_rem)-sum(loss_rem),2), stop_type, licz_asp
 
 
     def acctab(self):
