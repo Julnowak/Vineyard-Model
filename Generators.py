@@ -149,7 +149,7 @@ def soil_quality_generator(field_nr: int, years:int, ch_types: Dict, troj = Fals
              if m%12 in [0,1,11]:
                  soil_quality[m, :, :] = sq * 0.3
              elif m%12 in [3,4,5,7,8,9]:
-                 soil_quality[m, :, :] = sq * 0.7
+                 soil_quality[m, :, :] = sq * 0.4
              else:
                 soil_quality[m, :, :] = sq
     else:
@@ -203,7 +203,7 @@ def soil_quality_generator(field_nr: int, years:int, ch_types: Dict, troj = Fals
             if m % 12 in [0, 1, 11]:
                 soil_quality[m, :, :] = sq * 0.3
             elif m % 12 in [3, 4, 5, 7, 8, 9]:
-                soil_quality[m, :, :] = sq * 0.6
+                soil_quality[m, :, :] = sq * 0.4
             else:
                 soil_quality[m, :, :] = sq
         soil_quality = np.add(rem, soil_quality)

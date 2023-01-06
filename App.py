@@ -9,7 +9,7 @@ import pandas as pd
 import xlsxwriter
 import os
 cur = os.path.abspath(os.getcwd())
-
+import re
 
 # import sys
 # f = open("Wyniki/Tabele/algorytm.txt", 'w')
@@ -114,6 +114,30 @@ class UI(QMainWindow):
         url4 = bytearray(QUrl.fromLocalFile(path4).toEncoded()).decode()
         self.lik4.setText(f'<a href="{url4}" style="color: white;">Rozwiązanie początkowe</a>')
         self.lik4.setOpenExternalLinks(True)
+
+        self.lik7 = self.findChild(QLabel, 'p_7')
+        path7 = cur + r'\Do_trybu_testowego\beg_sol.txt'
+        url7 = bytearray(QUrl.fromLocalFile(path7).toEncoded()).decode()
+        self.lik7.setText(f'<a href="{url7}" style="color: white;">Rozwiązanie początkowe</a>')
+        self.lik7.setOpenExternalLinks(True)
+
+        self.lik8 = self.findChild(QLabel, 'p_8')
+        path8 = cur + r'\Do_trybu_testowego\vineprice.txt'
+        url8 = bytearray(QUrl.fromLocalFile(path8).toEncoded()).decode()
+        self.lik8.setText(f'<a href="{url8}" style="color: white;">Ceny wina</a>')
+        self.lik8.setOpenExternalLinks(True)
+
+        self.lik9 = self.findChild(QLabel, 'p_9')
+        path9 = cur + r'\Do_trybu_testowego\soil_quality.txt'
+        url9 = bytearray(QUrl.fromLocalFile(path9).toEncoded()).decode()
+        self.lik9.setText(f'<a href="{url9}" style="color: white;">Jakość gleby</a>')
+        self.lik9.setOpenExternalLinks(True)
+
+        self.lik10 = self.findChild(QLabel, 'p_10')
+        path10 = cur + r'\Do_trybu_testowego\planting_cost.txt'
+        url10 = bytearray(QUrl.fromLocalFile(path10).toEncoded()).decode()
+        self.lik10.setText(f'<a href="{url10}" style="color: white;">Koszt obsadzenia</a>')
+        self.lik10.setOpenExternalLinks(True)
 
         ### WYKRESY
 
@@ -497,6 +521,10 @@ class UI(QMainWindow):
 
         self.text11.setText(txt)
         self.text12.setText(str(len(self.ch_types)))
+        self.repeats = int(self.repeat_test.text())
+        self.tabu_med_thresh = int(self.tl_med.text())
+        self.tabu_long_num = int(self.tl_long.text())
+
         if self.tryb.isChecked():
             self.tryb_programu = 'symulacja'
             self.test_icon.setVisible(False)
@@ -506,9 +534,55 @@ class UI(QMainWindow):
             self.test_icon.setVisible(True)
             self.takak.setVisible(True)
 
-        self.repeats = int(self.repeat_test.text())
-        self.tabu_med_thresh = int(self.tl_med.text())
-        self.tabu_long_num = int(self.tl_long.text())
+            if self.ch_typ_list[0]:
+                sol_flag = 1
+            elif self.ch_typ_list[1]:
+                sol_flag = 2
+            elif self.ch_typ_list[2]:
+                sol_flag = 3
+            else:
+                sol_flag = 4
+
+            # Fragment, gdyby pliki nie istniały - NIE USUWAĆ
+            # sol = generate_solution(self.magazine_capacity, self.upper, self.lower, self.num_of_years,
+            #                         len(self.ch_types), self.store_need, sol_flag)
+            #
+            # with open('Do_trybu_testowego/beg_sol.txt', 'w') as my_file:
+            #     c = 0
+            #     for i in sol:
+            #         if c%12 in [2,6,10]:
+            #             np.savetxt(my_file, i,fmt='%.d',header=f'Miesiac {c+1} - tu sadzimy',footer='\n',comments='')
+            #         else:
+            #             np.savetxt(my_file, i, fmt='%.d', header=f'Miesiac {c + 1}',footer='\n',comments='')
+            #         c+=1
+            #
+            #
+            # planting_cost = plant_price_generator(self.ch_types)
+            # with open('Do_trybu_testowego/planting_cost.txt', 'w') as my_file:
+            #     planting_cost = planting_cost.reshape((1,len(planting_cost)))
+            #     for i in planting_cost:
+            #         np.savetxt(my_file, i, fmt='%.2f',header='Rodzaje - '+', '.join(list(self.ch_types.values())),comments='')
+            #
+            #
+            #
+            # soil_quality = soil_quality_generator(self.fields, self.num_of_years, self.ch_types, self.trojka)
+            # with open('Do_trybu_testowego/soil_quality.txt', 'w') as my_file:
+            #     c = 0
+            #     for i in soil_quality:
+            #         if c % 12 in [2, 6, 10]:
+            #             np.savetxt(my_file, i, fmt='%.2f', header=f'Miesiac {c + 1} - tu sadzimy',footer='\n',comments='')
+            #         else:
+            #             np.savetxt(my_file, i, fmt='%.2f', header=f'Miesiac {c + 1}',footer='\n',comments='')
+            #         c += 1
+            #
+            # vineprice = vine_price_generator(self.ch_types, self.num_of_years)
+            #
+            # with open('Do_trybu_testowego/vineprice.txt', 'w') as my_file:
+            #     c=0
+            #     for i in vineprice:
+            #         np.savetxt(my_file, i,fmt='%.2f', header=f'{list(self.ch_types.values())[c]}',footer='\n',comments='')
+            #         c+=1
+
 
 
     def shader(self, cur):
@@ -670,107 +744,53 @@ class UI(QMainWindow):
             elif self.tryb_programu == 'testowanie':
                 self.helpik.setVisible(True)
                 # tylko bez zmiany parametrów zadziała
-                sol = np.array([[[0, 0, 0],
-                     [0, 0, 0],
-                     [0, 0, 0]],
 
-                    [[0, 0, 0],
-                     [0, 0, 0],
-                     [0, 0, 0]],
+                with open('Do_trybu_testowego/beg_sol.txt', 'r') as f:
+                    l = [[int(num) for num in line.split(' ')] for line in f if (line != '\n' and not re.match('Miesiac',line))]
+                    sol = np.zeros((self.num_of_years*12,self.fields,len(self.ch_types)))
+                    l = np.array(np.array(l))
+                    a = 0
+                    b= self.fields
+                    for i in range(self.num_of_years*12):
+                        sol[i,:,:] = l[a:b,:]
+                        a+=self.fields
+                        b += self.fields
 
-                    [[0, 300, 0],
-                     [307, 0, 0],
-                     [0, 258, 0]],
+                print(sol)
 
-                    [[0, 0, 0],
-                     [0, 0, 0],
-                     [0, 0, 0]],
+                with open('Do_trybu_testowego/planting_cost.txt', 'r') as f:
+                    l = [[float(num[:len(num) - 1]) for num in line.split(' ')] for line in f if
+                         (line != '\n' and not re.match('Rodzaj', line))]
 
-                    [[0, 0, 0],
-                     [0, 0, 0],
-                     [0, 0, 0]],
+                    planting_cost = [i[0] for i in l]
 
-                    [[0, 0, 0],
-                     [0, 0, 0],
-                     [0, 0, 0]],
+                print(planting_cost)
+                with open('Do_trybu_testowego/soil_quality.txt', 'r') as f:
+                    l = [[float(num) for num in line.split(' ')] for line in f if
+                         (line != '\n' and not re.match('Miesiac', line))]
+                    soil_quality = np.zeros((self.num_of_years*12,self.fields,len(self.ch_types)))
+                    l = np.array(np.array(l))
+                    a = 0
+                    b = self.fields
+                    for i in range(12):
+                        soil_quality[i, :, :] = l[a:b, :]
+                        a += self.fields
+                        b += self.fields
 
-                    [[0, 0, 300],
-                     [0, 0, 372],
-                     [275, 0, 0]],
+                print(soil_quality)
 
-                    [[0, 0, 0],
-                     [0, 0, 0],
-                     [0, 0, 0]],
+                with open('Do_trybu_testowego/vineprice.txt', 'r') as f:
+                    l = [[float(num[:len(num) - 1]) for num in line.split(' ')] for line in f if
+                         (line != '\n' and not line in list( i+'\n' for i in list(self.ch_types.values())))]
+                    vineprice = np.zeros((len(self.ch_types),self.num_of_years*12))
+                    l = np.array(np.array(l))
 
-                    [[0, 0, 0],
-                     [0, 0, 0],
-                     [0, 0, 0]],
-
-                    [[0, 0, 0],
-                     [0, 0, 0],
-                     [0, 0, 0]],
-
-                    [[301, 0, 0],
-                     [0, 0, 205],
-                     [0, 0, 351]],
-
-                    [[0, 0, 0],
-                     [0, 0, 0],
-                     [0, 0, 0]]])
-
-                planting_cost = np.array([14.13, 13.53, 17.66])
-
-                soil_quality = np.array([[[0.28, 0.25, 0.26],
-                                          [0.22, 0.23, 0.25],
-                                          [0.22, 0.25, 0.27]],
-
-                                         [[0.28, 0.25, 0.26],
-                                          [0.22, 0.23, 0.25],
-                                          [0.22, 0.25, 0.27]],
-
-                                         [[0.93, 0.83, 0.87],
-                                          [0.73, 0.76, 0.82],
-                                          [0.73, 0.83, 0.89]],
-
-                                         [[0.65, 0.58, 0.61],
-                                          [0.51, 0.53, 0.57],
-                                          [0.51, 0.58, 0.63]],
-
-                                         [[0.65, 0.58, 0.61],
-                                          [0.51, 0.53, 0.57],
-                                          [0.51, 0.58, 0.63]],
-
-                                         [[0.65, 0.58, 0.61],
-                                          [0.51, 0.53, 0.57],
-                                          [0.51, 0.58, 0.63]],
-
-                                         [[0.93, 0.83, 0.87],
-                                          [0.73, 0.76, 0.82],
-                                          [0.73, 0.83, 0.89]],
-
-                                         [[0.65, 0.58, 0.61],
-                                          [0.51, 0.53, 0.57],
-                                          [0.51, 0.58, 0.63]],
-
-                                         [[0.65, 0.58, 0.61],
-                                          [0.51, 0.53, 0.57],
-                                          [0.51, 0.58, 0.63]],
-
-                                         [[0.65, 0.58, 0.61],
-                                          [0.51, 0.53, 0.57],
-                                          [0.51, 0.58, 0.63]],
-
-                                         [[0.93, 0.83, 0.87],
-                                          [0.73, 0.76, 0.82],
-                                          [0.73, 0.83, 0.89]],
-
-                                         [[0.28, 0.25, 0.26],
-                                          [0.22, 0.23, 0.25],
-                                          [0.22, 0.25, 0.27]]])
-
-                vineprice = [[41.03, 39.55, 36.31, 37.88, 40.64, 38.16, 43., 42.15, 37.73, 42.77, 34.36, 37.65],
-                             [36.83, 43.16, 39.84, 41.39, 31.93, 36.5, 37.8, 39.06, 36.28, 42.55, 42.96, 30.38],
-                             [55.46, 53.59, 53.75, 53.68, 53.72, 54.84, 53.17, 55.56, 55.59, 53.18, 53.63, 53.04]]
+                    c = 0
+                    for i in range(3):
+                        for x in range(12):
+                            vineprice[i][x] = l[c]
+                            c += 1
+                print(vineprice)
 
                 if self.repeats != 1:
                     count_iter_stops = 0
@@ -1091,7 +1111,7 @@ class UI(QMainWindow):
         avgMemory = np.zeros((2 * beg_sol.shape[0] * beg_sol.shape[1] * beg_sol.shape[
             2]))  # pamiec srednioteminowa zlicza rozwiazania dane
 
-        streak = 0
+        streak = 0  # Do kryterium aspiracji
 
         # Aktualne
         solution = beg_sol.copy()
@@ -1156,13 +1176,13 @@ class UI(QMainWindow):
                     n_rem = n
             # print(n_rem)
 
-            if n in TL and self.MidTermMem:
-                streak += 1
-            if maxval <= past_sol and self.aspicheck:
+            if n in TL:
                 licz_asp = licz_asp + 1
+            if maxval <= past_sol and self.MidTermMem:
+                streak += 1
                 # print(maxval-past_sol)
             else:
-                licz_asp = 0
+                streak = 0
 
             # print(TL)
             # Kryterium aspiracji tu ma być

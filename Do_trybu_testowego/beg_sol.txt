@@ -1,0 +1,72 @@
+Miesiac 1
+0 0 0
+0 0 0
+0 0 0
+
+
+Miesiac 2
+0 0 0
+0 0 0
+0 0 0
+
+
+Miesiac 3 - tu sadzimy
+0 100 0
+0 100 0
+100 0 0
+
+
+Miesiac 4
+0 0 0
+0 0 0
+0 0 0
+
+
+Miesiac 5
+0 0 0
+0 0 0
+0 0 0
+
+
+Miesiac 6
+0 0 0
+0 0 0
+0 0 0
+
+
+Miesiac 7 - tu sadzimy
+113 0 0
+0 177 0
+0 0 215
+
+
+Miesiac 8
+0 0 0
+0 0 0
+0 0 0
+
+
+Miesiac 9
+0 0 0
+0 0 0
+0 0 0
+
+
+Miesiac 10
+0 0 0
+0 0 0
+0 0 0
+
+
+Miesiac 11 - tu sadzimy
+0 102 0
+0 166 0
+0 136 0
+
+
+Miesiac 12
+0 0 0
+0 0 0
+0 0 0
+
+
