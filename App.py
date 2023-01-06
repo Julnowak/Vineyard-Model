@@ -829,7 +829,15 @@ class UI(QMainWindow):
                     vineprice, magazine_cost, magazine_capacity, store_needs, ch_types,
                     tabu_length=10, max_iter=50, epsilon=0.1,upper=[800,800,800],lower=[100,100,100]):
 
+        #dane do gui
+
+        licz_asp=0
+        licz_mid=0
         #flagi
+        aspiracja_treshold=4000
+        aspiracja_flag=true
+        longtemval=50
+
         constval=self.constval
         minrand=self.minrand
         maxrand=self.maxrand
@@ -922,8 +930,8 @@ class UI(QMainWindow):
 
                 # TODO - dodać licznik użyć kryterium aspiracji
                 value = sum(gain) - sum(loss)
-                if n not in TL and value - avgMemory[n] * 50> maxi:
-                    maxi = value - avgMemory[n] * 50  # no jak było wybierane to mniej
+                if (n not in TL and value - avgMemory[n] * longtemval> maxi) or (aspiracja_flag and n in TL and value - avgMemory[n] * longtemval - maxi> aspiracja_treshold):
+                    maxi = value - avgMemory[n] * longtemval  # no jak było wybierane to mniej
                     maxval = value
                     gain_rem = gain
                     loss_rem = loss
@@ -931,7 +939,9 @@ class UI(QMainWindow):
             # print(n_rem)
             # TODO - Przy długich tabu listach jest problem - maxval = -np.inf
 
-            if maxval <= past_sol:
+            if n in TL:
+                aspi_counter=aspi_counter+1
+            if maxval <= past_sol and MidTermMem:
                 streak += 1
                 # print(maxval-past_sol)
             else:
