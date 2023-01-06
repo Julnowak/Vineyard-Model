@@ -2,6 +2,8 @@ import numpy as np
 from DBFor_Testing import *
 from Generators import *
 from typing import List
+from App import *
+#from tabu_search import * #To do testow/ w wersji koncowej do wywalenia
 
 #TODO
 #test_generateSolutionFromNumber
@@ -554,6 +556,7 @@ def main():
     test_generateAntiNum(make_Testing_Pack())
     test_gen(make_Testing_Pack())
     # ------------------------------------------------------------------------
+
 
 if __name__ == '__main__':
     main()
