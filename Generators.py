@@ -303,6 +303,14 @@ def generateAllsolutions(sol,gorne,numberofsolutions,rand,min,max,norm):
             res[i]=buff
     return res
 
+def generateAllsolutionsFromAspi(sol,gorne,aspitable,rand,min,max,norm):
+    res={}
+    for i in aspitable:
+        buff = generateSolutionFromNumber(i, sol,gorne,rand,min,max,norm)
+        if not (buff==sol).all():
+            res[i]=buff
+    return res
+
 import time
 
 def gen(sol):

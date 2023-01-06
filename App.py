@@ -896,6 +896,7 @@ class UI(QMainWindow):
 
         streak = 0 # Do kryterium aspiracji
 
+        aspiMinstreak=5
         # Aktualne
         solution = beg_sol.copy()
         past_sol = None
@@ -917,7 +918,7 @@ class UI(QMainWindow):
 
         self.pb.setTextVisible(True)
         self.pb.setMaximum(max_iter)
-
+        aspiStreak = 0
         minieps = np.inf
         # DANE
         dane = [[counter, round(sum(gain), 2), round(sum(loss), 2), round(sum(gain) - sum(loss), 2), len(TL),
@@ -940,7 +941,8 @@ class UI(QMainWindow):
             maxval = -np.inf
             
             for n in neigh:
-
+                if n in TL:
+                    continue
                 gain, loss = ocena(mapa[n], planting_cost,
                                    IsFertilized, soil_quality,
                                    fertilizer_bonus, fertilizer_cost,
@@ -950,23 +952,57 @@ class UI(QMainWindow):
 
 
                 value = sum(gain) - sum(loss)
-                if (n not in TL and value - avgMemory[n] * self.tabu_long_num> maxi) or (self.aspicheck and n in TL and value - avgMemory[n] * self.tabu_long_num - maxi> self.aspithresh):
+                if (n not in TL and value - avgMemory[n] * self.tabu_long_num> maxi):
                     maxi = value - avgMemory[n] * self.tabu_long_num  # no jak było wybierane to mniej
                     maxval = value
                     gain_rem = gain
                     loss_rem = loss
                     n_rem = n
-            # print(n_rem)
+            if self.aspicheck and aspiStreak>=aspiMinstreak :
+                ASPmapa=generateAllsolutionsFromAspi(solution, upper, TL, self.rand, self.minrand, self.maxrand,
+                                     self.constval)
+                ASPneigh = [k for k, _ in ASPmapa.items()]
+
+                ASPn_rem = None
+                ASPmaxi = -np.inf
+                ASPmaxval = -np.inf
+                for ASPn in ASPneigh:
+                    ASPgain, ASPloss = ocena(ASPmapa[ASPn], planting_cost,
+                                       IsFertilized, soil_quality,
+                                       fertilizer_bonus, fertilizer_cost,
+                                       harvest_cost, bottling_cost,
+                                       plants_per_bottle, transport_cost,
+                                       vineprice, magazine_cost, magazine_capacity, store_needs, upper, lower)
+
+                    ASPvalue = sum(ASPgain) - sum(ASPloss)
+                    if  value - avgMemory[n] * self.tabu_long_num > maxi:
+                        ASPmaxi = ASPvalue - avgMemory[n] * self.tabu_long_num  # no jak było wybierane to mniej
+                        ASPmaxval = ASPvalue
+                        ASPgain_rem = ASPgain
+                        ASPloss_rem = ASPloss
+                        ASPn_rem = ASPn
+
+                if ASPmaxi-maxi>self.aspithresh:
+                    maxi = ASPmaxi
+                    mapa=ASPmapa
+                    maxval = ASPmaxval
+                    gain_rem = ASPgain_rem
+                    loss_rem = ASPloss_rem
+                    n_rem = ASPn_rem
+
+
 
             if n_rem in TL:
                 licz_asp = licz_asp + 1#to nam mówi ile razy wybraliśmy rozwiązanie z tabu lsity z kryterium aspiracji
+                aspiStreak=0
+
             if maxval <= past_sol and self.MidTermMem:#jak mamy midterm zliczamy spadki
                 streak += 1
-
+            if maxval <= past_sol and self.aspicheck:  # jak mamy midterm zliczamy spadki
+                aspiStreak += 1
                 # print(maxval-past_sol)
 
             # print(TL)
-
             if streak >= self.tabu_med_thresh:#jak spadki duże robimy reset
                 buff=sollist[random.random.randint(0, len(sollist))].copy()
                 solbuff=buff[0]
@@ -982,7 +1018,6 @@ class UI(QMainWindow):
 
                 if self.LongTermMem:
                     avgMemory[n_rem] = avgMemory[n_rem] + 1
-
                 if maxval >= bs:
                     bs_solution = mapa[n_rem].copy()
                     bs_gain_rem = gain_rem
@@ -993,7 +1028,6 @@ class UI(QMainWindow):
             # Obecne rozwiązanie
             solution = solbuff
             sollist.append((solbuff.copy(),maxval))
-
             if (self.tabulist):
                 nik = generateAntiNum(n_rem)
                 if len(TL) < tabu_length and nik not in TL:
@@ -1009,7 +1043,6 @@ class UI(QMainWindow):
                 elif len(TL) >= tabu_length and nik not in TL:
                     TL.pop(0)
                     TL.append(nik)
-
             if abs(past_sol - maxval) <= epsilon:
                 self.stop_eps = True
 
