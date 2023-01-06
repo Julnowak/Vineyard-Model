@@ -1,8 +1,9 @@
+import numpy as np
 from PyQt6.QtWidgets import *
 from PyQt6 import uic, QtGui
+from PyQt6.QtCore import QUrl
 from Command_files import *
 from Generators import *
-from Wykresy import *
 from canvas import *
 import pandas as pd
 import xlsxwriter
@@ -36,8 +37,6 @@ class UI(QMainWindow):
         self.st4.setCurrentIndex(0)
 
         ### MENU
-
-
 
         ## Menu przyciski
 
@@ -82,7 +81,6 @@ class UI(QMainWindow):
         self.text11 = self.findChild(QLabel, 'text_11')
         self.text12 = self.findChild(QLabel, 'text_12')
 
-
         self.mn = self.findChild(QPushButton, "mn")
         self.mn.clicked.connect(lambda: self.st4.setCurrentIndex(1))
 
@@ -94,11 +92,28 @@ class UI(QMainWindow):
 
         ## TABELE
         self.lik = self.findChild(QLabel, 'p_1')
-        txt = cur + r'\Wyniki\Tabele\ceny_wina.csv'
-        self.lik.setText(f'<a href="{txt}" style="color: white;">Ceny win</a>' )
+        path = cur + r'\Wyniki\Tabele\ceny_wina.csv'
+        url = bytearray(QUrl.fromLocalFile(path).toEncoded()).decode()
+        self.lik.setText(f'<a href="{url}" style="color: white;">Ceny win</a>' )
+        self.lik.setOpenExternalLinks(True)
 
+        self.lik2 = self.findChild(QLabel, 'p_2')
+        path2 = cur + r'\Wyniki\Tabele\ceny_sadzenia.csv'
+        url2 = bytearray(QUrl.fromLocalFile(path2).toEncoded()).decode()
+        self.lik2.setText(f'<a href="{url2}" style="color: white;">Koszty odsadzenia pól</a>')
+        self.lik2.setOpenExternalLinks(True)
 
+        self.lik3 = self.findChild(QLabel, 'p_3')
+        path3 = cur + r'\Wyniki\Tabele\jakosc_gleby.xlsx'
+        url3 = bytearray(QUrl.fromLocalFile(path3).toEncoded()).decode()
+        self.lik3.setText(f'<a href="{url3}" style="color: white;">Jakość gleby</a>')
+        self.lik3.setOpenExternalLinks(True)
 
+        self.lik4 = self.findChild(QLabel, 'p_4')
+        path4 = cur + r'\Wyniki\Tabele\rozwiazanie_pocz.xlsx'
+        url4 = bytearray(QUrl.fromLocalFile(path4).toEncoded()).decode()
+        self.lik4.setText(f'<a href="{url4}" style="color: white;">Rozwiązanie początkowe</a>')
+        self.lik4.setOpenExternalLinks(True)
 
         ### WYKRESY
 
@@ -291,8 +306,7 @@ class UI(QMainWindow):
         # Odświeżanie tabeli
         self.rt2 = self.findChild(QPushButton, "refreshtab_2")
         self.rt2.clicked.connect(
-            lambda: (self.grape_type_choice(), self.zap.setRowCount(len(self.ch_types) + 1),
-                     self.zap.setVerticalHeaderLabels(list(self.ch_types.values()) + [''])))
+            lambda: self.refresh_storeneed_tab())
 
         ## Ustawienia - ustawienia algorytmu
 
@@ -340,7 +354,7 @@ class UI(QMainWindow):
         self.typ = self.findChild(QRadioButton, "typ")
         self.typ2 = self.findChild(QRadioButton, "typ_2")
         self.typ3 = self.findChild(QRadioButton, "typ_3")
-        self.typ4= self.findChild(QRadioButton, "typ_4")
+        self.typ4 = self.findChild(QRadioButton, "typ_4")
 
         self.ch_typ_list = [self.typ.isChecked(),self.typ2.isChecked(),
                             self.typ3.isChecked(),self.typ4.isChecked()]
@@ -382,6 +396,21 @@ class UI(QMainWindow):
         self.stat8 = self.findChild(QLabel, "stat_8")
         self.stat9 = self.findChild(QLabel, "stat_9")
         self.stat10 = self.findChild(QLabel, "stat_10")
+        self.stat11 = self.findChild(QLabel, "stat_11")
+        self.stat12 = self.findChild(QLabel, "stat_12")
+        self.stat122 = self.findChild(QLabel, "stat_122")
+        self.stat13 = self.findChild(QLabel, "stat_13")
+        self.stat132 = self.findChild(QLabel, "stat_132")
+        self.stat14 = self.findChild(QLabel, "stat_14")
+        self.stat142 = self.findChild(QLabel, "stat_142")
+        self.stat15 = self.findChild(QLabel, "stat_15")
+        self.stat152 = self.findChild(QLabel, "stat_152")
+
+        self.stat17 = self.findChild(QLabel, "stat_17")
+        self.stat18 = self.findChild(QLabel, "stat_18")
+        self.stat19 = self.findChild(QLabel, "stat_19")
+
+
 
         ### WARNINGI
         self.warn = self.findChild(QLabel, 'warnin')
@@ -400,13 +429,28 @@ class UI(QMainWindow):
         self.warnin4 = self.findChild(QLabel, 'warnin_4')
         self.warnin4.setVisible(False)
 
+        ### TRYB TESTOWY - WAŻNE
+        self.tryb = self.findChild(QRadioButton, 'tryb')
+        self.tryb2 = self.findChild(QRadioButton, 'tryb_2')
+        self.repeat_test = self.findChild(QSpinBox, 'repeat_test')
+        self.test_icon = self.findChild(QLabel, 'test_icon')
+        self.test_icon2 = self.findChild(QLabel, 'test_icon_2')
+        self.test_icon3 = self.findChild(QLabel, 'test_icon_3')
+
         ### PARAMSY
         self.upper = [800, 800, 800]
         self.lower = [100, 100, 100]
-
+        self.helpik = self.findChild(QLabel, 'helpik')
+        self.helpik.setVisible(False)
         self.show_yourself()
         self.set()
 
+
+
+    def refresh_storeneed_tab(self):
+        self.grape_type_choice()
+        self.zap.setRowCount(len(self.ch_types) + 1)
+        self.zap.setVerticalHeaderLabels(list(self.ch_types.values()) + [''])
 
     def refresh_fieldnum(self):
         self.fields = int(self.nr_field.text())
@@ -444,6 +488,17 @@ class UI(QMainWindow):
 
         self.text11.setText(txt)
         self.text12.setText(str(len(self.ch_types)))
+        if self.tryb.isChecked():
+            self.tryb_programu = 'symulacja'
+            self.test_icon.setVisible(False)
+            self.takak.setVisible(False)
+        else:
+            self.tryb_programu = 'testowanie'
+            self.test_icon.setVisible(True)
+            self.takak.setVisible(True)
+
+        self.repeats = int(self.repeat_test.text())
+
 
     def shader(self, cur):
         for d in [self.d, self.d1, self.d2, self.d3, self.d4, self.d5, self.d6, self.d7]:
@@ -535,8 +590,8 @@ class UI(QMainWindow):
             else:
                 self.constval = int(self.staly.text())
 
-
         self.set()
+        self.helpik.setVisible(False)
 
     def start_tabu(self):
         try:
@@ -544,59 +599,222 @@ class UI(QMainWindow):
             self.warn2.setVisible(False)
             self.show_yourself()
 
-            if self.ch_typ_list[0]:
-                sol_flag = 1
-            elif self.ch_typ_list[1]:
-                sol_flag = 2
-            elif self.ch_typ_list[2]:
-                sol_flag = 3
-            else:
-                sol_flag = 4
+            if self.tryb_programu == 'symulacja':
+                self.helpik.setVisible(False)
 
-            sol = generate_solution(self.magazine_capacity, self.upper, self.lower, self.num_of_years,
-                                    len(self.ch_types), self.store_need, sol_flag)
+                if self.ch_typ_list[0]:
+                    sol_flag = 1
+                elif self.ch_typ_list[1]:
+                    sol_flag = 2
+                elif self.ch_typ_list[2]:
+                    sol_flag = 3
+                else:
+                    sol_flag = 4
 
-            writer = pd.ExcelWriter('Wyniki/Tabele/rozwiazanie_pocz.xlsx', engine='xlsxwriter')
-            for i in range(self.num_of_years * 12):
-                df0 = pd.DataFrame(data=sol[i, :, :].astype(int))
-                df0.insert(loc=0, column='Pole', value=list(range(1, self.fields+1)))
-                df0.to_excel(writer, sheet_name=f'Miesiac {i + 1}',
-                             header=['Pole'] + list(self.ch_types.values()), index=False)
-            writer.close()
+                sol = generate_solution(self.magazine_capacity, self.upper, self.lower, self.num_of_years,
+                                        len(self.ch_types), self.store_need, sol_flag)
 
-
-            planting_cost = plant_price_generator(self.ch_types)
-            df1 = pd.DataFrame(data={'Typ':list(self.ch_types.values()), 'Cena': planting_cost.astype(float)})
-            df1.to_csv('Wyniki/Tabele/ceny_sadzenia.csv', sep=' ', header=None, float_format='%.2f', index=False)
-
-            soil_quality = soil_quality_generator(self.fields, self.num_of_years, self.ch_types, self.trojka)
-            writer = pd.ExcelWriter('Wyniki/Tabele/jakosc_gleby.xlsx', engine='xlsxwriter')
-            for i in range(self.num_of_years * 12):
-                df2 = pd.DataFrame(data=soil_quality[i, :, :].astype(float))
-                df2.insert(loc=0, column='Pole', value=list(range(1, self.fields+1)))
-                df2.to_excel(writer, sheet_name=f'Miesiac {i + 1}',
-                             header=['Pole'] + list(self.ch_types.values()), index=False)
-            writer.close()
-
-            vineprice = vine_price_generator(self.ch_types, self.num_of_years)
-            df3 = pd.DataFrame(data=vineprice.astype(float),columns=list('m'+str(i) for i in range(1,self.num_of_years*12+1)))
-            df3.insert(loc=0,column='Typ',value=list(self.ch_types.values()))
-            df3.to_csv('Wyniki/Tabele/ceny_wina.csv', sep=' ', index=False)
-
-            self.c1.plot_vineprice(self.ch_types, self.num_of_years, vineprice)
-            self.c1.setVisible(True)
+                writer = pd.ExcelWriter('Wyniki/Tabele/rozwiazanie_pocz.xlsx', engine='xlsxwriter')
+                for i in range(self.num_of_years * 12):
+                    df0 = pd.DataFrame(data=sol[i, :, :].astype(int))
+                    df0.insert(loc=0, column='Pole', value=list(range(1, self.fields+1)))
+                    df0.to_excel(writer, sheet_name=f'Miesiac {i + 1}',
+                                 header=['Pole'] + list(self.ch_types.values()), index=False)
+                writer.close()
 
 
-            # Tabu search wbudowany
-            self.tabu_search(sol, planting_cost,
-                             self.IsFertilized, soil_quality,
-                             self.fertilizer_bonus, self.fertilizer_cost,
-                             self.harvest_cost, self.bottling_cost,
-                             self.plants_per_bottle, self.transport_cost,
-                             vineprice, self.magazine_cost, self.magazine_capacity, self.store_need, self.ch_types,
-                             self.tabu_length, self.max_iter, self.epsilon,self.upper, self.lower)
-            self.pb.setValue(0)
-            self.pb.setTextVisible(False)
+                planting_cost = plant_price_generator(self.ch_types)
+                df1 = pd.DataFrame(data={'Typ':list(self.ch_types.values()), 'Cena': planting_cost.astype(float)})
+                df1.to_csv('Wyniki/Tabele/ceny_sadzenia.csv', sep=',', header=None, float_format='%.2f', index=False)
+
+                soil_quality = soil_quality_generator(self.fields, self.num_of_years, self.ch_types, self.trojka)
+                writer = pd.ExcelWriter('Wyniki/Tabele/jakosc_gleby.xlsx', engine='xlsxwriter')
+                for i in range(self.num_of_years * 12):
+                    df2 = pd.DataFrame(data=soil_quality[i, :, :].astype(float))
+                    df2.insert(loc=0, column='Pole', value=list(range(1, self.fields+1)))
+                    df2.to_excel(writer, sheet_name=f'Miesiac {i + 1}',
+                                 header=['Pole'] + list(self.ch_types.values()), index=False)
+                writer.close()
+
+                vineprice = vine_price_generator(self.ch_types, self.num_of_years)
+                df3 = pd.DataFrame(data=vineprice.astype(float),columns=list('m'+str(i) for i in range(1,self.num_of_years*12+1)))
+                df3.insert(loc=0,column='Typ',value=list(self.ch_types.values()))
+                df3.to_csv('Wyniki/Tabele/ceny_wina.csv', sep=',', index=False)
+
+                self.c1.plot_vineprice(self.ch_types, self.num_of_years, vineprice)
+                self.c1.setVisible(True)
+
+
+                # Tabu search wbudowany
+                self.tabu_search(sol, planting_cost,
+                                 self.IsFertilized, soil_quality,
+                                 self.fertilizer_bonus, self.fertilizer_cost,
+                                 self.harvest_cost, self.bottling_cost,
+                                 self.plants_per_bottle, self.transport_cost,
+                                 vineprice, self.magazine_cost, self.magazine_capacity, self.store_need, self.ch_types,
+                                 self.tabu_length, self.max_iter, self.epsilon,self.upper, self.lower)
+                self.pb.setValue(0)
+                self.pb.setTextVisible(False)
+
+            elif self.tryb_programu == 'testowanie':
+                self.helpik.setVisible(True)
+                # tylko bez zmiany parametrów zadziała
+                sol = np.array([[[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]],
+
+                    [[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]],
+
+                    [[0, 300, 0],
+                     [307, 0, 0],
+                     [0, 258, 0]],
+
+                    [[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]],
+
+                    [[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]],
+
+                    [[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]],
+
+                    [[0, 0, 300],
+                     [0, 0, 372],
+                     [275, 0, 0]],
+
+                    [[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]],
+
+                    [[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]],
+
+                    [[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]],
+
+                    [[301, 0, 0],
+                     [0, 0, 205],
+                     [0, 0, 351]],
+
+                    [[0, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]]])
+
+                planting_cost = np.array([14.13, 13.53, 17.66])
+
+                soil_quality = np.array([[[0.28, 0.25, 0.26],
+                                          [0.22, 0.23, 0.25],
+                                          [0.22, 0.25, 0.27]],
+
+                                         [[0.28, 0.25, 0.26],
+                                          [0.22, 0.23, 0.25],
+                                          [0.22, 0.25, 0.27]],
+
+                                         [[0.93, 0.83, 0.87],
+                                          [0.73, 0.76, 0.82],
+                                          [0.73, 0.83, 0.89]],
+
+                                         [[0.65, 0.58, 0.61],
+                                          [0.51, 0.53, 0.57],
+                                          [0.51, 0.58, 0.63]],
+
+                                         [[0.65, 0.58, 0.61],
+                                          [0.51, 0.53, 0.57],
+                                          [0.51, 0.58, 0.63]],
+
+                                         [[0.65, 0.58, 0.61],
+                                          [0.51, 0.53, 0.57],
+                                          [0.51, 0.58, 0.63]],
+
+                                         [[0.93, 0.83, 0.87],
+                                          [0.73, 0.76, 0.82],
+                                          [0.73, 0.83, 0.89]],
+
+                                         [[0.65, 0.58, 0.61],
+                                          [0.51, 0.53, 0.57],
+                                          [0.51, 0.58, 0.63]],
+
+                                         [[0.65, 0.58, 0.61],
+                                          [0.51, 0.53, 0.57],
+                                          [0.51, 0.58, 0.63]],
+
+                                         [[0.65, 0.58, 0.61],
+                                          [0.51, 0.53, 0.57],
+                                          [0.51, 0.58, 0.63]],
+
+                                         [[0.93, 0.83, 0.87],
+                                          [0.73, 0.76, 0.82],
+                                          [0.73, 0.83, 0.89]],
+
+                                         [[0.28, 0.25, 0.26],
+                                          [0.22, 0.23, 0.25],
+                                          [0.22, 0.25, 0.27]]])
+
+                vineprice = [[41.03, 39.55, 36.31, 37.88, 40.64, 38.16, 43., 42.15, 37.73, 42.77, 34.36, 37.65],
+                             [36.83, 43.16, 39.84, 41.39, 31.93, 36.5, 37.8, 39.06, 36.28, 42.55, 42.96, 30.38],
+                             [55.46, 53.59, 53.75, 53.68, 53.72, 54.84, 53.17, 55.56, 55.59, 53.18, 53.63, 53.04]]
+
+                if self.repeats != 1:
+                    count_iter_stops = 0
+                    count_eps_stops = 0
+                    besties = []
+                    actualies = []
+                    for x in range(self.repeats):
+                        # Na razie dla najlepszego
+                        best, actual, stop_type = self.testowy_tabu_search(sol, planting_cost,
+                                         self.IsFertilized, soil_quality,
+                                         self.fertilizer_bonus, self.fertilizer_cost,
+                                         self.harvest_cost, self.bottling_cost,
+                                         self.plants_per_bottle, self.transport_cost,
+                                         vineprice, self.magazine_cost, self.magazine_capacity, self.store_need, self.ch_types,
+                                         self.tabu_length, self.max_iter, self.epsilon, self.upper, self.lower)
+                        besties.append(best)
+                        actualies.append(actual)
+                        if stop_type:
+                            count_iter_stops+= 1
+                        else:
+                            count_eps_stops+=1
+                        self.helpik.setText(f'x{x+1}')
+                    self.pb.setValue(0)
+                    self.pb.setTextVisible(False)
+                    self.stat11.setText(str(self.repeats))
+
+                    self.stat12.setText(str(max(besties)))
+                    self.stat13.setText(str(min(besties)))
+                    self.stat14.setText(str(sum(besties)/len(besties)))
+                    self.stat15.setText(str(np.std(besties)))
+
+                    self.stat122.setText(str(max(actualies)))
+                    self.stat132.setText(str(min(actualies)))
+                    self.stat142.setText(str(sum(actualies)/len(actualies)))
+                    self.stat152.setText(str(np.std(actualies)))
+
+                    self.stat17.setText(str(count_iter_stops))
+                    self.stat18.setText(str(count_eps_stops))
+                    self.stat19.setText(str(0))
+                else:
+                    self.c1.plot_vineprice(self.ch_types, self.num_of_years, vineprice)
+                    self.c1.setVisible(True)
+
+                    # Tabu search wbudowany
+                    self.tabu_search(sol, planting_cost,
+                                     self.IsFertilized, soil_quality,
+                                     self.fertilizer_bonus, self.fertilizer_cost,
+                                     self.harvest_cost, self.bottling_cost,
+                                     self.plants_per_bottle, self.transport_cost,
+                                     vineprice, self.magazine_cost, self.magazine_capacity, self.store_need,
+                                     self.ch_types,
+                                     self.tabu_length, self.max_iter, self.epsilon, self.upper, self.lower)
+                    self.pb.setValue(0)
+                    self.helpik.setText(f'x{1}')
+                    self.pb.setTextVisible(False)
 
         except:
             print('Coś poszło nie tak!')
@@ -701,7 +919,6 @@ class UI(QMainWindow):
                                    plants_per_bottle, transport_cost,
                                    vineprice, magazine_cost, magazine_capacity, store_needs, upper,lower )
 
-                # + funkcja aspiracji
 
                 # TODO - dodać licznik użyć kryterium aspiracji
                 value = sum(gain) - sum(loss)
@@ -713,16 +930,46 @@ class UI(QMainWindow):
                     n_rem = n
             # print(n_rem)
             # TODO - Przy długich tabu listach jest problem - maxval = -np.inf
+
+            if maxval <= past_sol:
+                streak += 1
+                # print(maxval-past_sol)
+            else:
+                streak = 0
+
+            # print(TL)
+            # Kryterium aspiracji tu ma być
+            if streak >= midtemmemTreshold:
+                print('--------------------------------yuk')
+
+                # for tabu in TL:
+                #     print('kfefefe')    # TODO - PAWEŁ weż ogarnij tutaj kierunki, bo to nie działa
+                #     gain_tabu, loss_tabu = ocena(mapa[generateAntiNum(tabu)], planting_cost,
+                #                        IsFertilized, soil_quality,
+                #                        fertilizer_bonus, fertilizer_cost,
+                #                        harvest_cost, bottling_cost,
+                #                        plants_per_bottle, transport_cost,
+                #                        vineprice, magazine_cost, magazine_capacity, store_needs, upper, lower)
+                #     print('l')
+                #     value_tabu = sum(gain_tabu) - sum(loss_tabu)
+                #     if value_tabu >= maxval:
+                #         maxval = value_tabu
+                #         gain_rem = gain_tabu
+                #         loss_rem = loss_tabu
+                #         n_rem = tabu
+                #          # Tutaj dajemy możliwość wyboru z tabu listy i mamy kryterium aspiracji
+                #     print(value_tabu)
+                streak = 0
+                aspi_counter += 1
+
+                # TODO - do średnioterminowej, nie tu
+                #tutaj ten reset ale nei wiem jak to zrobić
+                #nalepiej sol=gennewcompletlynewsol()
+
             limsta.append(maxval)
 
             if LongTermMem:
                 avgMemory[n_rem] = avgMemory[n_rem] + 1
-
-            if maxval <= past_sol:
-                streak += 1
-                print(maxval-past_sol)
-            else:
-                streak = 0
 
             if maxval >= bs:
                 bs_solution = mapa[n_rem].copy()
@@ -734,7 +981,7 @@ class UI(QMainWindow):
             # Obecne rozwiązanie
             solution = mapa[n_rem].copy()
 
-            if(tabulist):
+            if (tabulist):
                 nik = generateAntiNum(n_rem)
                 if len(TL) < tabu_length and nik not in TL:
                     TL.append(nik)
@@ -749,16 +996,6 @@ class UI(QMainWindow):
                 elif len(TL) >= tabu_length and nik not in TL:
                     TL.pop(0)
                     TL.append(nik)
-
-            print(TL)
-            # Kryterium aspiracji tu ma być
-            if streak >= midtemmemTreshold:
-                print('--------------------------------yuk')
-                solution = beg_sol # Tutaj dajemy możliwość wyboru z tabu listy i mamy kryterium aspiracji
-                streak = 0
-                aspi_counter += 1
-                #tutaj ten reset ale nei wiem jak to zrobić
-                #nalepiej sol=gennewcompletlynewsol()
 
             if abs(past_sol - maxval) <= epsilon:
                 self.stop_eps = True
@@ -812,7 +1049,6 @@ class UI(QMainWindow):
 
         self.stat3.setText(str(round(limsta[-1],2)) + f'/ it: {counter}')
         self.stat2.setText(str(round(sum(bs_gain_rem)-sum(bs_loss_rem),2)) + f'/ it: {bs_counter_rem}')
-        # sol_present_yourself(gain_rem, loss_rem, bs_solution, ch_types)
         self.stat10.setText(wypisz(bs_solution,self.ch_types))
 
         self.stat4.setText(str(aspi_counter))
@@ -837,6 +1073,191 @@ class UI(QMainWindow):
         self.t.resizeRowsToContents()
 
         return bs_solution
+
+    # Okrojona wersja do testów (Bez wizualizacji, inne przeliczniki)
+    def testowy_tabu_search(self, beg_sol, planting_cost,
+                    IsFertilized, soil_quality,
+                    fertilizer_bonus, fertilizer_cost,
+                    harvest_cost, bottling_cost,
+                    plants_per_bottle, transport_cost,
+                    vineprice, magazine_cost, magazine_capacity, store_needs, ch_types,
+                    tabu_length=10, max_iter=50, epsilon=0.1, upper=[800, 800, 800], lower=[100, 100, 100]):
+
+
+        stop_type = True # To wtedy iteracje
+        # flagi
+        constval = self.constval
+        minrand = self.minrand
+        maxrand = self.maxrand
+        rand = self.rand
+
+        LongTermMem = self.LongTermMem
+        SolutionSpaceCoverage = self.SolutionSpaceCoverage
+        MidTermMem = self.MidTermMem  # non implemented
+        tabulist = self.tabulist
+        midtemmemTreshold = self.midtemmemTreshold
+
+        gain, loss = ocena(beg_sol, planting_cost,
+                           IsFertilized, soil_quality,
+                           fertilizer_bonus, fertilizer_cost,
+                           harvest_cost, bottling_cost,
+                           plants_per_bottle, transport_cost,
+                           vineprice, magazine_cost, magazine_capacity, store_needs, upper, lower)
+
+        TL = []
+        avgMemory = np.zeros((2 * beg_sol.shape[0] * beg_sol.shape[1] * beg_sol.shape[
+            2]))  # pamiec srednioteminowa zlicza rozwiazania dane
+
+        streak = 0  # Do kryterium aspiracji
+
+        # Aktualne
+        solution = beg_sol.copy()
+        past_sol = None
+
+        # Najlepsze
+        bs_solution = solution.copy()
+        bs = sum(gain) - sum(loss)
+        bs_gain_rem = gain
+        bs_loss_rem = loss
+        bs_counter_rem = 0
+
+        # Aktualne REM????
+        gain_rem = 0
+        loss_rem = 0
+
+        self.stop_iter = False
+        self.stop_eps = False
+        counter = 0
+        aspi_counter = 0
+        self.pb.setTextVisible(True)
+        self.pb.setMaximum(max_iter)
+
+        minieps = np.inf
+
+        limsta = []
+        # print(solution)
+        print('----------------------------------------------------')
+        while not (self.stop_iter or self.stop_eps):
+            if counter == 0:
+                past_sol = 0
+
+            self.pb.setValue(counter)
+            mapa = generateAllsolutions(solution, upper, SolutionSpaceCoverage, rand, minrand, maxrand, constval)
+            neigh = [k for k, _ in mapa.items()]
+
+            n_rem = None
+            maxi = -np.inf
+            maxval = -np.inf
+
+            for n in neigh:
+
+                gain, loss = ocena(mapa[n], planting_cost,
+                                   IsFertilized, soil_quality,
+                                   fertilizer_bonus, fertilizer_cost,
+                                   harvest_cost, bottling_cost,
+                                   plants_per_bottle, transport_cost,
+                                   vineprice, magazine_cost, magazine_capacity, store_needs, upper, lower)
+
+                value = sum(gain) - sum(loss)
+                if n not in TL and value - avgMemory[n] * 50 > maxi:
+                    maxi = value - avgMemory[n] * 50  # no jak było wybierane to mniej
+                    maxval = value
+                    gain_rem = gain
+                    loss_rem = loss
+                    n_rem = n
+            # print(n_rem)
+            # TODO - Przy długich tabu listach jest problem - maxval = -np.inf
+
+            if maxval <= past_sol:
+                streak += 1
+                # print(maxval-past_sol)
+            else:
+                streak = 0
+
+            # print(TL)
+            # Kryterium aspiracji tu ma być
+            if streak >= midtemmemTreshold:
+                print('--------------------------------yuk')
+
+                # for tabu in TL:
+                #     print('kfefefe')    # TODO - PAWEŁ weż ogarnij tutaj kierunki, bo to nie działa
+                #     gain_tabu, loss_tabu = ocena(mapa[generateAntiNum(tabu)], planting_cost,
+                #                        IsFertilized, soil_quality,
+                #                        fertilizer_bonus, fertilizer_cost,
+                #                        harvest_cost, bottling_cost,
+                #                        plants_per_bottle, transport_cost,
+                #                        vineprice, magazine_cost, magazine_capacity, store_needs, upper, lower)
+                #     print('l')
+                #     value_tabu = sum(gain_tabu) - sum(loss_tabu)
+                #     if value_tabu >= maxval:
+                #         maxval = value_tabu
+                #         gain_rem = gain_tabu
+                #         loss_rem = loss_tabu
+                #         n_rem = tabu
+                #          # Tutaj dajemy możliwość wyboru z tabu listy i mamy kryterium aspiracji
+                #     print(value_tabu)
+                streak = 0
+                aspi_counter += 1
+
+                # TODO - do średnioterminowej, nie tu
+                # tutaj ten reset ale nei wiem jak to zrobić
+                # nalepiej sol=gennewcompletlynewsol()
+
+            limsta.append(maxval)
+
+            if LongTermMem:
+                avgMemory[n_rem] = avgMemory[n_rem] + 1
+
+            if maxval >= bs:
+                bs_solution = mapa[n_rem].copy()
+                bs_gain_rem = gain_rem
+                bs_loss_rem = loss_rem
+                bs = maxval
+                bs_counter_rem = counter + 1
+
+            # Obecne rozwiązanie
+            solution = mapa[n_rem].copy()
+
+            if (tabulist):
+                nik = generateAntiNum(n_rem)
+                if len(TL) < tabu_length and nik not in TL:
+                    TL.append(nik)
+                elif len(TL) < tabu_length and nik in TL:
+                    idx = TL.index(nik)
+                    TL.pop(idx)
+                    TL.append(nik)
+                elif len(TL) >= tabu_length and nik in TL:
+                    idx = TL.index(nik)
+                    TL.pop(idx)
+                    TL.append(nik)
+                elif len(TL) >= tabu_length and nik not in TL:
+                    TL.pop(0)
+                    TL.append(nik)
+
+            if abs(past_sol - maxval) <= epsilon:
+                self.stop_eps = True
+                stop_type = False
+
+            counter += 1
+
+            if abs(past_sol - maxval) <= minieps:
+                minieps = round(abs(past_sol - maxval), len(str(self.epsilon)))
+
+
+            print(counter)
+            if counter >= max_iter:
+                self.stop_iter = True
+
+            past_sol = maxval
+
+        self.pb.setValue(max_iter)
+
+        # Licznik kryteriów aspiracji
+        # Licznik zakończeń na iteracji
+        # Licznik zakończeń na epsilon
+
+        return round(sum(bs_gain_rem)-sum(bs_loss_rem),2),round(sum(gain_rem)-sum(loss_rem),2), stop_type
+
 
     def acctab(self):
         try:

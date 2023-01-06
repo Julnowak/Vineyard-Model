@@ -9,8 +9,6 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
                       min_fields_capacity: Union[List, Dict], number_of_years: int,
                       number_of_grapetypes: int,store_needs, sol_flag: int) -> np.ndarray:
 
-    print(min_fields_capacity)
-    print(max_fields_capacity)
     for x in range(len(min_fields_capacity)):
         if min_fields_capacity[x] > max_fields_capacity[x]:
             raise Exception('Cannot set minimum capacity of field greater than maximum capacity of field.')
