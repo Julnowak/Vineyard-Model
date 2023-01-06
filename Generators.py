@@ -264,9 +264,9 @@ def generateSolutionFromNumber(num,solution,gorne,randomFlag,min,max,norm):
         addNum=norm
     else:
         addNum=random.randint(min, max)
-    if plusmin == 0 and posx not in [0,1,3,4,5,7,8,9,11]:
+    if plusmin == 0 and posx%12 not in [0,1,3,4,5,7,8,9,11]:
         res[posx][posy][posz]=val + addNum
-    elif posx not in [0,1,3,4,5,7,8,9,11]:
+    elif posx%12 not in [0,1,3,4,5,7,8,9,11]:
         res[posx][posy][posz] =val - addNum
     else:
         res[posx][posy][posz] = 0

@@ -931,7 +931,7 @@ class UI(QMainWindow):
         while not (self.stop_iter or self.stop_eps):
             if counter == 0:
                 past_sol = 0
-
+            print("bej")
             self.pb.setValue(counter)
             mapa = generateAllsolutions(solution,upper,self.SolutionSpaceCoverage,self.rand,self.minrand,self.maxrand,self.constval)
             neigh = [k for k, _ in mapa.items()]
@@ -958,6 +958,7 @@ class UI(QMainWindow):
                     gain_rem = gain
                     loss_rem = loss
                     n_rem = n
+            print("potym")
             if self.aspicheck and aspiStreak>=aspiMinstreak :
                 ASPmapa=generateAllsolutionsFromAspi(solution, upper, TL, self.rand, self.minrand, self.maxrand,
                                      self.constval)
@@ -989,13 +990,12 @@ class UI(QMainWindow):
                     gain_rem = ASPgain_rem
                     loss_rem = ASPloss_rem
                     n_rem = ASPn_rem
+                    licz_asp = licz_asp + 1  # to nam mówi ile razy wybraliśmy rozwiązanie z tabu lsity z kryterium aspiracji
+                    aspiStreak = 0
+                    TL = TL[len(TL)//2:]
+                    print("uzyto apiracji ", counter)
 
-
-
-            if n_rem in TL:
-                licz_asp = licz_asp + 1#to nam mówi ile razy wybraliśmy rozwiązanie z tabu lsity z kryterium aspiracji
-                aspiStreak=0
-
+            print("potym12")
             if maxval <= past_sol and self.MidTermMem:#jak mamy midterm zliczamy spadki
                 streak += 1
             if maxval <= past_sol and self.aspicheck:  # jak mamy midterm zliczamy spadki
@@ -1004,13 +1004,21 @@ class UI(QMainWindow):
 
             # print(TL)
             if streak >= self.tabu_med_thresh:#jak spadki duże robimy reset
-                buff=sollist[random.random.randint(0, len(sollist))].copy()
+                print("potymreset")
+                randnum=random.randint(0, len(sollist)//2)
+                buff=sollist[randnum]
+                print("potymreset2")
                 solbuff=buff[0]
-                TL=TL[0:len(TL)]
+                print("potymreset3")
+                TL=TL[0:len(TL)//2]
+                print("potymreset4")
                 avgMemory=avgMemory//2
+                print("potymreset5")
                 limsta.append(buff[1])
                 streak = 0
+
                 maxval=buff[1]
+                print("uzyto medium ", counter)
             else:
                 solbuff=mapa[n_rem].copy()
 
@@ -1019,30 +1027,34 @@ class UI(QMainWindow):
                 if self.LongTermMem:
                     avgMemory[n_rem] = avgMemory[n_rem] + 1
                 if maxval >= bs:
+                    streak=0
+                    aspiStreak = 0
+
                     bs_solution = mapa[n_rem].copy()
                     bs_gain_rem = gain_rem
                     bs_loss_rem = loss_rem
                     bs = maxval
                     bs_counter_rem = counter + 1
-
+                if (self.tabulist):
+                    nik = generateAntiNum(n_rem)
+                    if len(TL) < tabu_length and nik not in TL:
+                        TL.append(nik)
+                    elif len(TL) < tabu_length and nik in TL:
+                        idx = TL.index(nik)
+                        TL.pop(idx)
+                        TL.append(nik)
+                    elif len(TL) >= tabu_length and nik in TL:
+                        idx = TL.index(nik)
+                        TL.pop(idx)
+                        TL.append(nik)
+                    elif len(TL) >= tabu_length and nik not in TL:
+                        TL.pop(0)
+                        TL.append(nik)
+            print("ajajaj")
             # Obecne rozwiązanie
             solution = solbuff
             sollist.append((solbuff.copy(),maxval))
-            if (self.tabulist):
-                nik = generateAntiNum(n_rem)
-                if len(TL) < tabu_length and nik not in TL:
-                    TL.append(nik)
-                elif len(TL) < tabu_length and nik in TL:
-                    idx = TL.index(nik)
-                    TL.pop(idx)
-                    TL.append(nik)
-                elif len(TL) >= tabu_length and nik in TL:
-                    idx = TL.index(nik)
-                    TL.pop(idx)
-                    TL.append(nik)
-                elif len(TL) >= tabu_length and nik not in TL:
-                    TL.pop(0)
-                    TL.append(nik)
+
             if abs(past_sol - maxval) <= epsilon:
                 self.stop_eps = True
 
@@ -1051,7 +1063,7 @@ class UI(QMainWindow):
             if abs(past_sol - maxval) <= minieps:
                 minieps = round(abs(past_sol - maxval), len(str(self.epsilon)))
                 self.stat6.setText(str(minieps)+'/ it: '+str(counter))
-
+            print("toporny")
             dane.append(
                 [counter, round(sum(gain_rem), 2), round(sum(loss_rem), 2), round(sum(gain_rem) - sum(loss_rem), 2),
                  len(TL), wypisz(solution, ch_types)])
@@ -1221,6 +1233,7 @@ class UI(QMainWindow):
             # print(TL)
             # Kryterium aspiracji tu ma być
             if streak >= self.tabu_med_thresh:  # jak spadki duże robimy reset
+                print("ajajaj")
                 buff = sollist[random.random.randint(0, len(sollist))].copy()
                 solbuff = buff[0]
                 TL = TL[0:len(TL)]
@@ -1228,6 +1241,7 @@ class UI(QMainWindow):
                 limsta.append(buff[1])
                 streak = 0
                 maxval = buff[1]
+                print("karamba")
             else:
                 solbuff = mapa[n_rem].copy()
 
@@ -1242,26 +1256,26 @@ class UI(QMainWindow):
                     bs_loss_rem = loss_rem
                     bs = maxval
                     bs_counter_rem = counter + 1
-
+                if (self.tabulist):
+                    nik = generateAntiNum(n_rem)
+                    if len(TL) < tabu_length and nik not in TL:
+                        TL.append(nik)
+                    elif len(TL) < tabu_length and nik in TL:
+                        idx = TL.index(nik)
+                        TL.pop(idx)
+                        TL.append(nik)
+                    elif len(TL) >= tabu_length and nik in TL:
+                        idx = TL.index(nik)
+                        TL.pop(idx)
+                        TL.append(nik)
+                    elif len(TL) >= tabu_length and nik not in TL:
+                        TL.pop(0)
+                        TL.append(nik)
             # Obecne rozwiązanie
             solution = solbuff
             sollist.append((solbuff.copy(), maxval))
+            print("karamba")
 
-            if (self.tabulist):
-                nik = generateAntiNum(n_rem)
-                if len(TL) < tabu_length and nik not in TL:
-                    TL.append(nik)
-                elif len(TL) < tabu_length and nik in TL:
-                    idx = TL.index(nik)
-                    TL.pop(idx)
-                    TL.append(nik)
-                elif len(TL) >= tabu_length and nik in TL:
-                    idx = TL.index(nik)
-                    TL.pop(idx)
-                    TL.append(nik)
-                elif len(TL) >= tabu_length and nik not in TL:
-                    TL.pop(0)
-                    TL.append(nik)
 
             if abs(past_sol - maxval) <= epsilon:
                 self.stop_eps = True
@@ -1271,7 +1285,7 @@ class UI(QMainWindow):
             if abs(past_sol - maxval) <= minieps:
                 minieps = round(abs(past_sol - maxval), len(str(self.epsilon)))
 
-
+            print("hapens")
             print(counter)
             if counter >= max_iter:
                 self.stop_iter = True
