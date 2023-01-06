@@ -900,6 +900,7 @@ class UI(QMainWindow):
                  wypisz(beg_sol, ch_types)]]
 
         limsta = []
+        sollist=[]
         # print(solution)
         print('----------------------------------------------------')
         while not (self.stop_iter or self.stop_eps):
@@ -933,56 +934,41 @@ class UI(QMainWindow):
                     n_rem = n
             # print(n_rem)
 
-            if n in TL and self.MidTermMem:
+            if n_rem in TL:
+                licz_asp = licz_asp + 1#to nam mówi ile razy wybraliśmy rozwiązanie z tabu lsity z kryterium aspiracji
+            if maxval <= past_sol and self.MidTermMem:#jak mamy midterm zliczamy spadki
                 streak += 1
-            if maxval <= past_sol and self.aspicheck:
-                licz_asp = licz_asp + 1
+
                 # print(maxval-past_sol)
-            else:
-                licz_asp = 0
 
             # print(TL)
             # Kryterium aspiracji tu ma być
-            if streak >= self.tabu_med_thresh:
-                print('--------------------------------yuk')
-
-                # for tabu in TL:
-                #     print('kfefefe')    # TODO - PAWEŁ weż ogarnij tutaj kierunki, bo to nie działa
-                #     gain_tabu, loss_tabu = ocena(mapa[generateAntiNum(tabu)], planting_cost,
-                #                        IsFertilized, soil_quality,
-                #                        fertilizer_bonus, fertilizer_cost,
-                #                        harvest_cost, bottling_cost,
-                #                        plants_per_bottle, transport_cost,
-                #                        vineprice, magazine_cost, magazine_capacity, store_needs, upper, lower)
-                #     print('l')
-                #     value_tabu = sum(gain_tabu) - sum(loss_tabu)
-                #     if value_tabu >= maxval:
-                #         maxval = value_tabu
-                #         gain_rem = gain_tabu
-                #         loss_rem = loss_tabu
-                #         n_rem = tabu
-                #          # Tutaj dajemy możliwość wyboru z tabu listy i mamy kryterium aspiracji
-                #     print(value_tabu)
+            if streak >= self.tabu_med_thresh:#jak spadki duże robimy reset
+                buff=sollist[random.random.randint(0, len(sollist))].copy()
+                solbuff=buff[0]
+                TL=TL[0:len(TL)]
+                avgMemory=avgMemory//2
+                limsta.append(buff[1])
                 streak = 0
+                maxval=buff[1]
+            else:
+                solbuff=mapa[n_rem].copy()
 
-                # TODO - do średnioterminowej, nie tu
-                #tutaj ten reset ale nei wiem jak to zrobić
-                #nalepiej sol=gennewcompletlynewsol()
+                limsta.append(maxval)
 
-            limsta.append(maxval)
+                if self.LongTermMem:
+                    avgMemory[n_rem] = avgMemory[n_rem] + 1
 
-            if self.LongTermMem:
-                avgMemory[n_rem] = avgMemory[n_rem] + 1
-
-            if maxval >= bs:
-                bs_solution = mapa[n_rem].copy()
-                bs_gain_rem = gain_rem
-                bs_loss_rem = loss_rem
-                bs = maxval
-                bs_counter_rem = counter + 1
+                if maxval >= bs:
+                    bs_solution = mapa[n_rem].copy()
+                    bs_gain_rem = gain_rem
+                    bs_loss_rem = loss_rem
+                    bs = maxval
+                    bs_counter_rem = counter + 1
 
             # Obecne rozwiązanie
-            solution = mapa[n_rem].copy()
+            solution = solbuff
+            sollist.append((solbuff.copy(),maxval))
 
             if (self.tabulist):
                 nik = generateAntiNum(n_rem)
