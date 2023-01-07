@@ -501,7 +501,6 @@ class UI(QMainWindow):
         self.tab.setRowCount(self.fields)
 
     def set(self):
-        self.writer33 = pd.ExcelWriter('Wyniki/porównanie_zbiorcze.xlsx')
         self.text.setText(str(self.num_of_years))
         self.text2.setText(str(self.fields))
         self.text3.setText(str(self.max_iter))
