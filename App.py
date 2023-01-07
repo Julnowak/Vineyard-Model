@@ -477,7 +477,7 @@ class UI(QMainWindow):
         self.genFldFiles = self.findChild(QRadioButton, 'oldfiles_3')
         self.readFromFile = self.findChild(QRadioButton, 'oldfiles_2')
 
-        self.read_from_line = self.findChild(QLineEdit, 'lineEdit2')
+        self.read_from_line = self.findChild(QLineEdit, 'lineEdit_2')
 
         ### PARAMSY
         self.upper = [800, 800, 800]
@@ -811,8 +811,10 @@ class UI(QMainWindow):
                     print(vineprice)
                 elif self.readFromFile.isChecked():
                     try:
-                        folder = self.readFromFile.text()
-                        lista = os.listdir(f'{folder}')
+                        folder = self.read_from_line.text()
+                        print(folder)
+                        lista = os.listdir(f'Do_trybu_testowego/{folder}')
+                        print(lista)
 
                         with open(f'Do_trybu_testowego/{folder}/{lista[0]}', 'r') as f:
                             l = [[int(num) for num in line.split(' ')] for line in f if

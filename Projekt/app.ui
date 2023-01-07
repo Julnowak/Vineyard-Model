@@ -568,7 +568,7 @@ QPushButton:hover {
              <enum>Qt::StrongFocus</enum>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="page">
              <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0,0,0">
@@ -708,7 +708,7 @@ QPushButton:pressed {
                  <bool>true</bool>
                 </property>
                 <property name="currentIndex">
-                 <number>1</number>
+                 <number>3</number>
                 </property>
                 <widget class="QWidget" name="ust2">
                  <layout class="QGridLayout" name="gridLayout">
@@ -4228,7 +4228,7 @@ border: transparent;
                              <string>Generuj pocz.</string>
                             </property>
                             <property name="checked">
-                             <bool>false</bool>
+                             <bool>true</bool>
                             </property>
                            </widget>
                           </item>
@@ -4248,7 +4248,7 @@ border: transparent;
                              <string>Wczytaj z:</string>
                             </property>
                             <property name="checked">
-                             <bool>true</bool>
+                             <bool>false</bool>
                             </property>
                            </widget>
                           </item>
@@ -6181,7 +6181,7 @@ QPushButton:pressed {
               <item row="1" column="0">
                <widget class="QStackedWidget" name="stackedWidget_3">
                 <property name="currentIndex">
-                 <number>5</number>
+                 <number>6</number>
                 </property>
                 <widget class="QWidget" name="wyk">
                  <widget class="Canvas" name="widget" native="true">
@@ -6310,7 +6310,7 @@ QPushButton:pressed {
                     <x>0</x>
                     <y>0</y>
                     <width>881</width>
-                    <height>411</height>
+                    <height>400</height>
                    </rect>
                   </property>
                   <property name="minimumSize">
