@@ -139,56 +139,6 @@ border: 0px solid;</string>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <widget class="QPushButton" name="zapisz_pliki">
-          <property name="geometry">
-           <rect>
-            <x>870</x>
-            <y>0</y>
-            <width>41</width>
-            <height>41</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <family>Tw Cen MT Condensed</family>
-            <pointsize>19</pointsize>
-           </font>
-          </property>
-          <property name="toolTipDuration">
-           <number>1</number>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
-    color: #333;
-    border: 2px solid #555;
-    border-radius: 20px;
-    border-style: outset;
-    background: qradialgradient(
-        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-        radius: 1.35, stop: 0 #fff, stop: 1 #888
-        );
-    padding: 5px;
-    }
-
-QPushButton:hover {
-    background: qradialgradient(
-        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
-        );
-    }
-
-QPushButton:pressed {
-    border-style: inset;
-    background: qradialgradient(
-        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
-        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
-        );
-    }</string>
-          </property>
-          <property name="text">
-           <string>S</string>
-          </property>
-         </widget>
         </widget>
        </item>
       </layout>
@@ -5231,6 +5181,56 @@ background-color: rgb(30, 30, 30);</string>
                <bool>true</bool>
               </property>
              </widget>
+             <widget class="QPushButton" name="zapisz_pliki">
+              <property name="geometry">
+               <rect>
+                <x>650</x>
+                <y>390</y>
+                <width>41</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <family>Tw Cen MT Condensed</family>
+                <pointsize>19</pointsize>
+               </font>
+              </property>
+              <property name="toolTipDuration">
+               <number>1</number>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+    color: #333;
+    border: 2px solid #555;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #888
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
+        );
+    }</string>
+              </property>
+              <property name="text">
+               <string>S</string>
+              </property>
+             </widget>
              <zorder>text_15</zorder>
              <zorder>rrrrrrrrrr</zorder>
              <zorder>start</zorder>
@@ -5240,6 +5240,7 @@ background-color: rgb(30, 30, 30);</string>
              <zorder>helpik</zorder>
              <zorder>lineEdit</zorder>
              <zorder>label_27</zorder>
+             <zorder>zapisz_pliki</zorder>
             </widget>
             <widget class="QWidget" name="page_2">
              <layout class="QGridLayout" name="gridLayout_31">

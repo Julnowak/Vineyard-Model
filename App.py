@@ -488,7 +488,6 @@ class UI(QMainWindow):
         self.set()
 
         self.writer33 = pd.ExcelWriter('Wyniki/porównanie_zbiorcze.xlsx')
-
         self.zapisz = self.findChild(QPushButton, 'zapisz_pliki')
         self.zapisz.clicked.connect(lambda: (self.writer33.close(),self.zapisz.setVisible(False)))
 
@@ -502,6 +501,7 @@ class UI(QMainWindow):
         self.tab.setRowCount(self.fields)
 
     def set(self):
+        self.writer33 = pd.ExcelWriter('Wyniki/porównanie_zbiorcze.xlsx')
         self.text.setText(str(self.num_of_years))
         self.text2.setText(str(self.fields))
         self.text3.setText(str(self.max_iter))
@@ -810,7 +810,60 @@ class UI(QMainWindow):
                                 c += 1
                     print(vineprice)
                 elif self.readFromFile.isChecked():
-                    pass
+                    try:
+                        folder = self.readFromFile.text()
+                        lista = os.listdir(f'{folder}')
+
+                        with open(f'Do_trybu_testowego/{folder}/{lista[0]}', 'r') as f:
+                            l = [[int(num) for num in line.split(' ')] for line in f if
+                                 (line != '\n' and not re.match('Miesiac', line))]
+                            sol = np.zeros((self.num_of_years * 12, self.fields, len(self.ch_types)))
+                            l = np.array(np.array(l))
+                            a = 0
+                            b = self.fields
+                            for i in range(self.num_of_years * 12):
+                                sol[i, :, :] = l[a:b, :]
+                                a += self.fields
+                                b += self.fields
+
+                        print(sol)
+
+                        with open(f'Do_trybu_testowego/{folder}/{lista[1]}', 'r') as f:
+                            l = [[float(num[:len(num) - 1]) for num in line.split(' ')] for line in f if
+                                 (line != '\n' and not re.match('Rodzaj', line))]
+
+                            planting_cost = [i[0] for i in l]
+
+                        print(planting_cost)
+                        with open(f'Do_trybu_testowego/{folder}/{lista[2]}', 'r') as f:
+                            l = [[float(num) for num in line.split(' ')] for line in f if
+                                 (line != '\n' and not re.match('Miesiac', line))]
+                            soil_quality = np.zeros((self.num_of_years * 12, self.fields, len(self.ch_types)))
+                            l = np.array(np.array(l))
+                            a = 0
+                            b = self.fields
+                            for i in range(self.num_of_years * 12):
+                                soil_quality[i, :, :] = l[a:b, :]
+                                a += self.fields
+                                b += self.fields
+
+                        print(soil_quality)
+
+                        with open(f'Do_trybu_testowego/{folder}/{lista[3]}', 'r') as f:
+                            l = [[float(num[:len(num) - 1]) for num in line.split(' ')] for line in f if
+                                 (line != '\n' and not line in list(i + '\n' for i in list(self.ch_types.values())))]
+                            vineprice = np.zeros((len(self.ch_types), self.num_of_years * 12))
+                            l = np.array(np.array(l))
+
+                            c = 0
+                            for i in range(len(self.ch_types)):
+                                for x in range(self.num_of_years * 12):
+                                    vineprice[i][x] = l[c]
+                                    c += 1
+                        print(vineprice)
+                    except:
+                        print('Folder nie istnieje')
+                        return
 
                 if self.repeats != 1:
                     count_iter_stops = 0

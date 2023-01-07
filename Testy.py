@@ -209,3 +209,5 @@ import numpy as np
 #     l = np.array(np.array(l)).reshape((1,-1))
 #
 # print(l)
+import os
+print(os.listdir('Do_trybu_testowego'))
