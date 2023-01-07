@@ -42,7 +42,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
                    if sol[m][f][t] < lower[f]:
                        plant_cost += sol[m][f][t]*50.00
                    elif sol[m][f][t] > upper[f]:
-                       plant_cost += sol[m][f][t] * 99.00
+                       plant_cost += sol[m][f][t] * 100.00
                     # print('------',m,' ',f, ' ',t,'------' )
                 # print('zasadzono:',sol[m][f][t])
                 # print('koszt obsadzenia',plant_cost)
@@ -105,7 +105,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
 
         if magazine_capacity < sum(remains):
             remains[remains.index(max(remains))] = max(remains) - (sum(remains) - magazine_capacity)
-
+            month_gain += (sum(remains) - magazine_capacity) * 0.4 * bottle_price[remains.index(max(remains))][m]
             month_cost += (sum(remains) - magazine_capacity) * 0.8 * bottle_price[remains.index(max(remains))][m]
         # Sprzedajemy po połowie ceny
 

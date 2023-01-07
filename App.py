@@ -491,6 +491,7 @@ class UI(QMainWindow):
         self.zapisz = self.findChild(QPushButton, 'zapisz_pliki')
         self.zapisz.clicked.connect(lambda: (self.writer33.close(),self.zapisz.setVisible(False)))
 
+
     def refresh_storeneed_tab(self):
         self.grape_type_choice()
         self.zap.setRowCount(len(self.ch_types) + 1)
@@ -1133,7 +1134,7 @@ class UI(QMainWindow):
                 streak = 0
 
                 maxval=buff[1]
-                print("uzyto medium ", counter)
+                # print("uzyto medium ", counter)
             else:
                 solbuff=mapa[n_rem].copy()
 
@@ -1210,9 +1211,9 @@ class UI(QMainWindow):
             elif i > ac:
                 better_counter += 1
             ac = i
-
-        self.stat7.setText(str(better_counter))
-        self.stat8.setText(str(worse_counter))
+        t = better_counter + worse_counter
+        self.stat7.setText(str(round(100*(better_counter/t),2))+'%')
+        self.stat8.setText(str(round(100*(worse_counter/t),2))+'%')
 
         self.pb.setValue(max_iter)
 

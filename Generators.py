@@ -65,12 +65,7 @@ def generate_solution(max_magazine_capacity: int, max_fields_capacity: Union[Lis
             elif sol_flag == 4: # Nakierowany na zapotrzebowanie
                 typ = list(range(number_of_grapetypes))
                 for fnr in range(fields_num):
-                    gen = store_needs[fnr]
-                    if gen < min_fields_capacity[fnr]:
-                        gen = min_fields_capacity[fnr]
-                    elif gen > max_fields_capacity[fnr]:
-                        gen = max_fields_capacity[fnr]
-
+                    gen = max(store_needs)
                     solution[m, fnr, typ[fnr]] = gen
     return np.array(solution, dtype=int)
 
