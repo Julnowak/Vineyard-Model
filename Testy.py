@@ -202,10 +202,10 @@
 import re
 import numpy as np
 
-
-with open('Do_trybu_testowego/planting_cost.txt', 'r') as f:
-    l = [[float(num[:len(num)-1]) for num in line.split(' ')] for line in f if (line != '\n' and not re.match('Rodzaj',line))]
-
-    l = np.array(np.array(l)).reshape((1,-1))
-
-print(l)
+#
+# with open('Do_trybu_testowego/planting_cost.txt', 'r') as f:
+#     l = [[float(num[:len(num)-1]) for num in line.split(' ')] for line in f if (line != '\n' and not re.match('Rodzaj',line))]
+#
+#     l = np.array(np.array(l)).reshape((1,-1))
+#
+# print(l)

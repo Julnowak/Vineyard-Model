@@ -469,6 +469,15 @@ class UI(QMainWindow):
         self.test_icon = self.findChild(QLabel, 'test_icon')
         self.test_icon2 = self.findChild(QLabel, 'test_icon_2')
         self.test_icon3 = self.findChild(QLabel, 'test_icon_3')
+        self.lineedit = self.findChild(QLineEdit, 'lineEdit')
+        self.lineedit.setText('Sheet1')
+        self.excelnum=2
+
+        self.oldFiles = self.findChild(QRadioButton, 'oldfiles')
+        self.genFldFiles = self.findChild(QRadioButton, 'oldfiles_3')
+        self.readFromFile = self.findChild(QRadioButton, 'oldfiles_2')
+
+        self.read_from_line = self.findChild(QLineEdit, 'lineEdit2')
 
         ### PARAMSY
         self.upper = [800, 800, 800]
@@ -478,7 +487,10 @@ class UI(QMainWindow):
         self.show_yourself()
         self.set()
 
+        self.writer33 = pd.ExcelWriter('Wyniki/porównanie_zbiorcze.xlsx')
 
+        self.zapisz = self.findChild(QPushButton, 'zapisz_pliki')
+        self.zapisz.clicked.connect(lambda: (self.writer33.close(),self.zapisz.setVisible(False)))
 
     def refresh_storeneed_tab(self):
         self.grape_type_choice()
@@ -535,54 +547,54 @@ class UI(QMainWindow):
                 self.tryb_programu = 'testowanie'
                 self.test_icon.setVisible(True)
                 self.takak.setVisible(True)
+                if self.genFldFiles.isChecked():
+                    if self.ch_typ_list[0]:
+                        sol_flag = 1
+                    elif self.ch_typ_list[1]:
+                        sol_flag = 2
+                    elif self.ch_typ_list[2]:
+                        sol_flag = 3
+                    else:
+                        sol_flag = 4
 
-                if self.ch_typ_list[0]:
-                    sol_flag = 1
-                elif self.ch_typ_list[1]:
-                    sol_flag = 2
-                elif self.ch_typ_list[2]:
-                    sol_flag = 3
-                else:
-                    sol_flag = 4
 
+                    # Fragment, gdyby pliki nie istniały - NIE USUWAĆ
+                    sol = generate_solution(self.magazine_capacity, self.upper, self.lower, self.num_of_years,
+                                            len(self.ch_types), self.store_need, sol_flag,self.fields)
 
-                # Fragment, gdyby pliki nie istniały - NIE USUWAĆ
-                sol = generate_solution(self.magazine_capacity, self.upper, self.lower, self.num_of_years,
-                                        len(self.ch_types), self.store_need, sol_flag,self.fields)
+                    with open('Do_trybu_testowego/beg_sol.txt', 'w') as my_file:
+                        c = 0
+                        for i in sol:
+                            if c%12 in [2,6,10]:
+                                np.savetxt(my_file, i,fmt='%.d',header=f'Miesiac {c+1} - tu sadzimy',footer='\n',comments='')
+                            else:
+                                np.savetxt(my_file, i, fmt='%.d', header=f'Miesiac {c + 1}',footer='\n',comments='')
+                            c+=1
 
-                with open('Do_trybu_testowego/beg_sol.txt', 'w') as my_file:
-                    c = 0
-                    for i in sol:
-                        if c%12 in [2,6,10]:
-                            np.savetxt(my_file, i,fmt='%.d',header=f'Miesiac {c+1} - tu sadzimy',footer='\n',comments='')
-                        else:
-                            np.savetxt(my_file, i, fmt='%.d', header=f'Miesiac {c + 1}',footer='\n',comments='')
-                        c+=1
+                    planting_cost = plant_price_generator(self.ch_types)
+                    with open('Do_trybu_testowego/planting_cost.txt', 'w') as my_file:
+                        planting_cost = planting_cost.reshape((1,len(planting_cost)))
+                        for i in planting_cost:
+                            np.savetxt(my_file, i, fmt='%.2f',header='Rodzaje - '+', '.join(list(self.ch_types.values())),comments='')
 
-                print('kdddd')
-                planting_cost = plant_price_generator(self.ch_types)
-                with open('Do_trybu_testowego/planting_cost.txt', 'w') as my_file:
-                    planting_cost = planting_cost.reshape((1,len(planting_cost)))
-                    for i in planting_cost:
-                        np.savetxt(my_file, i, fmt='%.2f',header='Rodzaje - '+', '.join(list(self.ch_types.values())),comments='')
+                    soil_quality = soil_quality_generator(self.fields, self.num_of_years, self.ch_types, self.trojka)
+                    with open('Do_trybu_testowego/soil_quality.txt', 'w') as my_file:
+                        c = 0
+                        for i in soil_quality:
+                            if c % 12 in [2, 6, 10]:
+                                np.savetxt(my_file, i, fmt='%.2f', header=f'Miesiac {c + 1} - tu sadzimy',footer='\n',comments='')
+                            else:
+                                np.savetxt(my_file, i, fmt='%.2f', header=f'Miesiac {c + 1}',footer='\n',comments='')
+                            c += 1
 
-                soil_quality = soil_quality_generator(self.fields, self.num_of_years, self.ch_types, self.trojka)
-                with open('Do_trybu_testowego/soil_quality.txt', 'w') as my_file:
-                    c = 0
-                    for i in soil_quality:
-                        if c % 12 in [2, 6, 10]:
-                            np.savetxt(my_file, i, fmt='%.2f', header=f'Miesiac {c + 1} - tu sadzimy',footer='\n',comments='')
-                        else:
-                            np.savetxt(my_file, i, fmt='%.2f', header=f'Miesiac {c + 1}',footer='\n',comments='')
-                        c += 1
+                    vineprice = vine_price_generator(self.ch_types, self.num_of_years)
 
-                vineprice = vine_price_generator(self.ch_types, self.num_of_years)
+                    with open('Do_trybu_testowego/vineprice.txt', 'w') as my_file:
+                        c=0
+                        for i in vineprice:
+                            np.savetxt(my_file, i,fmt='%.2f', header=f'{list(self.ch_types.values())[c]}',footer='\n',comments='')
+                            c+=1
 
-                with open('Do_trybu_testowego/vineprice.txt', 'w') as my_file:
-                    c=0
-                    for i in vineprice:
-                        np.savetxt(my_file, i,fmt='%.2f', header=f'{list(self.ch_types.values())[c]}',footer='\n',comments='')
-                        c+=1
             except:
                 print('TESTOWANIE')
 
@@ -680,6 +692,7 @@ class UI(QMainWindow):
         self.set()
         self.helpik.setVisible(False)
 
+
     def start_tabu(self):
         self.get()
         self.set()
@@ -747,54 +760,57 @@ class UI(QMainWindow):
 
             elif self.tryb_programu == 'testowanie':
                 self.helpik.setVisible(True)
-                # tylko bez zmiany parametrów zadziała
 
-                with open('Do_trybu_testowego/beg_sol.txt', 'r') as f:
-                    l = [[int(num) for num in line.split(' ')] for line in f if (line != '\n' and not re.match('Miesiac',line))]
-                    sol = np.zeros((self.num_of_years*12,self.fields,len(self.ch_types)))
-                    l = np.array(np.array(l))
-                    a = 0
-                    b= self.fields
-                    for i in range(self.num_of_years*12):
-                        sol[i,:,:] = l[a:b,:]
-                        a+=self.fields
-                        b += self.fields
+                if self.oldFiles.isChecked():
 
-                print(sol)
+                    with open('Do_trybu_testowego/beg_sol.txt', 'r') as f:
+                        l = [[int(num) for num in line.split(' ')] for line in f if (line != '\n' and not re.match('Miesiac',line))]
+                        sol = np.zeros((self.num_of_years*12,self.fields,len(self.ch_types)))
+                        l = np.array(np.array(l))
+                        a = 0
+                        b= self.fields
+                        for i in range(self.num_of_years*12):
+                            sol[i,:,:] = l[a:b,:]
+                            a+=self.fields
+                            b += self.fields
 
-                with open('Do_trybu_testowego/planting_cost.txt', 'r') as f:
-                    l = [[float(num[:len(num) - 1]) for num in line.split(' ')] for line in f if
-                         (line != '\n' and not re.match('Rodzaj', line))]
+                    print(sol)
 
-                    planting_cost = [i[0] for i in l]
+                    with open('Do_trybu_testowego/planting_cost.txt', 'r') as f:
+                        l = [[float(num[:len(num) - 1]) for num in line.split(' ')] for line in f if
+                             (line != '\n' and not re.match('Rodzaj', line))]
 
-                print(planting_cost)
-                with open('Do_trybu_testowego/soil_quality.txt', 'r') as f:
-                    l = [[float(num) for num in line.split(' ')] for line in f if
-                         (line != '\n' and not re.match('Miesiac', line))]
-                    soil_quality = np.zeros((self.num_of_years*12,self.fields,len(self.ch_types)))
-                    l = np.array(np.array(l))
-                    a = 0
-                    b = self.fields
-                    for i in range(self.num_of_years*12):
-                        soil_quality[i, :, :] = l[a:b, :]
-                        a += self.fields
-                        b += self.fields
+                        planting_cost = [i[0] for i in l]
 
-                print(soil_quality)
+                    print(planting_cost)
+                    with open('Do_trybu_testowego/soil_quality.txt', 'r') as f:
+                        l = [[float(num) for num in line.split(' ')] for line in f if
+                             (line != '\n' and not re.match('Miesiac', line))]
+                        soil_quality = np.zeros((self.num_of_years*12,self.fields,len(self.ch_types)))
+                        l = np.array(np.array(l))
+                        a = 0
+                        b = self.fields
+                        for i in range(self.num_of_years*12):
+                            soil_quality[i, :, :] = l[a:b, :]
+                            a += self.fields
+                            b += self.fields
 
-                with open('Do_trybu_testowego/vineprice.txt', 'r') as f:
-                    l = [[float(num[:len(num) - 1]) for num in line.split(' ')] for line in f if
-                         (line != '\n' and not line in list( i+'\n' for i in list(self.ch_types.values())))]
-                    vineprice = np.zeros((len(self.ch_types),self.num_of_years*12))
-                    l = np.array(np.array(l))
+                    print(soil_quality)
 
-                    c = 0
-                    for i in range(len(self.ch_types)):
-                        for x in range(self.num_of_years*12):
-                            vineprice[i][x] = l[c]
-                            c += 1
-                print(vineprice)
+                    with open('Do_trybu_testowego/vineprice.txt', 'r') as f:
+                        l = [[float(num[:len(num) - 1]) for num in line.split(' ')] for line in f if
+                             (line != '\n' and not line in list( i+'\n' for i in list(self.ch_types.values())))]
+                        vineprice = np.zeros((len(self.ch_types),self.num_of_years*12))
+                        l = np.array(np.array(l))
+
+                        c = 0
+                        for i in range(len(self.ch_types)):
+                            for x in range(self.num_of_years*12):
+                                vineprice[i][x] = l[c]
+                                c += 1
+                    print(vineprice)
+                elif self.readFromFile.isChecked():
+                    pass
 
                 if self.repeats != 1:
                     count_iter_stops = 0
@@ -804,20 +820,71 @@ class UI(QMainWindow):
                     aspiracje = 0
                     for x in range(self.repeats):
                         # Na razie dla najlepszego
-                        best, actual, stop_type, aspiracje = self.testowy_tabu_search(sol, planting_cost,
-                                         self.IsFertilized, soil_quality,
-                                         self.fertilizer_bonus, self.fertilizer_cost,
-                                         self.harvest_cost, self.bottling_cost,
-                                         self.plants_per_bottle, self.transport_cost,
-                                         vineprice, self.magazine_cost, self.magazine_capacity, self.store_need, self.ch_types,
-                                         self.tabu_length, self.max_iter, self.epsilon, self.upper, self.lower)
-                        besties.append(best)
-                        actualies.append(actual)
-                        if stop_type:
-                            count_iter_stops+= 1
-                        else:
-                            count_eps_stops+=1
+                        try:
+                            best, actual, stop_type, aspiracje = self.testowy_tabu_search(sol, planting_cost,
+                                             self.IsFertilized, soil_quality,
+                                             self.fertilizer_bonus, self.fertilizer_cost,
+                                             self.harvest_cost, self.bottling_cost,
+                                             self.plants_per_bottle, self.transport_cost,
+                                             vineprice, self.magazine_cost, self.magazine_capacity, self.store_need, self.ch_types,
+                                             self.tabu_length, self.max_iter, self.epsilon, self.upper, self.lower)
+
+                            besties.append(best)
+                            actualies.append(actual)
+                            if stop_type:
+                                count_iter_stops+= 1
+                            else:
+                                count_eps_stops+=1
+                        except:
+                            best, actual, stop_type, aspiracje = self.testowy_tabu_search(sol, planting_cost,
+                                                                                          self.IsFertilized,
+                                                                                          soil_quality,
+                                                                                          self.fertilizer_bonus,
+                                                                                          self.fertilizer_cost,
+                                                                                          self.harvest_cost,
+                                                                                          self.bottling_cost,
+                                                                                          self.plants_per_bottle,
+                                                                                          self.transport_cost,
+                                                                                          vineprice, self.magazine_cost,
+                                                                                          self.magazine_capacity,
+                                                                                          self.store_need,
+                                                                                          self.ch_types,
+                                                                                          self.tabu_length,
+                                                                                          self.max_iter, self.epsilon,
+                                                                                          self.upper, self.lower)
+
+                            besties.append(best)
+                            actualies.append(actual)
+                            if stop_type:
+                                count_iter_stops += 1
+                            else:
+                                count_eps_stops += 1
                         self.helpik.setText(f'x{x+1}')
+
+                    df = pd.DataFrame(list(zip(besties, actualies)),
+                                      columns=['Najlepsze', 'Aktualne'])
+
+                    text = str(self.lineedit.text())
+                    print('--------------------tuuuu')
+                    print(str(self.lineedit.text()))
+
+                    if text == 'Sheet1':
+                        text = 'Sheet1'
+                    elif text == f'Sheet{self.excelnum}':
+                        text = f'Sheet{self.excelnum}'
+                        self.excelnum += 1
+                    self.lineedit.setText(f'Sheet{self.excelnum}')
+
+                    # NAPRAW
+
+                    df.to_excel(self.writer33, sheet_name=f'{text}')
+
+
+                    # print('najlepsze\n')
+                    # print(besties)
+                    # print()
+                    # print('actualne\n')
+                    # print(actualies)
                     self.pb.setValue(0)
                     self.pb.setTextVisible(False)
                     self.stat11.setText(str(self.repeats))
@@ -931,7 +998,7 @@ class UI(QMainWindow):
         while not (self.stop_iter or self.stop_eps):
             if counter == 0:
                 past_sol = 0
-            print("bej")
+
             self.pb.setValue(counter)
             mapa = generateAllsolutions(solution,upper,self.SolutionSpaceCoverage,self.rand,self.minrand,self.maxrand,self.constval)
             neigh = [k for k, _ in mapa.items()]
@@ -958,7 +1025,7 @@ class UI(QMainWindow):
                     gain_rem = gain
                     loss_rem = loss
                     n_rem = n
-            print("potym")
+
             if self.aspicheck and aspiStreak>=aspiMinstreak :
                 ASPmapa=generateAllsolutionsFromAspi(solution, upper, TL, self.rand, self.minrand, self.maxrand,
                                      self.constval)
@@ -993,9 +1060,9 @@ class UI(QMainWindow):
                     licz_asp = licz_asp + 1  # to nam mówi ile razy wybraliśmy rozwiązanie z tabu lsity z kryterium aspiracji
                     aspiStreak = 0
                     TL = TL[len(TL)//2:]
-                    print("uzyto apiracji ", counter)
+                    # print("uzyto apiracji ", counter)
 
-            print("potym12")
+
             if maxval <= past_sol and self.MidTermMem:#jak mamy midterm zliczamy spadki
                 streak += 1
             if maxval <= past_sol and self.aspicheck:  # jak mamy midterm zliczamy spadki
@@ -1004,16 +1071,12 @@ class UI(QMainWindow):
 
             # print(TL)
             if streak >= self.tabu_med_thresh:#jak spadki duże robimy reset
-                print("potymreset")
-                randnum=random.randint(0, len(sollist)//2)
+                randnum=random.randint(len(sollist)//3, len(sollist)- len(sollist)//3)
                 buff=sollist[randnum]
-                print("potymreset2")
                 solbuff=buff[0]
-                print("potymreset3")
                 TL=TL[0:len(TL)//2]
-                print("potymreset4")
                 avgMemory=avgMemory//2
-                print("potymreset5")
+                licz_mid += 1
                 limsta.append(buff[1])
                 streak = 0
 
@@ -1050,7 +1113,6 @@ class UI(QMainWindow):
                     elif len(TL) >= tabu_length and nik not in TL:
                         TL.pop(0)
                         TL.append(nik)
-            print("ajajaj")
             # Obecne rozwiązanie
             solution = solbuff
             sollist.append((solbuff.copy(),maxval))
@@ -1063,7 +1125,7 @@ class UI(QMainWindow):
             if abs(past_sol - maxval) <= minieps:
                 minieps = round(abs(past_sol - maxval), len(str(self.epsilon)))
                 self.stat6.setText(str(minieps)+'/ it: '+str(counter))
-            print("toporny")
+
             dane.append(
                 [counter, round(sum(gain_rem), 2), round(sum(loss_rem), 2), round(sum(gain_rem) - sum(loss_rem), 2),
                  len(TL), wypisz(solution, ch_types)])
@@ -1162,6 +1224,7 @@ class UI(QMainWindow):
 
         streak = 0  # Do kryterium aspiracji
 
+        aspiMinstreak = 5
         # Aktualne
         solution = beg_sol.copy()
         past_sol = None
@@ -1183,8 +1246,11 @@ class UI(QMainWindow):
 
         self.pb.setTextVisible(True)
         self.pb.setMaximum(max_iter)
-
+        aspiStreak = 0
         minieps = np.inf
+        # DANE
+        dane = [[counter, round(sum(gain), 2), round(sum(loss), 2), round(sum(gain) - sum(loss), 2), len(TL),
+                 wypisz(beg_sol, ch_types)]]
 
         limsta = []
         sollist = []
@@ -1204,7 +1270,8 @@ class UI(QMainWindow):
             maxval = -np.inf
 
             for n in neigh:
-
+                if n in TL:
+                    continue
                 gain, loss = ocena(mapa[n], planting_cost,
                                    IsFertilized, soil_quality,
                                    fertilizer_bonus, fertilizer_cost,
@@ -1213,35 +1280,68 @@ class UI(QMainWindow):
                                    vineprice, magazine_cost, magazine_capacity, store_needs, upper, lower)
 
                 value = sum(gain) - sum(loss)
-                if (n not in TL and value - avgMemory[n] * self.tabu_long_num > maxi) or (
-                        self.aspicheck and n in TL and value - avgMemory[
-                    n] * self.tabu_long_num - maxi > self.aspithresh):
+                if (n not in TL and value - avgMemory[n] * self.tabu_long_num > maxi):
                     maxi = value - avgMemory[n] * self.tabu_long_num  # no jak było wybierane to mniej
                     maxval = value
                     gain_rem = gain
                     loss_rem = loss
                     n_rem = n
-            # print(n_rem)
 
-            if n_rem in TL:
-                licz_asp = licz_asp + 1  # to nam mówi ile razy wybraliśmy rozwiązanie z tabu lsity z kryterium aspiracji
+            if self.aspicheck and aspiStreak >= aspiMinstreak:
+                ASPmapa = generateAllsolutionsFromAspi(solution, upper, TL, self.rand, self.minrand, self.maxrand,
+                                                       self.constval)
+                ASPneigh = [k for k, _ in ASPmapa.items()]
+
+                ASPn_rem = None
+                ASPmaxi = -np.inf
+                ASPmaxval = -np.inf
+                for ASPn in ASPneigh:
+                    ASPgain, ASPloss = ocena(ASPmapa[ASPn], planting_cost,
+                                             IsFertilized, soil_quality,
+                                             fertilizer_bonus, fertilizer_cost,
+                                             harvest_cost, bottling_cost,
+                                             plants_per_bottle, transport_cost,
+                                             vineprice, magazine_cost, magazine_capacity, store_needs, upper, lower)
+
+                    ASPvalue = sum(ASPgain) - sum(ASPloss)
+                    if value - avgMemory[n] * self.tabu_long_num > maxi:
+                        ASPmaxi = ASPvalue - avgMemory[n] * self.tabu_long_num  # no jak było wybierane to mniej
+                        ASPmaxval = ASPvalue
+                        ASPgain_rem = ASPgain
+                        ASPloss_rem = ASPloss
+                        ASPn_rem = ASPn
+
+                if ASPmaxi - maxi > self.aspithresh:
+                    maxi = ASPmaxi
+                    mapa = ASPmapa
+                    maxval = ASPmaxval
+                    gain_rem = ASPgain_rem
+                    loss_rem = ASPloss_rem
+                    n_rem = ASPn_rem
+                    licz_asp = licz_asp + 1  # to nam mówi ile razy wybraliśmy rozwiązanie z tabu lsity z kryterium aspiracji
+                    aspiStreak = 0
+                    TL = TL[len(TL) // 2:]
+                    # print("uzyto apiracji ", counter)
+
             if maxval <= past_sol and self.MidTermMem:  # jak mamy midterm zliczamy spadki
                 streak += 1
-
+            if maxval <= past_sol and self.aspicheck:  # jak mamy midterm zliczamy spadki
+                aspiStreak += 1
                 # print(maxval-past_sol)
 
             # print(TL)
-            # Kryterium aspiracji tu ma być
             if streak >= self.tabu_med_thresh:  # jak spadki duże robimy reset
-                print("ajajaj")
-                buff = sollist[random.random.randint(0, len(sollist))].copy()
+                randnum = random.randint(0, len(sollist) // 2)
+                buff = sollist[randnum]
                 solbuff = buff[0]
-                TL = TL[0:len(TL)]
+                TL = TL[0:len(TL) // 2]
                 avgMemory = avgMemory // 2
+                licz_mid+=1
                 limsta.append(buff[1])
                 streak = 0
+                self.stat16.setText(str(licz_mid))
                 maxval = buff[1]
-                print("karamba")
+                # print("uzyto medium ", counter)
             else:
                 solbuff = mapa[n_rem].copy()
 
@@ -1249,8 +1349,10 @@ class UI(QMainWindow):
 
                 if self.LongTermMem:
                     avgMemory[n_rem] = avgMemory[n_rem] + 1
-
                 if maxval >= bs:
+                    streak = 0
+                    aspiStreak = 0
+
                     bs_solution = mapa[n_rem].copy()
                     bs_gain_rem = gain_rem
                     bs_loss_rem = loss_rem
@@ -1274,8 +1376,6 @@ class UI(QMainWindow):
             # Obecne rozwiązanie
             solution = solbuff
             sollist.append((solbuff.copy(), maxval))
-            print("karamba")
-
 
             if abs(past_sol - maxval) <= epsilon:
                 self.stop_eps = True
@@ -1285,7 +1385,6 @@ class UI(QMainWindow):
             if abs(past_sol - maxval) <= minieps:
                 minieps = round(abs(past_sol - maxval), len(str(self.epsilon)))
 
-            print("hapens")
             print(counter)
             if counter >= max_iter:
                 self.stop_iter = True
