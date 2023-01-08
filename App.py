@@ -609,7 +609,6 @@ class UI(QMainWindow):
                         for i in vineprice:
                             np.savetxt(my_file, i,fmt='%.2f', header=f'{list(self.ch_types.values())[c]}',footer='\n',comments='')
                             c+=1
-
             except:
                 print('TESTOWANIE')
                 return
@@ -713,6 +712,7 @@ class UI(QMainWindow):
     def start_tabu(self):
         self.get()
         self.set()
+        print('tttttttttttttt')
         try:
             self.warn2.setVisible(False)
             self.show_yourself()
@@ -775,9 +775,10 @@ class UI(QMainWindow):
                 self.pb.setTextVisible(False)
 
             elif self.tryb_programu == 'testowanie':
+
                 self.helpik.setVisible(True)
 
-                if self.oldFiles.isChecked():
+                if self.oldFiles.isChecked() or self.genFldFiles.isChecked():
 
                     with open('Do_trybu_testowego/beg_sol.txt', 'r') as f:
                         l = [[int(num) for num in line.split(' ')] for line in f if (line != '\n' and not re.match('Miesiac',line))]
@@ -1299,7 +1300,7 @@ class UI(QMainWindow):
 
         streak = 0  # Do kryterium aspiracji
 
-        aspiMinstreak = self.aspithresh
+        aspiMinstreak = self.aspiMinStreak
         # Aktualne
         solution = beg_sol.copy()
         past_sol = None
@@ -1309,7 +1310,7 @@ class UI(QMainWindow):
         bs = sum(gain) - sum(loss)
         bs_gain_rem = gain
         bs_loss_rem = loss
-
+        bs_counter_rem = 0
 
         # Aktualne REM????
         gain_rem = 0
@@ -1323,6 +1324,9 @@ class UI(QMainWindow):
         self.pb.setMaximum(max_iter)
         aspiStreak = 0
         minieps = np.inf
+        # DANE
+        dane = [[counter, round(sum(gain), 2), round(sum(loss), 2), round(sum(gain) - sum(loss), 2), len(TL),
+                 wypisz(beg_sol, ch_types)]]
 
         limsta = []
         sollist = []
@@ -1360,6 +1364,8 @@ class UI(QMainWindow):
                     n_rem = n
 
             if self.aspicheck and aspiStreak >= aspiMinstreak:
+                print("aspiracja in ", counter, licz_asp)
+                aspiStreak = 0
                 ASPmapa = generateAllsolutionsFromAspi(solution, upper, TL, self.rand, self.minrand, self.maxrand,
                                                        self.constval)
                 ASPneigh = [k for k, _ in ASPmapa.items()]
@@ -1376,14 +1382,15 @@ class UI(QMainWindow):
                                              vineprice, magazine_cost, magazine_capacity, store_needs, upper, lower)
 
                     ASPvalue = sum(ASPgain) - sum(ASPloss)
-                    if value - avgMemory[n] * self.tabu_long_num > maxi:
+                    if ASPvalue - avgMemory[n] * self.tabu_long_num > ASPmaxi:
                         ASPmaxi = ASPvalue - avgMemory[n] * self.tabu_long_num  # no jak było wybierane to mniej
                         ASPmaxval = ASPvalue
                         ASPgain_rem = ASPgain
                         ASPloss_rem = ASPloss
                         ASPn_rem = ASPn
 
-                if ASPmaxi - maxi > self.aspithresh:
+                if ASPmaxi > maxi:
+                    print("aspiracja success in ", counter, licz_asp)
                     maxi = ASPmaxi
                     mapa = ASPmapa
                     maxval = ASPmaxval
@@ -1391,9 +1398,8 @@ class UI(QMainWindow):
                     loss_rem = ASPloss_rem
                     n_rem = ASPn_rem
                     licz_asp = licz_asp + 1  # to nam mówi ile razy wybraliśmy rozwiązanie z tabu lsity z kryterium aspiracji
-                    aspiStreak = 0
                     TL = TL[len(TL) // 2:]
-                    # print("uzyto apiracji ", counter)
+                    print("uzyto apiracji ", counter)
 
             if maxval <= past_sol and self.MidTermMem:  # jak mamy midterm zliczamy spadki
                 streak += 1
@@ -1403,15 +1409,15 @@ class UI(QMainWindow):
 
             # print(TL)
             if streak >= self.tabu_med_thresh:  # jak spadki duże robimy reset
-                randnum = random.randint(0, len(sollist) // 2)
+                randnum = random.randint(len(sollist) // 3, len(sollist) - len(sollist) // 3)
                 buff = sollist[randnum]
                 solbuff = buff[0]
                 TL = TL[0:len(TL) // 2]
                 avgMemory = avgMemory // 2
-                licz_mid+=1
+                licz_mid += 1
                 limsta.append(buff[1])
                 streak = 0
-                self.stat16.setText(str(licz_mid))
+
                 maxval = buff[1]
                 # print("uzyto medium ", counter)
             else:
@@ -1420,7 +1426,7 @@ class UI(QMainWindow):
                 limsta.append(maxval)
 
                 if self.LongTermMem:
-                    avgMemory[n_rem] = avgMemory[n_rem] + 1
+                    avgMemory[n_rem] = max(avgMemory[n_rem] + 1, 10)
                 if maxval >= bs:
                     streak = 0
                     aspiStreak = 0
@@ -1449,11 +1455,10 @@ class UI(QMainWindow):
             solution = solbuff
             sollist.append((solbuff.copy(), maxval))
 
-            if abs((self.predef - maxval)/self.predef) <= self.epsilon:
+            if abs((self.predef - maxval) / self.predef) <= epsilon:
                 self.stop_eps = True
 
             counter += 1
-
             if  abs((self.predef - maxval)/self.predef) <= minieps:
                 minieps = round(abs((self.predef - maxval)/self.predef), len(str(self.epsilon)))
 
@@ -1582,6 +1587,7 @@ class UI(QMainWindow):
 
             self.upper = []
             self.lower = []
+            print('tuttttt')
 
     def acczap(self):
         try:
