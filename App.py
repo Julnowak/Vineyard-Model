@@ -416,13 +416,6 @@ class UI(QMainWindow):
         self.button = self.findChild(QPushButton, "pushButton")
         self.button.clicked.connect(self.get)
 
-        # Czyszczenie
-        self.button2 = self.findChild(QPushButton, "pushButton_2")
-
-        # TODO: Dopisać wartości podstawowe dla reszty przycisków
-        self.button2.clicked.connect(lambda: self.input.setValue(0.10))
-        self.button2.clicked.connect(lambda: self.input2.setValue(50))
-
         ### DO STATYSTYK
         # Kryteria stopu
         self.stop_iter = False
@@ -930,8 +923,6 @@ class UI(QMainWindow):
                         text = f'Sheet{self.excelnum}'
                         self.excelnum += 1
                     self.lineedit.setText(f'Sheet{self.excelnum}')
-
-                    # NAPRAW
 
                     df.to_excel(self.writer33, sheet_name=f'{text}')
 
