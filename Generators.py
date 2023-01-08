@@ -301,7 +301,7 @@ def generateAllsolutions(sol,gorne,numberofsolutions,rand,min,max,norm):
 def generateAllsolutionsFromAspi(sol,gorne,aspitable,rand,min,max,norm):
     res={}
     for i in aspitable:
-        buff = generateSolutionFromNumber(i, sol,gorne,rand,min,max,norm)
+        buff = generateSolutionFromNumber(i, sol,gorne,rand,min*5,max*5,norm*5)
         if not (buff==sol).all():
             res[i]=buff
     return res
