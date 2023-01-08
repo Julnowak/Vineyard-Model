@@ -410,8 +410,11 @@ class UI(QMainWindow):
         self.aspicheck = self.aspik.isChecked()
 
         # Długość do kryterium aspiracji
-        self.aspinum = self.findChild(QSpinBox, "aspi_2")
-        self.aspithresh = int(self.aspinum.text())
+        self.aspinum2 = self.findChild(QSpinBox, "aspi_2")
+        self.aspithresh = int(self.aspinum2.text())
+
+        self.aspinum3 = self.findChild(QSpinBox, "aspi_3")
+        self.aspiMinStreak= int(self.aspinum3.text())
 
         ## Ustawienia przyciski
 
@@ -522,7 +525,7 @@ class UI(QMainWindow):
         self.text9.setText(str(self.SolutionSpaceCoverage))
         self.fields = int(self.nr_field.text())
         self.predef = float(self.eps2.text())
-
+        self.aspiMinStreak = int(self.aspinum3.text())
         if self.rand:
             self.text10.setText(f'Losowy\n{self.minrand}-{self.maxrand}')
         else:
@@ -679,7 +682,8 @@ class UI(QMainWindow):
 
             self.SolutionSpaceCoverage = float(self.som.text())
             self.aspicheck = self.aspik.isChecked()
-            self.aspithresh = int(self.aspinum.text())
+            self.aspithresh = int(self.aspinum2.text())
+
             self.ch_typ_list = [self.typ.isChecked(), self.typ2.isChecked(),
                                 self.typ3.isChecked(), self.typ4.isChecked()]
 
