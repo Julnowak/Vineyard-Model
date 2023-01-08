@@ -115,6 +115,18 @@ class UI(QMainWindow):
         self.lik4.setText(f'<a href="{url4}" style="color: white;">Rozwiązanie początkowe</a>')
         self.lik4.setOpenExternalLinks(True)
 
+        self.lik5 = self.findChild(QLabel, 'p_5')
+        path5 = cur + r'\Wyniki\Tabele\rozwiazanie_aktualne.xlsx'
+        url5 = bytearray(QUrl.fromLocalFile(path5).toEncoded()).decode()
+        self.lik5.setText(f'<a href="{url5}" style="color: white;">Rozwiązanie aktualne</a>')
+        self.lik5.setOpenExternalLinks(True)
+
+        self.lik6 = self.findChild(QLabel, 'p_6')
+        path6 = cur + r'\Wyniki\Tabele\rozwiazanie_najlepsze.xlsx'
+        url6 = bytearray(QUrl.fromLocalFile(path6).toEncoded()).decode()
+        self.lik6.setText(f'<a href="{url6}" style="color: white;">Rozwiązanie najlepsze</a>')
+        self.lik6.setOpenExternalLinks(True)
+
         self.lik7 = self.findChild(QLabel, 'p_7')
         path7 = cur + r'\Do_trybu_testowego\beg_sol.txt'
         url7 = bytearray(QUrl.fromLocalFile(path7).toEncoded()).decode()
@@ -456,6 +468,7 @@ class UI(QMainWindow):
         self.warnin2.setVisible(False)
 
         self.warn4 = self.findChild(QLabel, 'warn4')
+        self.warn5 = self.findChild(QLabel, 'warn5')
         self.warnin3 = self.findChild(QLabel, 'warnin_3')
         self.warnin3.setVisible(False)
 
@@ -597,6 +610,7 @@ class UI(QMainWindow):
 
             except:
                 print('TESTOWANIE')
+                return
 
 
     def shader(self, cur):
@@ -697,7 +711,6 @@ class UI(QMainWindow):
         self.get()
         self.set()
         try:
-            print('k')
             self.warn2.setVisible(False)
             self.show_yourself()
 
@@ -774,15 +787,12 @@ class UI(QMainWindow):
                             a+=self.fields
                             b += self.fields
 
-                    print(sol)
-
                     with open('Do_trybu_testowego/planting_cost.txt', 'r') as f:
                         l = [[float(num[:len(num) - 1]) for num in line.split(' ')] for line in f if
                              (line != '\n' and not re.match('Rodzaj', line))]
 
                         planting_cost = [i[0] for i in l]
 
-                    print(planting_cost)
                     with open('Do_trybu_testowego/soil_quality.txt', 'r') as f:
                         l = [[float(num) for num in line.split(' ')] for line in f if
                              (line != '\n' and not re.match('Miesiac', line))]
@@ -795,8 +805,6 @@ class UI(QMainWindow):
                             a += self.fields
                             b += self.fields
 
-                    print(soil_quality)
-
                     with open('Do_trybu_testowego/vineprice.txt', 'r') as f:
                         l = [[float(num[:len(num) - 1]) for num in line.split(' ')] for line in f if
                              (line != '\n' and not line in list( i+'\n' for i in list(self.ch_types.values())))]
@@ -808,13 +816,10 @@ class UI(QMainWindow):
                             for x in range(self.num_of_years*12):
                                 vineprice[i][x] = l[c]
                                 c += 1
-                    print(vineprice)
                 elif self.readFromFile.isChecked():
                     try:
                         folder = self.read_from_line.text()
-                        print(folder)
                         lista = os.listdir(f'Do_trybu_testowego/{folder}')
-                        print(lista)
 
                         with open(f'Do_trybu_testowego/{folder}/{lista[0]}', 'r') as f:
                             l = [[int(num) for num in line.split(' ')] for line in f if
@@ -828,15 +833,12 @@ class UI(QMainWindow):
                                 a += self.fields
                                 b += self.fields
 
-                        print(sol)
-
                         with open(f'Do_trybu_testowego/{folder}/{lista[1]}', 'r') as f:
                             l = [[float(num[:len(num) - 1]) for num in line.split(' ')] for line in f if
                                  (line != '\n' and not re.match('Rodzaj', line))]
 
                             planting_cost = [i[0] for i in l]
 
-                        print(planting_cost)
                         with open(f'Do_trybu_testowego/{folder}/{lista[2]}', 'r') as f:
                             l = [[float(num) for num in line.split(' ')] for line in f if
                                  (line != '\n' and not re.match('Miesiac', line))]
@@ -849,8 +851,6 @@ class UI(QMainWindow):
                                 a += self.fields
                                 b += self.fields
 
-                        print(soil_quality)
-
                         with open(f'Do_trybu_testowego/{folder}/{lista[3]}', 'r') as f:
                             l = [[float(num[:len(num) - 1]) for num in line.split(' ')] for line in f if
                                  (line != '\n' and not line in list(i + '\n' for i in list(self.ch_types.values())))]
@@ -862,9 +862,12 @@ class UI(QMainWindow):
                                 for x in range(self.num_of_years * 12):
                                     vineprice[i][x] = l[c]
                                     c += 1
-                        print(vineprice)
                     except:
                         print('Folder nie istnieje')
+                        self.warn5.setText(u"\u26A0")
+                        self.warn2.setVisible(True)
+                        self.helpik.setVisible(False)
+                        self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
                         return
 
                 if self.repeats != 1:
@@ -920,8 +923,6 @@ class UI(QMainWindow):
                                       columns=['Najlepsze', 'Aktualne'])
 
                     text = str(self.lineedit.text())
-                    print('--------------------tuuuu')
-                    print(str(self.lineedit.text()))
 
                     if text == 'Sheet1':
                         text = 'Sheet1'
@@ -1200,7 +1201,6 @@ class UI(QMainWindow):
         else:
             print("WARNING!")
 
-        # print(avgMemory)
         self.stat5.setText(str(counter)+'/'+str(max_iter))
 
         ac = limsta[0]
@@ -1221,6 +1221,22 @@ class UI(QMainWindow):
 
         self.c.plotting(limsta)
         self.c.setVisible(True)
+
+        writer = pd.ExcelWriter('Wyniki/Tabele/rozwiazanie_aktualne.xlsx', engine='xlsxwriter')
+        for i in range(self.num_of_years * 12):
+            df0 = pd.DataFrame(data=solution[i, :, :].astype(int))
+            df0.insert(loc=0, column='Pole', value=list(range(1, self.fields + 1)))
+            df0.to_excel(writer, sheet_name=f'Miesiac {i + 1}',
+                         header=['Pole'] + list(self.ch_types.values()), index=False)
+        writer.close()
+
+        writer = pd.ExcelWriter('Wyniki/Tabele/rozwiazanie_najlepsze.xlsx', engine='xlsxwriter')
+        for i in range(self.num_of_years * 12):
+            df0 = pd.DataFrame(data=bs_solution[i, :, :].astype(int))
+            df0.insert(loc=0, column='Pole', value=list(range(1, self.fields + 1)))
+            df0.to_excel(writer, sheet_name=f'Miesiac {i + 1}',
+                         header=['Pole'] + list(self.ch_types.values()), index=False)
+        writer.close()
 
         self.stat3.setText(str(round(limsta[-1],2)) + f'/ it: {counter}')
         self.stat2.setText(str(round(sum(bs_gain_rem)-sum(bs_loss_rem),2)) + f'/ it: {bs_counter_rem}')
@@ -1448,10 +1464,6 @@ class UI(QMainWindow):
 
         self.pb.setValue(max_iter)
 
-        # Licznik kryteriów aspiracji
-        # Licznik zakończeń na iteracji
-        # Licznik zakończeń na epsilon
-
         return round(sum(bs_gain_rem)-sum(bs_loss_rem),2),round(sum(gain_rem)-sum(loss_rem),2), stop_type, licz_asp
 
 
@@ -1487,6 +1499,7 @@ class UI(QMainWindow):
             self.lower = lower
             self.warnin2.setVisible(False)
             self.warn3.setText("")
+            self.warn5.setText("")
             self.warn2.setVisible(False)
             self.warnin4.setVisible(False)
 
@@ -1628,9 +1641,6 @@ class UI(QMainWindow):
             self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
 
             self.store_need = []
-
-
-        print(self.store_need)
 
     def show_yourself(self):
         print(self.epsilon,'\n',

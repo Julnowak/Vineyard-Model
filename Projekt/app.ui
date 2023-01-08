@@ -568,7 +568,7 @@ QPushButton:hover {
              <enum>Qt::StrongFocus</enum>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="page">
              <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0,0,0">
@@ -3340,6 +3340,27 @@ QPushButton:pressed {
                        <width>32</width>
                        <height>32</height>
                       </size>
+                     </property>
+                    </widget>
+                    <widget class="QLabel" name="warn5">
+                     <property name="geometry">
+                      <rect>
+                       <x>290</x>
+                       <y>-10</y>
+                       <width>71</width>
+                       <height>41</height>
+                      </rect>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <pointsize>20</pointsize>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string/>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
                      </property>
                     </widget>
                    </widget>

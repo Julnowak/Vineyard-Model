@@ -12,7 +12,6 @@ class Canvas(FigureCanvas):
 
     # TABU
     def plotting(self, values,filename='Tabu_Search'):
-        print(values)
         self.ax.clear()
         self.ax.plot(values)
         self.ax.set(xlabel='Miesiąc', ylabel='Ilość pieniędzy',
