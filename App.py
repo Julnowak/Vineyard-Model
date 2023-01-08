@@ -1018,7 +1018,7 @@ class UI(QMainWindow):
 
         streak = 0 # Do kryterium aspiracji
 
-        aspiMinstreak=self.aspithresh
+        aspiMinstreak=self.aspiMinStreak
         # Aktualne
         solution = beg_sol.copy()
         past_sol = None
@@ -1082,6 +1082,8 @@ class UI(QMainWindow):
                     n_rem = n
 
             if self.aspicheck and aspiStreak>=aspiMinstreak :
+                print("aspiracja in ",counter,licz_asp)
+                aspiStreak = 0
                 ASPmapa=generateAllsolutionsFromAspi(solution, upper, TL, self.rand, self.minrand, self.maxrand,
                                      self.constval)
                 ASPneigh = [k for k, _ in ASPmapa.items()]
@@ -1098,14 +1100,15 @@ class UI(QMainWindow):
                                        vineprice, magazine_cost, magazine_capacity, store_needs, upper, lower)
 
                     ASPvalue = sum(ASPgain) - sum(ASPloss)
-                    if  value - avgMemory[n] * self.tabu_long_num > maxi:
+                    if  ASPvalue - avgMemory[n] * self.tabu_long_num > ASPmaxi:
                         ASPmaxi = ASPvalue - avgMemory[n] * self.tabu_long_num  # no jak było wybierane to mniej
                         ASPmaxval = ASPvalue
                         ASPgain_rem = ASPgain
                         ASPloss_rem = ASPloss
                         ASPn_rem = ASPn
 
-                if ASPmaxi-maxi>self.aspithresh:
+                if ASPmaxi>maxi:
+                    print("aspiracja success in ", counter, licz_asp)
                     maxi = ASPmaxi
                     mapa=ASPmapa
                     maxval = ASPmaxval
@@ -1113,7 +1116,6 @@ class UI(QMainWindow):
                     loss_rem = ASPloss_rem
                     n_rem = ASPn_rem
                     licz_asp = licz_asp + 1  # to nam mówi ile razy wybraliśmy rozwiązanie z tabu lsity z kryterium aspiracji
-                    aspiStreak = 0
                     TL = TL[len(TL)//2:]
                     print("uzyto apiracji ", counter)
 
