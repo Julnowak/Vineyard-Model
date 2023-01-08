@@ -10,6 +10,7 @@ import xlsxwriter
 import os
 cur = os.path.abspath(os.getcwd())
 import re
+import timeit
 
 # import sys
 # f = open("Wyniki/Tabele/algorytm.txt", 'w')
@@ -1012,7 +1013,7 @@ class UI(QMainWindow):
         self.c4.setVisible(True)
 
         self.t.setVisible(True)
-
+        start = timeit.timeit()
         TL = []
         avgMemory = np.zeros((2 * beg_sol.shape[0] * beg_sol.shape[1] * beg_sol.shape[2]))  # pamiec srednioteminowa zlicza rozwiazania dane
 
@@ -1192,7 +1193,8 @@ class UI(QMainWindow):
                 self.stop_iter = True
 
             past_sol = maxval
-
+        end = timeit.timeit()
+        timemeasurment=end-start
         if self.stop_eps and self.stop_iter:
             self.stat9.setText('Kryterium dokładności i maksymalnej liczby iteracji')
         elif self.stop_eps:
