@@ -504,6 +504,7 @@ class UI(QMainWindow):
         self.zapisz = self.findChild(QPushButton, 'zapisz_pliki')
         self.zapisz.clicked.connect(lambda: (self.writer33.close(),self.zapisz.setVisible(False)))
 
+        self.timemeasurment = 0
 
     def refresh_storeneed_tab(self):
         self.grape_type_choice()
@@ -1194,7 +1195,7 @@ class UI(QMainWindow):
 
             past_sol = maxval
         end = timeit.timeit()
-        timemeasurment=end-start
+        self.timemeasurment=end-start
         if self.stop_eps and self.stop_iter:
             self.stat9.setText('Kryterium dokładności i maksymalnej liczby iteracji')
         elif self.stop_eps:

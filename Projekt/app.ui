@@ -568,7 +568,7 @@ QPushButton:hover {
              <enum>Qt::StrongFocus</enum>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>4</number>
             </property>
             <widget class="QWidget" name="page">
              <layout class="QGridLayout" name="gridLayout_2" rowstretch="0,0,0,0,0">
@@ -667,7 +667,7 @@ QPushButton:pressed {
                  <bool>true</bool>
                 </property>
                 <property name="currentIndex">
-                 <number>3</number>
+                 <number>0</number>
                 </property>
                 <widget class="QWidget" name="ust2">
                  <layout class="QGridLayout" name="gridLayout">
@@ -874,7 +874,7 @@ QPushButton:pressed {
                       <rect>
                        <x>20</x>
                        <y>90</y>
-                       <width>401</width>
+                       <width>391</width>
                        <height>71</height>
                       </rect>
                      </property>
@@ -984,7 +984,7 @@ QPushButton:pressed {
                     <widget class="QWidget" name="verticalLayoutWidget_11">
                      <property name="geometry">
                       <rect>
-                       <x>20</x>
+                       <x>10</x>
                        <y>50</y>
                        <width>401</width>
                        <height>81</height>
@@ -1073,7 +1073,7 @@ QPushButton:pressed {
                       <rect>
                        <x>10</x>
                        <y>30</y>
-                       <width>411</width>
+                       <width>401</width>
                        <height>211</height>
                       </rect>
                      </property>
@@ -6525,7 +6525,7 @@ color: rgb(255, 255, 255);
 }</string>
                 </property>
                 <property name="currentIndex">
-                 <number>0</number>
+                 <number>2</number>
                 </property>
                 <widget class="QWidget" name="tab">
                  <attribute name="title">
@@ -6536,8 +6536,8 @@ color: rgb(255, 255, 255);
                    <rect>
                     <x>10</x>
                     <y>10</y>
-                    <width>871</width>
-                    <height>501</height>
+                    <width>851</width>
+                    <height>461</height>
                    </rect>
                   </property>
                   <property name="font">
@@ -6582,7 +6582,7 @@ color: rgb(255, 255, 255);
                     <x>20</x>
                     <y>10</y>
                     <width>321</width>
-                    <height>481</height>
+                    <height>461</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_8">
@@ -6980,7 +6980,7 @@ background-color: rgb(71, 71, 71);</string>
                    <rect>
                     <x>370</x>
                     <y>90</y>
-                    <width>501</width>
+                    <width>491</width>
                     <height>53</height>
                    </rect>
                   </property>
@@ -7006,7 +7006,7 @@ background-color: rgb(30, 30, 30);</string>
                    <rect>
                     <x>530</x>
                     <y>10</y>
-                    <width>341</width>
+                    <width>331</width>
                     <height>51</height>
                    </rect>
                   </property>
@@ -7061,8 +7061,8 @@ background-color: rgb(30, 30, 30);</string>
                    <rect>
                     <x>370</x>
                     <y>140</y>
-                    <width>501</width>
-                    <height>351</height>
+                    <width>491</width>
+                    <height>331</height>
                    </rect>
                   </property>
                   <property name="verticalScrollBarPolicy">
@@ -7076,8 +7076,8 @@ background-color: rgb(30, 30, 30);</string>
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>482</width>
-                     <height>349</height>
+                     <width>472</width>
+                     <height>329</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -7108,6 +7108,11 @@ background-color: rgb(71, 71, 71);</string>
                   </widget>
                  </widget>
                 </widget>
+                <widget class="QWidget" name="tab_3">
+                 <attribute name="title">
+                  <string>Czas wykonania </string>
+                 </attribute>
+                </widget>
                 <widget class="QWidget" name="tab_5">
                  <attribute name="title">
                   <string>Statystyki</string>
@@ -7118,7 +7123,7 @@ background-color: rgb(71, 71, 71);</string>
                     <x>20</x>
                     <y>10</y>
                     <width>321</width>
-                    <height>471</height>
+                    <height>451</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="skarba">
@@ -7641,7 +7646,7 @@ background-color: rgb(71, 71, 71);</string>
                  <property name="geometry">
                   <rect>
                    <x>420</x>
-                   <y>130</y>
+                   <y>120</y>
                    <width>161</width>
                    <height>31</height>
                   </rect>
