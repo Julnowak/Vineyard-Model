@@ -1139,7 +1139,7 @@ class UI(QMainWindow):
                 limsta.append(maxval)
 
                 if self.LongTermMem:
-                    avgMemory[n_rem] = avgMemory[n_rem] + 1
+                    avgMemory[n_rem] = max(avgMemory[n_rem] + 1,10)
                 if maxval >= bs:
                     streak=0
                     aspiStreak = 0
