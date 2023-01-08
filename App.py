@@ -11,6 +11,8 @@ import os
 cur = os.path.abspath(os.getcwd())
 import re
 import timeit
+import winsound
+
 
 # import sys
 # f = open("Wyniki/Tabele/algorytm.txt", 'w')
@@ -921,6 +923,7 @@ class UI(QMainWindow):
                                 count_iter_stops += 1
                             else:
                                 count_eps_stops += 1
+
                         self.helpik.setText(f'x{x+1}')
 
                     df = pd.DataFrame(list(zip(besties, actualies)),
@@ -981,6 +984,13 @@ class UI(QMainWindow):
             print('Coś poszło nie tak!')
             self.warn2.setVisible(True)
             self.warn2.setText(u"\u26A0" + ' Coś poszło nie tak! Sprawdź ustawienia.')
+        frequency = 1000
+        duration = 400
+        winsound.Beep(frequency, duration)
+        frequency = 1500
+        winsound.Beep(frequency, duration)
+        frequency = 2000
+        winsound.Beep(frequency, duration)
 
     def tabu_search(self, beg_sol, planting_cost,
                     IsFertilized, soil_quality,
