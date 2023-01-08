@@ -40,7 +40,7 @@ def ocena(sol: np.ndarray, planting_costs: np.ndarray,
                 # Funkcja kary od pól
                 if sol[m][f][t] != 0 and m%12 in [2,6,10]:
                    if sol[m][f][t] < lower[f]:
-                       plant_cost += sol[m][f][t]*50.00
+                       plant_cost += sol[m][f][t]*100.00
                    elif sol[m][f][t] > upper[f]:
                        plant_cost += sol[m][f][t] * 100.00
                     # print('------',m,' ',f, ' ',t,'------' )

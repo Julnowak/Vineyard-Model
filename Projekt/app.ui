@@ -597,58 +597,10 @@ QPushButton:hover {
               </item>
               <item row="4" column="0">
                <layout class="QGridLayout" name="gridLayout_11">
-                <item row="0" column="3" rowspan="2">
-                 <widget class="QLabel" name="label_23">
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
                 <item row="1" column="0">
                  <widget class="QLabel" name="label_25">
                   <property name="text">
                    <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2">
-                 <widget class="QPushButton" name="pushButton_2">
-                  <property name="font">
-                   <font>
-                    <family>Tw Cen MT Condensed</family>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">QPushButton {
-    color: #333;
-    border: 2px solid #555;
-    border-radius: 20px;
-    border-style: outset;
-    background: qradialgradient(
-        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-        radius: 1.35, stop: 0 #fff, stop: 1 #888
-        );
-    padding: 5px;
-    }
-
-QPushButton:hover {
-    background: qradialgradient(
-        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
-        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
-        );
-    }
-
-QPushButton:pressed {
-    border-style: inset;
-    background: qradialgradient(
-        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
-        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
-        );
-    }</string>
-                  </property>
-                  <property name="text">
-                   <string>Wyczyść</string>
                   </property>
                  </widget>
                 </item>
@@ -690,6 +642,13 @@ QPushButton:pressed {
                   </property>
                   <property name="text">
                    <string>Zatwierdź</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2" rowspan="2">
+                 <widget class="QLabel" name="label_23">
+                  <property name="text">
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -3004,7 +2963,75 @@ QPushButton:pressed {
                           <bool>false</bool>
                          </property>
                          <property name="decimals">
-                          <number>4</number>
+                          <number>6</number>
+                         </property>
+                         <property name="minimum">
+                          <double>0.000001000000000</double>
+                         </property>
+                         <property name="maximum">
+                          <double>9999999999999999455752309870428160.000000000000000</double>
+                         </property>
+                         <property name="singleStep">
+                          <double>0.000001000000000</double>
+                         </property>
+                         <property name="value">
+                          <double>0.000001000000000</double>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="epsilon_2">
+                         <property name="font">
+                          <font>
+                           <family>Tw Cen MT Condensed</family>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="text">
+                          <string>Wartość predefiniowana</string>
+                         </property>
+                         <property name="textFormat">
+                          <enum>Qt::AutoText</enum>
+                         </property>
+                         <property name="scaledContents">
+                          <bool>false</bool>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                         <property name="buddy">
+                          <cstring>eps</cstring>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QDoubleSpinBox" name="eps_2">
+                         <property name="font">
+                          <font>
+                           <family>Tw Cen MT Condensed</family>
+                           <pointsize>14</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="locale">
+                          <locale language="English" country="UnitedStates"/>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                         </property>
+                         <property name="showGroupSeparator" stdset="0">
+                          <bool>false</bool>
+                         </property>
+                         <property name="decimals">
+                          <number>2</number>
+                         </property>
+                         <property name="minimum">
+                          <double>-9999999999999.000000000000000</double>
                          </property>
                          <property name="maximum">
                           <double>9999999999999999455752309870428160.000000000000000</double>
@@ -3013,7 +3040,7 @@ QPushButton:pressed {
                           <double>0.010000000000000</double>
                          </property>
                          <property name="value">
-                          <double>0.100000000000000</double>
+                          <double>5000.000000000000000</double>
                          </property>
                         </widget>
                        </item>
@@ -4025,7 +4052,7 @@ QPushButton:pressed {
                           <string notr="true">color: rgb(255, 255, 255);</string>
                          </property>
                          <property name="text">
-                          <string>Część sasiedztwa</string>
+                          <string>Część sąsiedztwa</string>
                          </property>
                          <property name="textFormat">
                           <enum>Qt::AutoText</enum>

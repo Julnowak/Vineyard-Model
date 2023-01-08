@@ -350,6 +350,9 @@ class UI(QMainWindow):
         self.eps = self.findChild(QDoubleSpinBox, "eps")
         self.epsilon = float(self.eps.text())
 
+        self.eps2 = self.findChild(QDoubleSpinBox, "eps_2")
+        self.predef = float(self.eps2.text())
+
         # Iteracje
         self.iter = self.findChild(QSpinBox, "iter")
         self.max_iter = int(self.iter.text())
@@ -518,6 +521,7 @@ class UI(QMainWindow):
         self.text8.setText(str(self.aspithresh))
         self.text9.setText(str(self.SolutionSpaceCoverage))
         self.fields = int(self.nr_field.text())
+        self.predef = float(self.eps2.text())
 
         if self.rand:
             self.text10.setText(f'Losowy\n{self.minrand}-{self.maxrand}')
@@ -1010,7 +1014,7 @@ class UI(QMainWindow):
 
         streak = 0 # Do kryterium aspiracji
 
-        aspiMinstreak=5
+        aspiMinstreak=self.aspithresh
         # Aktualne
         solution = beg_sol.copy()
         past_sol = None
@@ -1107,7 +1111,7 @@ class UI(QMainWindow):
                     licz_asp = licz_asp + 1  # to nam mówi ile razy wybraliśmy rozwiązanie z tabu lsity z kryterium aspiracji
                     aspiStreak = 0
                     TL = TL[len(TL)//2:]
-                    # print("uzyto apiracji ", counter)
+                    print("uzyto apiracji ", counter)
 
 
             if maxval <= past_sol and self.MidTermMem:#jak mamy midterm zliczamy spadki
@@ -1164,20 +1168,20 @@ class UI(QMainWindow):
             solution = solbuff
             sollist.append((solbuff.copy(),maxval))
 
-            if abs(past_sol - maxval) <= epsilon:
+            if abs((self.predef - maxval)/self.predef) <= epsilon:
                 self.stop_eps = True
 
             counter += 1
 
-            if abs(past_sol - maxval) <= minieps:
-                minieps = round(abs(past_sol - maxval), len(str(self.epsilon)))
+            if abs((self.predef - maxval)/self.predef) <= minieps  :
+                minieps = round(abs((self.predef - maxval)/self.predef), len(str(self.epsilon)))
                 self.stat6.setText(str(minieps)+'/ it: '+str(counter))
 
             dane.append(
                 [counter, round(sum(gain_rem), 2), round(sum(loss_rem), 2), round(sum(gain_rem) - sum(loss_rem), 2),
                  len(TL), wypisz(solution, ch_types)])
 
-            print(counter)
+            print(f'Iteracja: {counter}')
             if counter >= max_iter:
                 self.stop_iter = True
 
@@ -1286,7 +1290,7 @@ class UI(QMainWindow):
 
         streak = 0  # Do kryterium aspiracji
 
-        aspiMinstreak = 5
+        aspiMinstreak = self.aspithresh
         # Aktualne
         solution = beg_sol.copy()
         past_sol = None
@@ -1296,7 +1300,7 @@ class UI(QMainWindow):
         bs = sum(gain) - sum(loss)
         bs_gain_rem = gain
         bs_loss_rem = loss
-        bs_counter_rem = 0
+
 
         # Aktualne REM????
         gain_rem = 0
@@ -1310,9 +1314,6 @@ class UI(QMainWindow):
         self.pb.setMaximum(max_iter)
         aspiStreak = 0
         minieps = np.inf
-        # DANE
-        dane = [[counter, round(sum(gain), 2), round(sum(loss), 2), round(sum(gain) - sum(loss), 2), len(TL),
-                 wypisz(beg_sol, ch_types)]]
 
         limsta = []
         sollist = []
@@ -1439,15 +1440,15 @@ class UI(QMainWindow):
             solution = solbuff
             sollist.append((solbuff.copy(), maxval))
 
-            if abs(past_sol - maxval) <= epsilon:
+            if abs((self.predef - maxval)/self.predef) <= self.epsilon:
                 self.stop_eps = True
 
             counter += 1
 
-            if abs(past_sol - maxval) <= minieps:
-                minieps = round(abs(past_sol - maxval), len(str(self.epsilon)))
+            if  abs((self.predef - maxval)/self.predef) <= minieps:
+                minieps = round(abs((self.predef - maxval)/self.predef), len(str(self.epsilon)))
 
-            print(counter)
+            print(f'Iteracja: {counter}')
             if counter >= max_iter:
                 self.stop_iter = True
 
