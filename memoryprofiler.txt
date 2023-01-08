@@ -1,0 +1,3 @@
+pip install -U memory_profiler
+mprof run .\App.py
+mprof plot
