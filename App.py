@@ -457,7 +457,7 @@ class UI(QMainWindow):
         self.stat18 = self.findChild(QLabel, "stat_18")
         self.stat19 = self.findChild(QLabel, "stat_19")
 
-
+        self.stat33 = self.findChild(QLabel, "stat_33")
 
         ### WARNINGI
         self.warn = self.findChild(QLabel, 'warnin')
@@ -499,14 +499,17 @@ class UI(QMainWindow):
         self.lower = [100, 100, 100]
         self.helpik = self.findChild(QLabel, 'helpik')
         self.helpik.setVisible(False)
-        self.show_yourself()
-        self.set()
+        #self.show_yourself()
+
 
         self.writer33 = pd.ExcelWriter('Wyniki/porównanie_zbiorcze.xlsx')
         self.zapisz = self.findChild(QPushButton, 'zapisz_pliki')
         self.zapisz.clicked.connect(lambda: (self.writer33.close(),self.zapisz.setVisible(False)))
 
         self.timemeasurment = 0
+        self.stat33.setText(str(self.timemeasurment))
+        self.first = True
+        self.set()
 
     def refresh_storeneed_tab(self):
         self.grape_type_choice()
@@ -557,13 +560,59 @@ class UI(QMainWindow):
 
         if self.tryb.isChecked():
             self.tryb_programu = 'symulacja'
+            if not self.first:
+                self.c1.setVisible(True)
+                self.c2.setVisible(True)
+                self.c3.setVisible(True)
+                self.c4.setVisible(True)
+                self.c5.setVisible(True)
+                self.c6.setVisible(True)
+                self.c7.setVisible(True)
+                self.c.setVisible(True)
+                self.t.setVisible(True)
+                self.stat11.setText('---')
+                self.stat12.setText('---')
+                self.stat122.setText('---')
+                self.stat13.setText('---')
+                self.stat132.setText('---')
+                self.stat14.setText('---')
+                self.stat142.setText('---')
+                self.stat15.setText('---')
+                self.stat152.setText('---')
+                self.stat17.setText('---')
+                self.stat18.setText('---')
+                self.stat19.setText('---')
             self.test_icon.setVisible(False)
             self.takak.setVisible(False)
+
+
         else:
             try:
                 self.tryb_programu = 'testowanie'
                 self.test_icon.setVisible(True)
                 self.takak.setVisible(True)
+                self.c1.setVisible(False)
+                self.c2.setVisible(False)
+                self.c3.setVisible(False)
+                self.c4.setVisible(False)
+                self.c5.setVisible(False)
+                self.c6.setVisible(False)
+                self.c7.setVisible(False)
+                self.c.setVisible(False)
+                self.t.setVisible(False)
+                self.stat.setText('---')
+                self.stat2.setText('---')
+                self.stat3.setText('---')
+                self.stat4.setText('---')
+                self.stat5.setText('---')
+                self.stat6.setText('---')
+                self.stat7.setText('---')
+                self.stat8.setText('---')
+                self.stat9.setText('---')
+                self.stat10.setText('---')
+                self.stat16.setText('---')
+                self.stat33.setText('---')
+
                 if self.genFldFiles.isChecked():
                     if self.ch_typ_list[0]:
                         sol_flag = 1
@@ -952,13 +1001,13 @@ class UI(QMainWindow):
 
                     self.stat12.setText(str(max(besties)))
                     self.stat13.setText(str(min(besties)))
-                    self.stat14.setText(str(sum(besties)/len(besties)))
-                    self.stat15.setText(str(np.std(besties)))
+                    self.stat14.setText(str(round(sum(besties)/len(besties),2)))
+                    self.stat15.setText(str(round(np.std(besties),2)))
 
                     self.stat122.setText(str(max(actualies)))
                     self.stat132.setText(str(min(actualies)))
-                    self.stat142.setText(str(sum(actualies)/len(actualies)))
-                    self.stat152.setText(str(np.std(actualies)))
+                    self.stat142.setText(str(round(sum(actualies)/len(actualies),2)))
+                    self.stat152.setText(str(round(np.std(actualies),2)))
 
                     self.stat17.setText(str(count_iter_stops))
                     self.stat18.setText(str(count_eps_stops))
@@ -1176,7 +1225,7 @@ class UI(QMainWindow):
                         idx = TL.index(nik)
                         TL.pop(idx)
                         TL.append(nik)
-                    elif len(TL) >= tabu_length and nik in TL:
+                    elif len(TL) == tabu_length and nik in TL:
                         idx = TL.index(nik)
                         TL.pop(idx)
                         TL.append(nik)
@@ -1192,7 +1241,7 @@ class UI(QMainWindow):
 
             counter += 1
 
-            if abs((self.predef - maxval)/self.predef) <= minieps  :
+            if abs((self.predef - maxval)/self.predef) <= minieps :
                 minieps = round(abs((self.predef - maxval)/self.predef), len(str(self.epsilon)))
                 self.stat6.setText(str(minieps)+'/ it: '+str(counter))
 
@@ -1206,7 +1255,9 @@ class UI(QMainWindow):
 
             past_sol = maxval
         end = timeit.timeit()
-        self.timemeasurment=end-start
+        self.timemeasurment = abs(end-start)
+        self.stat33.setText(str(self.timemeasurment))
+
         if self.stop_eps and self.stop_iter:
             self.stat9.setText('Kryterium dokładności i maksymalnej liczby iteracji')
         elif self.stop_eps:
@@ -1467,6 +1518,7 @@ class UI(QMainWindow):
 
             if abs((self.predef - maxval) / self.predef) <= epsilon:
                 self.stop_eps = True
+                stop_type = False
 
             counter += 1
             if  abs((self.predef - maxval)/self.predef) <= minieps:

@@ -11,9 +11,9 @@ Miesiac 2
 
 
 Miesiac 3 - tu sadzimy
-0 122 0
-273 0 0
-107 0 0
+100 0 0
+0 100 0
+0 0 100
 
 
 Miesiac 4
@@ -35,9 +35,9 @@ Miesiac 6
 
 
 Miesiac 7 - tu sadzimy
-0 0 273
-0 383 0
-0 0 764
+100 0 0
+0 100 0
+0 0 100
 
 
 Miesiac 8
@@ -59,9 +59,9 @@ Miesiac 10
 
 
 Miesiac 11 - tu sadzimy
-0 559 0
-762 0 0
-422 0 0
+100 0 0
+0 100 0
+0 0 100
 
 
 Miesiac 12
